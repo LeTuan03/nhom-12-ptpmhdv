@@ -12,21 +12,22 @@ import lombok.experimental.FieldDefaults;
 @Entity
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name = "vehicle")
-public class Vehicle {
+@Table(name = "account")
+public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id")
-    String id;
-
+    private String id;
     @Column(name = "name")
-    String name;
-
-    @Column(name = "manufacture")
-    String manufacture;
-
-
-    @Column(name = "licensePlate")
-    String licensePlate;
-
+    private String name;
+    @Column(name = "password")
+    private String password;
+    @Column(name = "phone")
+    private String phone;
+    @Column(name = "email")
+    private String email;
+    @Column(name = "birthday")
+    private String birthday;
+    @Column(name = "gender")
+    private String gender;
 }
