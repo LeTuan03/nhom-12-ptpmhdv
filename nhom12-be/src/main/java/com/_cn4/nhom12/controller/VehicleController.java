@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-@RequestMapping("/vehicle")
+@RequestMapping("/admin/vehicle")
 public class VehicleController {
     VehicleService vehicleService;
 

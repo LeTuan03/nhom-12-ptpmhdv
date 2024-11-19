@@ -17,17 +17,23 @@ public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id")
-    private String id;
+    String id;
+    @Column(name = "username")
+    String username;
     @Column(name = "name")
-    private String name;
+    String name;
     @Column(name = "password")
-    private String password;
+    String password;
     @Column(name = "phone")
-    private String phone;
+    String phone;
     @Column(name = "email")
-    private String email;
+    String email;
     @Column(name = "birthday")
-    private String birthday;
+    String birthday;
     @Column(name = "gender")
-    private String gender;
+    String gender;
+    @Column(name = "avatar")
+    String avatar;
+    @Column(name = "role")
+    String role;
 }

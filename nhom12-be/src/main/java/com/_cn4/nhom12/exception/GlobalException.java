@@ -12,6 +12,7 @@ public class GlobalException {
         ApiResponse apiResponse = new ApiResponse();
         apiResponse.setCode(ErrorCode.SERVER_ERROR.getCode());
         apiResponse.setMessage(exception.getMessage());
+        System.out.println(exception.getMessage());
         return ResponseEntity.badRequest().body(apiResponse);
     }
 
