@@ -1,20 +1,21 @@
 package com._cn4.nhom12.services.Impl;
 
 import com._cn4.nhom12.DTO.request.AccountCreationRequest;
+import com._cn4.nhom12.DTO.request.LoginRequest;
 import com._cn4.nhom12.entity.Account;
-import com._cn4.nhom12.entity.Vehicle;
 import com._cn4.nhom12.repository.AccountRepo;
 import com._cn4.nhom12.services.AccountService;
+import com._cn4.nhom12.utility.JwtUtil;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -25,29 +26,23 @@ public class AccountServiceImpl implements AccountService {
     @Autowired
     private AccountRepo accountRepo;
 
-    private void setValueDtos(Account entity, Account request) {
-        if (!Objects.isNull(request.getId())) {
-
-            entity.setId(request.getId());
-        }
+    private void setValueDtos(Account entity, AccountCreationRequest request) {
         entity.setName(request.getName());
         entity.setBirthday(request.getBirthday());
         entity.setPhone(request.getPhone());
         entity.setEmail(request.getEmail());
         entity.setGender(request.getGender());
+        entity.setAvatar(request.getAvatar());
+        entity.setUsername(request.getUsername());
+        entity.setRole(request.getRole());
     }
 
     @Override
-    public ResponseEntity<Account> createAccount(AccountCreationRequest account) {
-        Account Account = new Account();
-        Account.setName(account.getName());
-        Account.setPassword(account.getPassword());
-        Account.setEmail(account.getEmail());
-        Account.setPhone(account.getPhone());
-        Account.setBirthday(account.getBirthday());
-        Account.setGender(account.getGender());
-
-        return new ResponseEntity<>(accountRepo.save(Account), HttpStatus.OK);
+    public ResponseEntity<Account> createAccount(AccountCreationRequest request) {
+        Account entity = new Account();
+        this.setValueDtos(entity, request);
+        entity.setPassword(request.getPassword());
+        return new ResponseEntity<>(accountRepo.save(entity), HttpStatus.OK);
     }
 
     @Override
@@ -65,8 +60,8 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public ResponseEntity<Account> updateAccount(Account request) {
-        Optional<Account> itemExist = accountRepo.findById(request.getId());
+    public ResponseEntity<Account> updateAccount(AccountCreationRequest request, String id) {
+        Optional<Account> itemExist = accountRepo.findById(id);
         Account entity = itemExist.get();
         this.setValueDtos(entity, request);
         accountRepo.save(entity);
@@ -77,5 +72,25 @@ public class AccountServiceImpl implements AccountService {
     public ResponseEntity<String> deleteAccount(String id) {
         accountRepo.deleteById(id);
         return new ResponseEntity<>("Delete successfully", HttpStatus.OK);
+    }
+
+    private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+    @Override
+    public ResponseEntity<Account> register(AccountCreationRequest request) {
+        Account entity = new Account();
+        this.setValueDtos(entity, request);
+        entity.setPassword(passwordEncoder.encode(request.getPassword()));
+        return new ResponseEntity<>(accountRepo.save(entity), HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<?> login(LoginRequest request) {
+        Account account = accountRepo.findByUsername(request.getUsername()).orElse(null);
+        if (account != null && passwordEncoder.matches(request.getPassword(), account.getPassword())) {
+            String token = JwtUtil.generateToken(account.getUsername(), account.getRole());
+            return new ResponseEntity<>(token, HttpStatus.OK);
+        }
+        return new ResponseEntity<>("Tên tài khoản hoặc mật khẩu không đúng.", HttpStatus.BAD_REQUEST);
     }
 }

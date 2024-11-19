@@ -1,8 +1,9 @@
 package com._cn4.nhom12.DTO.request;
 
 import lombok.Data;
+import lombok.Getter;
 
-@Data
+@Getter
 public class AccountCreationRequest {
     private String name;
     private String password;
@@ -10,4 +11,7 @@ public class AccountCreationRequest {
     private String email;
     private String birthday;
     private String gender;
+    private String avatar;
+    private String username;
+    private String role;
 }

@@ -1,6 +1,7 @@
 package com._cn4.nhom12.controller;
 
 import com._cn4.nhom12.DTO.request.AccountCreationRequest;
+import com._cn4.nhom12.DTO.request.LoginRequest;
 import com._cn4.nhom12.entity.Account;
 import com._cn4.nhom12.entity.Vehicle;
 import com._cn4.nhom12.services.Impl.AccountServiceImpl;
@@ -31,9 +32,9 @@ public class AccountController {
         return accountService.getAllAccount();
     }
 
-    @PutMapping
-    ResponseEntity<Account> update(@RequestBody Account request) {
-        return accountService.updateAccount(request);
+    @PutMapping("/{id}")
+    ResponseEntity<Account> update(@RequestBody AccountCreationRequest request, @PathVariable String id) {
+        return accountService.updateAccount(request, id);
     }
 
     @DeleteMapping("/{id}")
@@ -46,4 +47,13 @@ public class AccountController {
         return accountService.getAccount(id);
     }
 
+    @PostMapping("/register")
+    ResponseEntity<Account> register(@RequestBody AccountCreationRequest request) {
+        return accountService.register(request);
+    }
+
+    @PostMapping("/login")
+    ResponseEntity<?> login(@RequestBody LoginRequest request) {
+        return accountService.login(request);
+    }
 }
