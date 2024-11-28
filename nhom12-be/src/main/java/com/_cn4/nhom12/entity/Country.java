@@ -1,5 +1,6 @@
 package com._cn4.nhom12.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -11,6 +12,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "country")
 public class Country {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -22,5 +24,10 @@ public class Country {
     @OneToMany(mappedBy = "country", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<City> cities;
+
+    @ManyToOne
+    @JoinColumn(name = "continents_id", nullable = false)
+    @JsonBackReference
+    private Continents continents;
 }
 
