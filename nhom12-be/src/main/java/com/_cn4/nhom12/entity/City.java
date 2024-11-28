@@ -1,5 +1,6 @@
 package com._cn4.nhom12.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -7,26 +8,20 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
+@Entity
 @Data
 @NoArgsConstructor
-@Entity
 @AllArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name = "vehicle")
-public class Vehicle {
+public class City {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id")
-    String id;
+    private String id;
 
-    @Column(name = "name")
-    String name;
+    @Column(nullable = false)
+    private String name;
 
-    @Column(name = "manufacture")
-    String manufacture;
-
-
-    @Column(name = "licensePlate")
-    String licensePlate;
-
+    @ManyToOne
+    @JoinColumn(name = "country_id", nullable = false)
+    @JsonBackReference
+    private Country country;
 }
