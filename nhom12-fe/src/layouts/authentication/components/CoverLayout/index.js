@@ -23,7 +23,7 @@ function CoverLayout({ color, header, title, description, image, top, children }
       <DefaultNavbar
         // action={{
         //   type: "external",
-        //   route: "https://creative-tim.com/product/soft-ui-dashboard-react",
+        //   route: "https://creative-tim.com/product/travel-lite",
         //   label: "free download",
         //   color: "dark",
         // }}

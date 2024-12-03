@@ -12,22 +12,22 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "country")
 public class Country {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+    @Column(name = "id")
+    String id;
 
-    @Column(nullable = false, unique = true)
-    private String name;
+    @Column(name = "name", nullable = false, unique = true)
+    String name;
 
-    @OneToMany(mappedBy = "country", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
-    private List<City> cities;
+    @Column(name = "continentsId")
+    String continentsId;
 
-    @ManyToOne
-    @JoinColumn(name = "continents_id", nullable = false)
-    @JsonBackReference
-    private Continents continents;
+    @OneToMany(mappedBy = "countryId", cascade = CascadeType.ALL, orphanRemoval = true)
+    List<City> cities;
+
 }
 

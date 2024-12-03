@@ -1,20 +1,25 @@
 package com._cn4.nhom12.controller;
 
+import com._cn4.nhom12.DTO.request.CountryRequest;
 import com._cn4.nhom12.entity.Country;
 import com._cn4.nhom12.services.CountryService;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
 @RestController
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequestMapping("/api/countries")
 public class CountryController {
-    private final CountryService countryService;
-
-    public CountryController(CountryService countryService) {
-        this.countryService = countryService;
-    }
+    @Autowired
+    private CountryService countryService;
 
     @GetMapping
     public ResponseEntity<List<Country>> getAllCountries() {
@@ -27,13 +32,13 @@ public class CountryController {
     }
 
     @PostMapping("/with-cities")
-    public ResponseEntity<Country> createCountryWithCities(@RequestBody Country country) {
+    public ResponseEntity<Country> createCountryWithCities(@RequestBody CountryRequest country) {
         return ResponseEntity.ok(countryService.createCountryWithCities(country));
     }
 
     @PutMapping("/{id}/with-cities")
-    public ResponseEntity<Country> updateCountryWithCities(@PathVariable String id, @RequestBody Country country) {
-        return ResponseEntity.ok(countryService.updateCountryWithCities(id, country));
+    public ResponseEntity<Country> updateCountryWithCities(@PathVariable String id, @RequestBody CountryRequest request) {
+        return ResponseEntity.ok(countryService.updateCountryWithCities(id, request));
     }
 
     @DeleteMapping("/{id}")

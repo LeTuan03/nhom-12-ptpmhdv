@@ -138,7 +138,7 @@ export default function App() {
             {configsButton}
           </>
         )}
-        {layout === "vr" && <Configurator />}
+        {/* {layout === "vr" && <Configurator />} */}
         <Routes>
           {getRoutes(routes)}
           <Route path="*" element={<Navigate to="/dashboard" />} />

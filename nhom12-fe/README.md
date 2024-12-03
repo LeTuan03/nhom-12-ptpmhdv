@@ -1,6 +1,6 @@
-# [Soft UI Dashboard React](http://demos.creative-tim.com/soft-ui-dashboard-react/#/dashboard?ref=readme-sudr) [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&logo=twitter)](https://twitter.com/intent/tweet?url=https://www.creative-tim.com/product/soft-ui-dashboard-react&text=Check%20Soft%20UI%20Dashboard%20react%20made%20by%20@CreativeTim%20#webdesign%20#dashboard%20#softdesign%20#react%20https://www.creative-tim.com/product/soft-ui-dashboard-react)
+# [Soft UI Dashboard React](http://demos.creative-tim.com/travel-lite/#/dashboard?ref=readme-sudr) [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&logo=twitter)](https://twitter.com/intent/tweet?url=https://www.creative-tim.com/product/travel-lite&text=Check%20Soft%20UI%20Dashboard%20react%20made%20by%20@CreativeTim%20#webdesign%20#dashboard%20#softdesign%20#react%20https://www.creative-tim.com/product/travel-lite)
 
-![version](https://img.shields.io/badge/version-4.0.1-blue.svg) [![GitHub issues open](https://img.shields.io/github/issues/creativetimofficial/soft-ui-dashboard-react.svg)](https://github.com/creativetimofficial/soft-ui-dashboard-react/issues?q=is%3Aopen+is%3Aissue) [![GitHub issues closed](https://img.shields.io/github/issues-closed-raw/creativetimofficial/soft-ui-dashboard-react.svg)](https://github.com/creativetimofficial/soft-ui-dashboard-react/issues?q=is%3Aissue+is%3Aclosed)
+![version](https://img.shields.io/badge/version-4.0.1-blue.svg) [![GitHub issues open](https://img.shields.io/github/issues/creativetimofficial/travel-lite.svg)](https://github.com/creativetimofficial/travel-lite/issues?q=is%3Aopen+is%3Aissue) [![GitHub issues closed](https://img.shields.io/github/issues-closed-raw/creativetimofficial/travel-lite.svg)](https://github.com/creativetimofficial/travel-lite/issues?q=is%3Aissue+is%3Aclosed)
 
 ![Image](https://s3.amazonaws.com/creativetim_bucket/products/500/original/soft-ui-dashboard-material-ui.jpg)
 
@@ -21,11 +21,11 @@ You can read more about the [documentation here](https://www.creative-tim.com/le
 
 If you want to get inspiration or just show something directly to your clients, you can jump-start your development with our pre-built example pages. Every page is spaced well, with attractive layouts and pleasing shapes. Soft UI Dashboard React has everything you need to quickly set up an amazing project.
 
-View [example pages here](https://demos.creative-tim.com/soft-ui-dashboard-react/#/dashboard).
+View [example pages here](https://demos.creative-tim.com/travel-lite/#/dashboard).
 
 **HELPFUL LINKS**
 
-- View [Github Repository](https://github.com/creativetimofficial/soft-ui-dashboard-react)
+- View [Github Repository](https://github.com/creativetimofficial/travel-lite)
 - Check [FAQ Page](https://www.creative-tim.com/faq)
 
 #### Special thanks
@@ -66,19 +66,19 @@ Let us know your thoughts below. And good luck with development!
 
 ## Demo
 
-- [Dashboard](http://demos.creative-tim.com/soft-ui-dashboard-react/#/dashboard?ref=readme-sudr)
-- [Profile](https://demos.creative-tim.com/soft-ui-dashboard-react/#/profile?ref=readme-sudr)
-- [RTL](https://demos.creative-tim.com/soft-ui-dashboard-react/#/rtl?ref=readme-sudr)
-- [Sign In](https://demos.creative-tim.com/soft-ui-dashboard-react/#/authentication/sign-in?ref=readme-sudr)
-- [Sign Up](https://demos.creative-tim.com/soft-ui-dashboard-react/#/authentication/sign-up?ref=readme-sudr)
+- [Dashboard](http://demos.creative-tim.com/travel-lite/#/dashboard?ref=readme-sudr)
+- [Profile](https://demos.creative-tim.com/travel-lite/#/profile?ref=readme-sudr)
+- [RTL](https://demos.creative-tim.com/travel-lite/#/rtl?ref=readme-sudr)
+- [Sign In](https://demos.creative-tim.com/travel-lite/#/authentication/sign-in?ref=readme-sudr)
+- [Sign Up](https://demos.creative-tim.com/travel-lite/#/authentication/sign-up?ref=readme-sudr)
 
-[View More](https://demos.creative-tim.com/soft-ui-dashboard-react/#/dashboard?ref=readme-sudr).
+[View More](https://demos.creative-tim.com/travel-lite/#/dashboard?ref=readme-sudr).
 
 ## Quick start
 
 Quick start options:
 
-- Buy from [Creative Tim](https://www.creative-tim.com/product/soft-ui-dashboard-react?ref=readme-sudr).
+- Buy from [Creative Tim](https://www.creative-tim.com/product/travel-lite?ref=readme-sudr).
 
 ## Terminal Commands
 
@@ -94,7 +94,7 @@ The documentation for the Soft UI Dashboard is hosted at our [website](https://w
 Within the download you'll find the following directories and files:
 
 ```
-soft-ui-dashboard-react
+travel-lite
     ├── public
     │   ├── apple-icon.png
     │   ├── favicon.png
@@ -164,19 +164,19 @@ At present, we officially aim to support the last two versions of the following 
 
 ## Resources
 
-- [Live Preview](https://demos.creative-tim.com/soft-ui-dashboard-react/#/dashboard?ref=readme-sudr)
-- [Buy Page](https://www.creative-tim.com/product/soft-ui-dashboard-react?ref=readme-sudr)
+- [Live Preview](https://demos.creative-tim.com/travel-lite/#/dashboard?ref=readme-sudr)
+- [Buy Page](https://www.creative-tim.com/product/travel-lite?ref=readme-sudr)
 - Documentation is [here](https://www.creative-tim.com/learning-lab/react/overview/soft-ui-dashboard/?ref=readme-sudr)
 - [License Agreement](https://www.creative-tim.com/license?ref=readme-sudr)
 - [Support](https://www.creative-tim.com/contact-us?ref=readme-sudr)
-- Issues: [Github Issues Page](https://github.com/creativetimofficial/soft-ui-dashboard-react/issues)
+- Issues: [Github Issues Page](https://github.com/creativetimofficial/travel-lite/issues)
 - [Nepcha Analytics](https://nepcha.com?ref=readme) - Analytics tool for your website
 
 ## Reporting Issues
 
 We use GitHub Issues as the official bug tracker for the Soft UI Dashboard React. Here are some advices for our users that want to report an issue:
 
-1. Make sure that you are using the latest version of the Soft UI Dashboard React. Check the CHANGELOG from your dashboard on our [website](https://www.creative-tim.com/product/soft-ui-dashboard-react?ref=readme-sudr).
+1. Make sure that you are using the latest version of the Soft UI Dashboard React. Check the CHANGELOG from your dashboard on our [website](https://www.creative-tim.com/product/travel-lite?ref=readme-sudr).
 2. Providing us reproducible steps for the issue will shorten the time it takes for it to be fixed.
 3. Some issues may be browser specific, so specifying in what browser you encountered the issue might help.
 

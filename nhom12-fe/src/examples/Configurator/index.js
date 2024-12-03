@@ -6,7 +6,6 @@ import { useState, useEffect } from "react";
 import Divider from "@mui/material/Divider";
 import Switch from "@mui/material/Switch";
 import IconButton from "@mui/material/IconButton";
-import Link from "@mui/material/Link";
 import Icon from "@mui/material/Icon";
 
 // @mui icons
@@ -189,7 +188,7 @@ function Configurator() {
           <SoftBox mb={2}>
             <SoftButton
               // component={Link}
-              // href="https://www.creative-tim.com/product/soft-ui-dashboard-react"
+              // href="https://www.creative-tim.com/product/travel-lite"
               // target="_blank"
               // rel="noreferrer"
               color="dark"
@@ -214,11 +213,11 @@ function Configurator() {
         <SoftBox display="flex" justifyContent="center">
           <a
             className="github-button"
-            href="https://github.com/creativetimofficial/soft-ui-dashboard-react"
+            href="https://github.com/creativetimofficial/travel-lite"
             data-icon="octicon-star"
             data-size="large"
             data-show-count="true"
-            aria-label="Star creativetimofficial/soft-ui-dashboard-react on GitHub"
+            aria-label="Star creativetimofficial/travel-lite on GitHub"
           >
             
           </a>
@@ -243,7 +242,7 @@ function Configurator() {
             </SoftBox>
             <SoftButton
               // component={Link}
-              // href="https://www.facebook.com/sharer/sharer.php?u=https://www.creative-tim.com/product/soft-ui-dashboard-react"
+              // href="https://www.facebook.com/sharer/sharer.php?u=https://www.creative-tim.com/product/travel-lite"
               // target="_blank"
               // rel="noreferrer"
               color="dark"

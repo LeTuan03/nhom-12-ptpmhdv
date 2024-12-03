@@ -12,6 +12,7 @@ import lombok.experimental.FieldDefaults;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "city")
 public class City {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -20,8 +21,6 @@ public class City {
     @Column(nullable = false)
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "country_id", nullable = false)
-    @JsonBackReference
-    private Country country;
+    @Column(name = "countryId")
+    String countryId;
 }

@@ -7,6 +7,7 @@ import BlankLayout from "layouts/authentication/components/BlankLayout";
 
 // Images
 import curved6 from "assets/images/curved-images/curved14.jpg";
+import { Link } from "react-router-dom";
 
 function NotFound() {
 
@@ -19,7 +20,7 @@ function NotFound() {
     >
      <SoftBox mt={4} mb={1}>
         <SoftButton variant="gradient" color="dark" fullWidth>
-          Back to home
+          <Link to={"/home"}>Back to home</Link>
         </SoftButton>
       </SoftBox>
     </BlankLayout>

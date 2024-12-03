@@ -1,6 +1,5 @@
 package com._cn4.nhom12.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -26,7 +25,6 @@ public class Continents {
     @Column(name = "name")
     String name;
 
-    @OneToMany(mappedBy = "continents", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
-    private List<Country> countries;
-    }
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "continentsId", cascade = CascadeType.ALL, orphanRemoval = true)
+    Set<Country> countries;
+}
