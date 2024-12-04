@@ -1,5 +1,3 @@
-
-
 import { useState, useEffect, useMemo } from "react";
 
 // react-router components
@@ -19,39 +17,27 @@ import Configurator from "examples/Configurator";
 
 // Soft UI Dashboard React themes
 import theme from "assets/theme";
-import themeRTL from "assets/theme/theme-rtl";
-
-// RTL plugins
-import rtlPlugin from "stylis-plugin-rtl";
-import { CacheProvider } from "@emotion/react";
-import createCache from "@emotion/cache";
 
 // Soft UI Dashboard React routes
-import {routes} from "routes";
+import { routes } from "routes";
 
 // Soft UI Dashboard React contexts
-import { useSoftUIController, setMiniSidenav, setOpenConfigurator } from "context";
+import {
+  useSoftUIController,
+  setMiniSidenav,
+  setOpenConfigurator,
+} from "context";
 
 // Images
 import brand from "assets/images/logo-ct.png";
 
 export default function App() {
   const [controller, dispatch] = useSoftUIController();
-  const { miniSidenav, direction, layout, openConfigurator, sidenavColor } = controller;
+  const { miniSidenav, direction, layout, openConfigurator, sidenavColor } =
+    controller;
   const [onMouseEnter, setOnMouseEnter] = useState(false);
-  const [rtlCache, setRtlCache] = useState(null);
   const { pathname } = useLocation();
-  console.log(layout);
-  
-  // Cache for the rtl
-  useMemo(() => {
-    const cacheRtl = createCache({
-      key: "rtl",
-      stylisPlugins: [rtlPlugin],
-    });
 
-    setRtlCache(cacheRtl);
-  }, []);
 
   // Open sidenav when mouse enter on mini sidenav
   const handleOnMouseEnter = () => {
@@ -70,7 +56,8 @@ export default function App() {
   };
 
   // Change the openConfigurator state
-  const handleConfiguratorOpen = () => setOpenConfigurator(dispatch, !openConfigurator);
+  const handleConfiguratorOpen = () =>
+    setOpenConfigurator(dispatch, !openConfigurator);
 
   // Setting the dir attribute for the body element
   useEffect(() => {
@@ -90,7 +77,14 @@ export default function App() {
       }
 
       if (route.route) {
-        return <Route exact path={route.route} element={route.component} key={route.key} />;
+        return (
+          <Route
+            exact
+            path={route.route}
+            element={route.component}
+            key={route.key}
+          />
+        );
       }
 
       return null;
@@ -120,32 +114,7 @@ export default function App() {
     </SoftBox>
   );
 
-  return direction === "rtl" ? (
-    <CacheProvider value={rtlCache}>
-      <ThemeProvider theme={themeRTL}>
-        <CssBaseline />
-        {layout === "dashboard" && (
-          <>
-            <Sidenav
-              color={sidenavColor}
-              brand={brand}
-              brandName="Soft UI Dashboard"
-              routes={routes}
-              onMouseEnter={handleOnMouseEnter}
-              onMouseLeave={handleOnMouseLeave}
-            />
-            <Configurator />
-            {configsButton}
-          </>
-        )}
-        {/* {layout === "vr" && <Configurator />} */}
-        <Routes>
-          {getRoutes(routes)}
-          <Route path="*" element={<Navigate to="/dashboard" />} />
-        </Routes>
-      </ThemeProvider>
-    </CacheProvider>
-  ) : (
+  return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       {layout === "dashboard" && (
@@ -162,7 +131,6 @@ export default function App() {
           {configsButton}
         </>
       )}
-      {/* {layout === "vr" && <Configurator />} */}
       <Routes>
         {getRoutes(routes)}
         <Route path="*" element={<Navigate to="/not-found" />} />

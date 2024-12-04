@@ -1,16 +1,13 @@
 {
   "name": "travel-lite",
   "version": "4.0.1",
-  "author": "Creative Tim",
-  "license": "SEE LICENSE IN <https://www.creative-tim.com/license>",
-  "description": "ReactJS version of Soft UI Dashboard by Creative Tim",
-  "homepage": "https://themewagon.github.io/travel-lite",
-  "bugs": {
-    "url": "https://github.com/creativetimofficial/travel-lite/issues"
-  },
+  "author": "nhom12",
+  "license": "",
+  "description": "",
+  "homepage": "",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/creativetimofficial/travel-lite.git"
+    "url": ""
   },
   "dependencies": {
     "@emotion/cache": "11.11.0",
