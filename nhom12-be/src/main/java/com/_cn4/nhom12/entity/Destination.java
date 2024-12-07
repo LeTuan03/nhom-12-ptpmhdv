@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Set;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -47,4 +49,12 @@ public class Destination {
     @ManyToOne
     @JoinColumn(name = "cityId")
     City city;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "destination_tourtype",
+            joinColumns = @JoinColumn(name = "destinationId"),
+            inverseJoinColumns = @JoinColumn(name = "tourtypeId")
+    )
+    Set<TourType> tourTypes;
 }

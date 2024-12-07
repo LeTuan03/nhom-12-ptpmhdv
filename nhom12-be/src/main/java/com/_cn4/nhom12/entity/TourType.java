@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
-
 import java.util.Set;
 
 @Data
@@ -14,8 +13,8 @@ import java.util.Set;
 @Entity
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name = "continents")
-public class Continents {
+@Table(name = "tourtype")
+public class TourType {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id")
@@ -24,6 +23,6 @@ public class Continents {
     @Column(name = "name")
     String name;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "continentsId", cascade = CascadeType.ALL, orphanRemoval = true)
-    Set<Country> countries;
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "tourTypes", cascade = CascadeType.ALL)
+    Set<Destination> destinations;
 }
