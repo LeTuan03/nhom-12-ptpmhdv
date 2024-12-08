@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 
 // react-router components
-import { Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation, useNavigate } from "react-router-dom";
 
 // @mui material components
 import { ThemeProvider } from "@mui/material/styles";
@@ -30,6 +30,7 @@ import {
 
 // Images
 import brand from "assets/images/logo-ct.png";
+import "./style.css"
 
 export default function App() {
   const [controller, dispatch] = useSoftUIController();
@@ -128,11 +129,12 @@ export default function App() {
             onMouseLeave={handleOnMouseLeave}
           />
           <Configurator />
-          {configsButton}
+          {/* {configsButton} */}
         </>
       )}
       <Routes>
         {getRoutes(routes)}
+        <Route path="/" element={<Navigate to="/home" />} />
         <Route path="*" element={<Navigate to="/not-found" />} />
       </Routes>
     </ThemeProvider>

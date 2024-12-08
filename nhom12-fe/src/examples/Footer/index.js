@@ -28,7 +28,7 @@ function Footer({ company, links }) {
         </Link>
       </SoftBox>
     ));
-
+  return <></>
   return (
     <SoftBox
       width="100%"

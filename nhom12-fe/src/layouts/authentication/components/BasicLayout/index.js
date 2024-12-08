@@ -21,11 +21,6 @@ function BasicLayout({ title, description, image, children }) {
   return (
     <PageLayout>
       <DefaultNavbar
-        // action={{
-        //   type: "external",
-        //   route: "https://creative-tim.com/product/travel-lite",
-        //   label: "free download",
-        // }}
         transparent
         light
       />

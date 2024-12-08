@@ -10,7 +10,7 @@ import { SoftUIControllerProvider } from "context";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <BrowserRouter basename="travel-lite">
+  <BrowserRouter>
     <SoftUIControllerProvider>
       <App />
     </SoftUIControllerProvider>

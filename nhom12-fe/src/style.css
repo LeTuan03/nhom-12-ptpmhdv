@@ -1,0 +1,19 @@
+.MuiDataGrid-filler {
+  background: #17c1e8;
+}
+.flex-t {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.MuiTableHead-root {
+  display: table-header-group !important;
+}
+.MuiButtonBase-root {
+  text-transform: none !important;
+}
+
+.MuiGrid-item {
+  padding-top: 5px !important;
+}

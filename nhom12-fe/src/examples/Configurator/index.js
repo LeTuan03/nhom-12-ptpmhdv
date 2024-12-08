@@ -187,10 +187,6 @@ function Configurator() {
         <SoftBox mt={3} mb={2}>
           <SoftBox mb={2}>
             <SoftButton
-              // component={Link}
-              // href="https://www.creative-tim.com/product/travel-lite"
-              // target="_blank"
-              // rel="noreferrer"
               color="dark"
               variant="gradient"
               fullWidth
@@ -213,11 +209,10 @@ function Configurator() {
         <SoftBox display="flex" justifyContent="center">
           <a
             className="github-button"
-            href="https://github.com/creativetimofficial/travel-lite"
+            href="#"
             data-icon="octicon-star"
             data-size="large"
             data-show-count="true"
-            aria-label="Star creativetimofficial/travel-lite on GitHub"
           >
             
           </a>
@@ -230,10 +225,6 @@ function Configurator() {
           <SoftBox display="flex" justifyContent="center">
             <SoftBox mr={1.5}>
               <SoftButton
-                // component={Link}
-                // href="//twitter.com/intent/tweet?text=Check%20Soft%20UI%20Dashboard%20React%20made%20by%20%40CreativeTim%20%23webdesign%20%23dashboard%20%23react%23mui&url=https%3A%2F%2Fwww.creative-tim.com%2Fproduct%2Fsoft-ui-dashboard-react"
-                // target="_blank"
-                // rel="noreferrer"
                 color="dark"
               >
                 <TwitterIcon />
@@ -241,10 +232,6 @@ function Configurator() {
               </SoftButton>
             </SoftBox>
             <SoftButton
-              // component={Link}
-              // href="https://www.facebook.com/sharer/sharer.php?u=https://www.creative-tim.com/product/travel-lite"
-              // target="_blank"
-              // rel="noreferrer"
               color="dark"
             >
               <FacebookIcon />
