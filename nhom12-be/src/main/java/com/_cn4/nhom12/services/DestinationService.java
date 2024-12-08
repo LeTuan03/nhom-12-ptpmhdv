@@ -10,6 +10,11 @@ import java.util.List;
 public interface DestinationService {
     List<Destination> getAll();
 
+    List<Destination> search(  String destinationName,
+                                               String cityName,
+                                               String countryName,
+                                               String continentName);
+
     ResponseEntity<Destination> create(DestinationRequest request);
     ResponseEntity<Destination> getById(String id);
 

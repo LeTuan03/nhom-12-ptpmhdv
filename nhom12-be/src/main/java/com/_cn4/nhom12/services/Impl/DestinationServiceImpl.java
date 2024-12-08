@@ -42,6 +42,11 @@ public class DestinationServiceImpl implements DestinationService {
     }
 
     @Override
+    public List<Destination> search(String destinationName, String cityName, String countryName, String continentName) {
+        return destinationRepo.search(destinationName, cityName, countryName, continentName);
+    }
+
+    @Override
     public ResponseEntity<Destination> getById(String id) {
         Optional<Destination> itemExist = destinationRepo.findById(id);
         Destination entity = itemExist.get();
