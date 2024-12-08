@@ -22,7 +22,4 @@ public class TourType {
 
     @Column(name = "name")
     String name;
-
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "tourTypes", cascade = CascadeType.ALL)
-    Set<Destination> destinations;
 }
