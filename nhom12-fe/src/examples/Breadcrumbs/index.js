@@ -14,7 +14,7 @@ import Icon from "@mui/material/Icon";
 import SoftBox from "components/SoftBox";
 import SoftTypography from "components/SoftTypography";
 
-function Breadcrumbs({ icon, title, route, light }) {
+function Breadcrumbs({ icon, title, route, light, subTitle }) {
   const routes = route.slice(0, -1);
 
   return (
@@ -37,21 +37,6 @@ function Breadcrumbs({ icon, title, route, light }) {
             <Icon>{icon}</Icon>
           </SoftTypography>
         </Link>
-        {routes.map((el) => (
-          <Link to={`/${el}`} key={el}>
-            <SoftTypography
-              component="span"
-              variant="button"
-              fontWeight="regular"
-              textTransform="capitalize"
-              color={light ? "white" : "dark"}
-              opacity={light ? 0.8 : 0.5}
-              sx={{ lineHeight: 0 }}
-            >
-              {el}
-            </SoftTypography>
-          </Link>
-        ))}
         <SoftTypography
           variant="button"
           fontWeight="regular"
@@ -69,7 +54,7 @@ function Breadcrumbs({ icon, title, route, light }) {
         color={light ? "white" : "dark"}
         noWrap
       >
-        {title.replace("-", " ")}
+        {subTitle.replace("-", " ")}
       </SoftTypography>
     </SoftBox>
   );
@@ -78,12 +63,14 @@ function Breadcrumbs({ icon, title, route, light }) {
 // Setting default values for the props of Breadcrumbs
 Breadcrumbs.defaultProps = {
   light: false,
+  subTitle: "",
 };
 
 // Typechecking props for the Breadcrumbs
 Breadcrumbs.propTypes = {
   icon: PropTypes.node.isRequired,
   title: PropTypes.string.isRequired,
+  subTitle: PropTypes.string,
   route: PropTypes.oneOfType([PropTypes.string, PropTypes.array]).isRequired,
   light: PropTypes.bool,
 };

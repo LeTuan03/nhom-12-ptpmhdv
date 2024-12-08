@@ -114,5 +114,19 @@ ALTER TABLE travel_destination
 ADD category_id INT,
 ADD FOREIGN KEY (category_id) REFERENCES travel_destination_categories(id);
 
+-- Tạo bảng đặt phòng
+CREATE TABLE travel_bookings (
+    booking_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,                          -- ID người dùng
+    destination_id INT NOT NULL,                   -- ID địa điểm
+    booking_date DATE NOT NULL,                    -- Ngày đặt phòng
+    check_in_date DATE NOT NULL,                   -- Ngày nhận phòng
+    check_out_date DATE NOT NULL,                  -- Ngày trả phòng
+    total_price DECIMAL(10,2) NOT NULL,            -- Tổng giá trị đặt phòng
+    status ENUM('Pending', 'Confirmed', 'Cancelled') DEFAULT 'Pending',  -- Trạng thái đặt phòng
+    FOREIGN KEY (user_id) REFERENCES travel_users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (destination_id) REFERENCES travel_destination(id) ON DELETE CASCADE
+);
+
 
 
