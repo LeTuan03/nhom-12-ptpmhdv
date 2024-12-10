@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 
 import java.util.Set;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -29,15 +32,6 @@ public class Destination {
     @Column(name = "rating")
     private String rating;
 
-    @Column(name = "entry_fee")
-    private String entryFee;
-
-    @Column(name = "opening_hours")
-    private String openingHours;
-
-    @Column(name = "contact_info")
-    private String contactInfo;
-
     @ManyToOne
     @JoinColumn(name = "continentId")
     Continents continent;
@@ -57,4 +51,7 @@ public class Destination {
             inverseJoinColumns = @JoinColumn(name = "tourtypeId")
     )
     Set<TourType> tourTypes;
+
+    @OneToMany(mappedBy = "destination", cascade = CascadeType.ALL, orphanRemoval = true)
+    List<Place> places;
 }
