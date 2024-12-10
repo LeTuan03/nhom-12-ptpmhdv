@@ -32,6 +32,15 @@ public class Destination {
     @Column(name = "rating")
     private String rating;
 
+    @Column(name = "entry_fee")
+    private String entryFee;
+
+    @Column(name = "opening_hours")
+    private String openingHours;
+
+    @Column(name = "contact_info")
+    private String contactInfo;
+
     @ManyToOne
     @JoinColumn(name = "continentId")
     Continents continent;
