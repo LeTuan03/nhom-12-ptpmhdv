@@ -119,7 +119,7 @@ const routes = [
     type: "collapse",
     name: "Home",
     key: "home",
-    route: "/home",
+    route: "/",
     icon: <SpaceShip size="12px" />,
     component: <Home />,
     noCollapse: true,    
