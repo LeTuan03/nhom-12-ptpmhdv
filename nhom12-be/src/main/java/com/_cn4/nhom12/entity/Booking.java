@@ -13,29 +13,29 @@ import java.time.LocalDate;
 public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "id")
     private String id;
 
-    @Column(nullable = false)
+    @Column(name = "customerName")
     private String customerName;
 
-    @Column(nullable = false)
+    @Column(name = "phone")
     private String phone;
 
-    @Column(nullable = false)
+    @Column(name = "email")
     private String email;
 
-    @ManyToOne
-    @JoinColumn(name = "place_id", nullable = false)
-    private Place place;
+    private String placeId;
 
-    @Column(nullable = false)
+    @Column(name = "startDate")
     private LocalDate startDate;
 
-    @Column(nullable = false)
+    @Column(name = "numberOfPeople")
     private int numberOfPeople;
 
-    @Column(nullable = false)
+    @Column(name = "totalPrice")
     private double totalPrice;
 
+    @Column(name = "specialRequests")
     private String specialRequests;
 }

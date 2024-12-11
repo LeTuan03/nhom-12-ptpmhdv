@@ -32,7 +32,7 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public Booking createBooking(Booking booking, String placeId) {
         Place place = placeRepository.findById(placeId).orElseThrow(() -> new RuntimeException("Place not found!"));
-        booking.setPlace(place);
+        booking.setPlaceId(place.getId());
         booking.setTotalPrice(place.getPricePerPerson() * booking.getNumberOfPeople());
         return bookingRepository.save(booking);
     }
@@ -45,7 +45,7 @@ public class BookingServiceImpl implements BookingService {
         existingBooking.setEmail(updatedBooking.getEmail());
         existingBooking.setStartDate(updatedBooking.getStartDate());
         existingBooking.setNumberOfPeople(updatedBooking.getNumberOfPeople());
-        existingBooking.setTotalPrice(existingBooking.getPlace().getPricePerPerson() * updatedBooking.getNumberOfPeople());
+//        existingBooking.setTotalPrice(existingBooking.getPlace().getPricePerPerson() * updatedBooking.getNumberOfPeople());
         existingBooking.setSpecialRequests(updatedBooking.getSpecialRequests());
         return bookingRepository.save(existingBooking);
     }
