@@ -61,6 +61,6 @@ public class Destination {
     )
     Set<TourType> tourTypes;
 
-    @OneToMany(mappedBy = "destination", cascade = CascadeType.ALL, orphanRemoval = true)
-    List<Place> places;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "destinationId", cascade = CascadeType.ALL, orphanRemoval = true)
+    Set<Place> places;
 }

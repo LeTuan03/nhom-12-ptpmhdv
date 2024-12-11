@@ -2,9 +2,7 @@ package com._cn4.nhom12.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
@@ -23,10 +21,12 @@ public class Place {
     @Column(nullable = false)
     private double pricePerPerson;
 
-    @OneToMany(mappedBy = "place", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Booking> bookings = new ArrayList<>();
+    private String destinationId;
+
+    @OneToMany(mappedBy = "placeId", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Booking> bookings;
 
     @ManyToOne
-    @JoinColumn(name = "destination", nullable = false)
-    private Destination destination;
+    @JoinColumn(name = "ownerId")
+    private Account owner;
 }

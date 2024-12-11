@@ -1,5 +1,6 @@
 package com._cn4.nhom12.controller;
 
+import com._cn4.nhom12.DTO.request.PlaceRequest;
 import com._cn4.nhom12.entity.Place;
 import com._cn4.nhom12.services.PlaceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,13 +30,13 @@ public class PlaceController {
 
     // Tạo Place mới, có thể liên kết với một Destination
     @PostMapping
-    public ResponseEntity<Place> createPlace(@RequestBody Place place) {
+    public ResponseEntity<Place> createPlace(@RequestBody PlaceRequest place) {
         return ResponseEntity.ok(placeService.createPlace(place));
     }
 
     // Cập nhật Place theo ID
     @PutMapping("/{id}")
-    public ResponseEntity<Place> updatePlace(@PathVariable String id, @RequestBody Place place) {
+    public ResponseEntity<Place> updatePlace(@PathVariable String id, @RequestBody PlaceRequest place) {
         return ResponseEntity.ok(placeService.updatePlace(id, place));
     }
 

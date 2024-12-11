@@ -1,14 +1,20 @@
 package com._cn4.nhom12.services.Impl;
 
+import com._cn4.nhom12.DTO.request.PlaceRequest;
+import com._cn4.nhom12.entity.Account;
+import com._cn4.nhom12.entity.Booking;
 import com._cn4.nhom12.entity.Destination;
 import com._cn4.nhom12.entity.Place;
+import com._cn4.nhom12.repository.AccountRepo;
+import com._cn4.nhom12.repository.BookingRepo;
 import com._cn4.nhom12.repository.DestinationRepo;
 import com._cn4.nhom12.repository.PlaceRepo;
 import com._cn4.nhom12.services.PlaceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
-import java.util.List;
+import java.util.*;
 
 @Service
 public class PlaceServiceImpl implements PlaceService {
@@ -18,6 +24,10 @@ public class PlaceServiceImpl implements PlaceService {
 
     @Autowired
     private DestinationRepo destinationRepository;
+    @Autowired
+    private AccountRepo accountRepo;
+    @Autowired
+    private BookingRepo bookingRepo;
 
     @Override
     public List<Place> getAllPlaces() {
@@ -30,38 +40,106 @@ public class PlaceServiceImpl implements PlaceService {
                 .orElseThrow(() -> new RuntimeException("Place with ID " + id + " not found!"));
     }
 
-    @Override
-    public Place createPlace(Place place) {
-        // Kiểm tra nếu `Place` có liên kết với một `Destination`
-        if (place.getDestination() != null && place.getDestination().getId() != null) {
-            Destination destination = destinationRepository.findById(place.getDestination().getId())
-                    .orElseThrow(() -> new RuntimeException("Destination with ID " + place.getDestination().getId() + " not found!"));
-            place.setDestination(destination);
+    private void setValueDtos(Place entity, PlaceRequest request) {
+        Optional<Account> account = accountRepo.findById(request.getOwnerId());
+        account.ifPresent(entity::setOwner);
+
+        entity.setDestinationId(request.getDestinationId());
+        entity.setName(request.getName());
+        entity.setImageUrl(request.getImageUrl());
+        entity.setPricePerPerson(request.getPricePerPerson());
+    }
+
+    private List<Booking> handleBookingDtos(Place place, List<Booking> bookingDtos) {
+        List<Booking> bookings = new ArrayList<>();
+
+        for (Booking bookingDto : bookingDtos) {
+            Booking booking;
+
+            if (bookingDto.getId() != null) {
+                Optional<Booking> existingBooking = bookingRepo.findById(bookingDto.getId());
+                if (existingBooking.isPresent()) {
+                    booking = existingBooking.get();
+                    booking.setCustomerName(bookingDto.getCustomerName());
+                    booking.setPhone(bookingDto.getPhone());
+                    booking.setEmail(bookingDto.getEmail());
+                    booking.setTotalPrice(bookingDto.getTotalPrice());
+                    booking.setSpecialRequests(bookingDto.getSpecialRequests());
+                    booking.setNumberOfPeople(bookingDto.getNumberOfPeople());
+                    booking.setStartDate(bookingDto.getStartDate());
+                    booking.setPlaceId(place.getId());
+                } else {
+                    booking = createNewBooking(place, bookingDto);
+                }
+            } else {
+                booking = createNewBooking(place, bookingDto);
+            }
+
+            bookings.add(booking);
         }
-        return placeRepository.save(place);
+
+        return bookings;
+    }
+
+    private Booking createNewBooking(Place place, Booking bookingDto) {
+        Booking booking = new Booking();
+        booking.setCustomerName(bookingDto.getCustomerName());
+        booking.setPhone(bookingDto.getPhone());
+        booking.setEmail(bookingDto.getEmail());
+        booking.setTotalPrice(bookingDto.getTotalPrice());
+        booking.setSpecialRequests(bookingDto.getSpecialRequests());
+        booking.setNumberOfPeople(bookingDto.getNumberOfPeople());
+        booking.setStartDate(bookingDto.getStartDate());
+        booking.setPlaceId(place.getId());
+        return booking;
     }
 
     @Override
-    public Place updatePlace(String id, Place updatedPlace) {
-        Place existingPlace = getPlaceById(id);
-        existingPlace.setName(updatedPlace.getName());
-        existingPlace.setImageUrl(updatedPlace.getImageUrl());
-        existingPlace.setPricePerPerson(updatedPlace.getPricePerPerson());
+    public Place createPlace(PlaceRequest request) {
+        Place entity = new Place();
+        this.setValueDtos(entity, request);
 
-        // Cập nhật `Destination` nếu có
-        if (updatedPlace.getDestination() != null && updatedPlace.getDestination().getId() != null) {
-            Destination destination = destinationRepository.findById(updatedPlace.getDestination().getId())
-                    .orElseThrow(() -> new RuntimeException("Destination with ID " + updatedPlace.getDestination().getId() + " not found!"));
-            existingPlace.setDestination(destination);
+        if (request.getBookings() != null && !request.getBookings().isEmpty()) {
+            List<Booking> bookings = this.handleBookingDtos(entity, request.getBookings());
+            entity.setBookings(new HashSet<>(bookings));
         }
 
-        return placeRepository.save(existingPlace);
+        return placeRepository.save(entity);
+    }
+
+    @Override
+    public Place updatePlace(String id, PlaceRequest request) {
+        Place entity = getPlaceById(id);
+
+        this.setValueDtos(entity, request);
+
+        if (request.getBookings() != null) {
+            List<Booking> updatedBookings = this.handleBookingDtos(entity, request.getBookings());
+
+            // Xóa các booking cũ không còn tồn tại
+            entity.getBookings().removeIf(existingBooking ->
+                    updatedBookings.stream().noneMatch(updatedBooking ->
+                            updatedBooking.getId().equals(existingBooking.getId())
+                    )
+            );
+
+            // Thêm hoặc cập nhật các booking mới
+            for (Booking updatedBooking : updatedBookings) {
+                boolean exists = entity.getBookings().stream().anyMatch(existingBooking ->
+                        existingBooking.getId().equals(updatedBooking.getId())
+                );
+                if (!exists) {
+                    entity.getBookings().add(updatedBooking);
+                }
+            }
+        }
+
+        return placeRepository.save(entity);
     }
 
     @Override
     public void deletePlace(String id) {
         Place place = getPlaceById(id);
-        // Kiểm tra nếu cần xử lý trước khi xóa (nếu có booking liên quan)
         placeRepository.delete(place);
     }
 
