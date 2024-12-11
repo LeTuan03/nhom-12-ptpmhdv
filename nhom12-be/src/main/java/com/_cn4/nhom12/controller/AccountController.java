@@ -55,4 +55,8 @@ public class AccountController {
     ResponseEntity<?> login(@RequestBody LoginRequest request) {
         return accountService.login(request);
     }
+    @GetMapping("/get-info")
+    ResponseEntity<Account> getInfo(@RequestHeader("Authorization") String authorizationHeader) {
+        return accountService.getAccountByToken(authorizationHeader);
+    }
 }

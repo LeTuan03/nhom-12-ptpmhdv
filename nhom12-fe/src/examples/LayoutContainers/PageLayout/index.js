@@ -24,7 +24,7 @@ function PageLayout({ background, children }) {
 
   return (
     <SoftBox
-      width="100vw"
+      // width="100vw"
       height="100%"
       minHeight="100vh"
       bgColor={background}

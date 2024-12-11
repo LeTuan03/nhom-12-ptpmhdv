@@ -13,6 +13,7 @@ public interface AccountService {
     ResponseEntity<List<Account>> getAllAccount();
 
     ResponseEntity<Account> getAccount(String id);
+    ResponseEntity<Account> getAccountByToken(String token);
 
     ResponseEntity<Account> updateAccount(AccountCreationRequest request, String id);
 
