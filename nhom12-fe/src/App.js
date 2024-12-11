@@ -134,7 +134,7 @@ export default function App() {
       )}
       <Routes>
         {getRoutes(routes)}
-        <Route path="/" element={<Navigate to="/home" />} />
+        <Route path="/" element={<Navigate to="/" />} />
         <Route path="*" element={<Navigate to="/not-found" />} />
       </Routes>
     </ThemeProvider>
