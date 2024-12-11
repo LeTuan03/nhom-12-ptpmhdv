@@ -19,11 +19,13 @@ import { useSoftUIController } from "context";
 import { collapseIconBox } from "examples/Sidenav/styles/sidenavCollapse";
 import { collapseIcon } from "examples/Sidenav/styles/sidenavCollapse";
 import MuiTable from "./data/MuiTable";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import UserDialog from "./data/UserDialog";
 import SoftConfirmDialog from "components/SoftConfirmDialog";
 import SoftInput from "components/SoftInput";
 import SearchIcon from '@mui/icons-material/Search';
+import { getAllUser } from "./user-service";
+import { appConst } from "const/app-const";
 
 function ManageUser() {
   const [controller] = useSoftUIController();
@@ -47,24 +49,14 @@ function ManageUser() {
 
   const handleSearch = async () => {
     try {
-
+      const data = await getAllUser();
+      if(data?.status === appConst.CODE.SUCCEED) {
+        handleSetState("listItems", data?.data)
+      }
     } catch (error) {
 
     }
   }
-
-  const data = [
-    {
-      id: 1,
-      name: "John",
-      age: 25
-    },
-    {
-      id: 1,
-      name: "John",
-      age: 25
-    },
-  ];
 
   const handleEdit = (item) => {
     handleSetState("item", item)
@@ -89,6 +81,10 @@ function ManageUser() {
       handleSearch();
     }
   }
+  
+  useEffect(() => {
+    handleSearch();
+  }, [])
   return (
     <DashboardLayout>
       <DashboardNavbar title='Quản lý tài khoản' subTitle="Danh sách người dùng" />
@@ -124,7 +120,7 @@ function ManageUser() {
               </SoftBox>
             </SoftBox>
             <SoftBox>
-              <MuiTable data={data} handleEdit={handleEdit} handleDelete={handleDelete} />
+              <MuiTable data={state?.listItems} handleEdit={handleEdit} handleDelete={handleDelete} />
               {openEdit && <UserDialog open={openEdit} handleClose={handleClose} handleOk={handleSearch} item={state?.item} />}
               {state?.openConfirm && <SoftConfirmDialog open={state?.openConfirm} handleClose={handleClose} handleOk={handleYesDelete} />}
             </SoftBox>

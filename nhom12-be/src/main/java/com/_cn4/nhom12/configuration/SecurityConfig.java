@@ -11,15 +11,16 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable())
+                .csrf(csrf -> csrf.disable()) // Disable CSRF for APIs
+                .cors() // Enable CORS configuration
+                .and()
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/account/register", "/account/login").permitAll()
-                        .requestMatchers("/admin/**").hasAuthority("ADMIN")
-                        .anyRequest().authenticated()
+                        .requestMatchers("/account/register", "/account/login").permitAll() // Public endpoints
+                        .requestMatchers("/admin/**").hasAuthority("ADMIN") // Secure admin endpoints
+                        .anyRequest().authenticated() // All other requests require authentication
                 )
                 .addFilterBefore(new JwtFilter(), UsernamePasswordAuthenticationFilter.class);
 

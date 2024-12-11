@@ -1,11 +1,13 @@
 package com._cn4.nhom12.services.Impl;
 
 import com._cn4.nhom12.DTO.request.AccountCreationRequest;
+import com._cn4.nhom12.DTO.request.AccountUpdateRequest;
 import com._cn4.nhom12.DTO.request.LoginRequest;
 import com._cn4.nhom12.entity.Account;
 import com._cn4.nhom12.repository.AccountRepo;
 import com._cn4.nhom12.services.AccountService;
 import com._cn4.nhom12.utility.JwtUtil;
+import io.jsonwebtoken.Claims;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -57,6 +59,42 @@ public class AccountServiceImpl implements AccountService {
         Account entity = itemExist.get();
 
         return new ResponseEntity<>(entity, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<Account> getAccountByToken(String authorizationHeader) {
+        System.out.println(authorizationHeader);
+        try {
+            // Kiểm tra và lấy token từ header
+            if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+                throw new IllegalArgumentException("Missing or invalid Authorization header");
+            }
+
+            // Loại bỏ tiền tố "Bearer " để lấy token
+            String token = authorizationHeader.substring(7);
+
+            // Xác thực và giải mã token
+            Claims claims = JwtUtil.validateToken(token);
+            if (claims == null) {
+                throw new IllegalArgumentException("Token không hợp lệ hoặc đã hết hạn.");
+            }
+
+            // Trích xuất thông tin từ token
+            String username = claims.getSubject();
+
+            // Truy vấn thông tin tài khoản từ cơ sở dữ liệu
+            Optional<Account> account = accountRepo.findByUsername(username);
+            if (account.isEmpty()) {
+                throw new IllegalArgumentException("Không tìm thấy tài khoản với username: " + username);
+            }
+
+            return ResponseEntity.ok(account.get());
+
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 
     @Override

@@ -9,6 +9,7 @@ import Paper from '@mui/material/Paper';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { IconButton } from '@mui/material';
+import SoftBadge from 'components/SoftBadge';
 
 export default function MuiTable({ data = [], handleEdit = () => { }, handleDelete = () => { } }) {
     return (
@@ -18,7 +19,7 @@ export default function MuiTable({ data = [], handleEdit = () => { }, handleDele
                     <TableRow sx={{ background: "#17c1e8" }}>
                         <TableCell sx={{ color: "#fff", width: "100px" }}>Thao tác</TableCell>
                         <TableCell sx={{ color: "#fff", width: "30px" }}>STT</TableCell>
-                        <TableCell sx={{ color: "#fff" }} align="center">Tên đang nhập</TableCell>
+                        <TableCell sx={{ color: "#fff" }} align="center">Tên đăng nhập</TableCell>
                         <TableCell sx={{ color: "#fff" }} align="center">Họ và tên</TableCell>
                         <TableCell sx={{ color: "#fff" }} align="center">Email</TableCell>
                         <TableCell sx={{ color: "#fff" }} align="center">Vai trò</TableCell>
@@ -39,10 +40,10 @@ export default function MuiTable({ data = [], handleEdit = () => { }, handleDele
                                 </IconButton>
                             </TableCell>
                             <TableCell align="center"><b>{index + 1}</b></TableCell>
-                            <TableCell align="right">{row.fat}</TableCell>
-                            <TableCell align="right">{row.carbs}</TableCell>
-                            <TableCell align="right">{row.protein}</TableCell>
-                            <TableCell align="right">{row.protein}</TableCell>
+                            <TableCell align="">{row.username}</TableCell>
+                            <TableCell align="">{row.name}</TableCell>
+                            <TableCell align="">{row.email}</TableCell>
+                            <TableCell align="center">{row.role === "ADMIN" ? <SoftBadge variant="gradient" badgeContent="ADMIN" color="success" size="xs" container /> : <SoftBadge variant="gradient" badgeContent="USER" color="secondary" size="xs" container />}</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>

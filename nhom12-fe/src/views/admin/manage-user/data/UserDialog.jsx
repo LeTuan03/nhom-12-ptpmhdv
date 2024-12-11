@@ -9,6 +9,8 @@ import SoftTypography from 'components/SoftTypography';
 import SoftInput from 'components/SoftInput';
 import { Autocomplete, Avatar, Grid, TextField } from '@mui/material';
 import PropTypes from 'prop-types';
+import { formatDateNoTime } from 'const/app-function';
+import { updateUser } from '../user-service';
 
 export default function UserDialog(props) {
     let {
@@ -35,15 +37,45 @@ export default function UserDialog(props) {
             reader.readAsDataURL(newImage);
         }
     }
+    const convertData = () => {
+        return {
+            avatar: state?.avatar,
+            birthday: state?.birthday,
+            email: state?.email,
+            gender: state?.gender,
+            name: state?.name,
+            password: state?.password,
+            phone: state?.phone,
+            role: state?.role,
+            username: state?.username,
+        }
+    }
     const handleFormSubmit = async () => {
         try {
+            const payload = convertData();
 
+            if (item?.id) {
+                const data = await updateUser(payload, item?.id);
+                console.log(data);
+            } else {
+
+            }
         } catch (error) {
 
         } finally {
+            handleClose();
             handleOk()
         }
     }
+
+    React.useEffect(() => {
+        setState((pre) => ({
+            ...pre,
+            ...item,
+            birthday: formatDateNoTime(item?.birthday),
+        }))
+    }, []);
+
     return (
         <React.Fragment>
             <Grid container>
@@ -90,7 +122,7 @@ export default function UserDialog(props) {
                                             Mật khẩu
                                         </SoftTypography>
                                     </SoftBox>
-                                    <SoftInput type="text" name="password" value={state?.password || ""} onChange={(event) => handleChange(event)} />
+                                    <SoftInput type="password" name="password" value={state?.password || ""} onChange={(event) => handleChange(event)} />
                                 </SoftBox>
                             </Grid>
                             <Grid item lg={4} md={6} sm={12}>
@@ -143,6 +175,7 @@ export default function UserDialog(props) {
                                     <Autocomplete
                                         options={["ADMIN", "USER",]}
                                         fullWidth
+                                        value={state?.role || null}
                                         renderInput={(params) => <TextField {...params} />}
                                     />
                                 </SoftBox>
@@ -162,7 +195,7 @@ export default function UserDialog(props) {
                                     style={{ width: 250, height: 250, marginTop: 10 }}
                                     sizes="large"
                                     variant="rounded"
-                                    src={"https://i.pinimg.com/474x/e7/d6/95/e7d695ac1b0058d832db8d02f9e87ede.jpg"}
+                                    src={state?.avatar || "https://i.pinimg.com/474x/e7/d6/95/e7d695ac1b0058d832db8d02f9e87ede.jpg"}
                                 />
                             </Grid>
                         </Grid>

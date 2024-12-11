@@ -6,7 +6,6 @@ import com._cn4.nhom12.entity.TourType;
 import com._cn4.nhom12.repository.DestinationRepo;
 import com._cn4.nhom12.repository.TourTypeRepo;
 import com._cn4.nhom12.services.DestinationService;
-import com._cn4.nhom12.services.TourTypeService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
