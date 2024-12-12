@@ -68,6 +68,8 @@ public class PlaceServiceImpl implements PlaceService {
                     booking.setNumberOfPeople(bookingDto.getNumberOfPeople());
                     booking.setStartDate(bookingDto.getStartDate());
                     booking.setPlaceId(place.getId());
+                    booking.setBuyer(bookingDto.getBuyer());
+                    booking.setStatusRoom(bookingDto.getStatusRoom());
                 } else {
                     booking = createNewBooking(place, bookingDto);
                 }
@@ -91,6 +93,8 @@ public class PlaceServiceImpl implements PlaceService {
         booking.setNumberOfPeople(bookingDto.getNumberOfPeople());
         booking.setStartDate(bookingDto.getStartDate());
         booking.setPlaceId(place.getId());
+        booking.setBuyer(bookingDto.getBuyer());
+        booking.setStatusRoom(bookingDto.getStatusRoom());
         return booking;
     }
 

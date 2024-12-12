@@ -38,4 +38,11 @@ public class Booking {
 
     @Column(name = "specialRequests")
     private String specialRequests;
+
+    @ManyToOne
+    @JoinColumn(name = "buyerId")
+    private Account buyer;
+
+    @Column(name = "statusRoom")
+    private String statusRoom;
 }
