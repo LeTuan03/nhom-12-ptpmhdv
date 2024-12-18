@@ -14,3 +14,6 @@ export const createUser = async (payload) => {
 export const updateUser = async (payload, id) => {
   return axios.put(URL + "/" + id, payload);
 };
+export const deleteUser = async (id) => {
+  return axios.delete(URL + "/" + id);
+};
