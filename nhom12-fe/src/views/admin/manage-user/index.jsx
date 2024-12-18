@@ -24,7 +24,7 @@ import UserDialog from "./data/UserDialog";
 import SoftConfirmDialog from "components/SoftConfirmDialog";
 import SoftInput from "components/SoftInput";
 import SearchIcon from '@mui/icons-material/Search';
-import { getAllUser } from "./user-service";
+import { deleteUser, getAllUser } from "./user-service";
 import { appConst } from "const/app-const";
 
 function ManageUser() {
@@ -73,7 +73,7 @@ function ManageUser() {
 
   const handleYesDelete = async () => {
     try {
-
+      const data = await deleteUser(state.item?.id);
     } catch (error) {
 
     } finally {
