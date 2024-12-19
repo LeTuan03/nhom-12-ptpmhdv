@@ -6,16 +6,14 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { IconButton } from "@mui/material";
-import SoftBadge from "components/SoftBadge";
-import { appConst } from "../../../../const/app-const";
+import SoftInput from "../../../../components/SoftInput";
 
-export default function MuiTable({
+export default function MuiTableDialog({
   data = [],
-  handleEdit = () => {},
   handleDelete = () => {},
+  handleChange = () => {},
 }) {
   const [selectedRowIndex, setSelectedRowIndex] = React.useState(null);
 
@@ -23,7 +21,7 @@ export default function MuiTable({
     setSelectedRowIndex(index);
   };
   return (
-    <TableContainer component={Paper} sx={{ scale: "0.92" }}>
+    <TableContainer component={Paper}>
       <Table aria-label="simple table" size="small">
         <TableHead>
           <TableRow sx={{ background: "#17c1e8" }}>
@@ -32,16 +30,7 @@ export default function MuiTable({
             </TableCell>
             <TableCell sx={{ color: "#fff", width: "30px" }}>STT</TableCell>
             <TableCell sx={{ color: "#fff" }} align="center">
-              Tên đăng nhập
-            </TableCell>
-            <TableCell sx={{ color: "#fff" }} align="center">
-              Họ và tên
-            </TableCell>
-            <TableCell sx={{ color: "#fff" }} align="center">
-              Email
-            </TableCell>
-            <TableCell sx={{ color: "#fff" }} align="center">
-              Vai trò
+              Tên tỉnh/thành phố
             </TableCell>
           </TableRow>
         </TableHead>
@@ -59,7 +48,7 @@ export default function MuiTable({
           ) : (
             data.map((row, index) => (
               <TableRow
-                key={row.name}
+                key={index}
                 onClick={() => handleRowClick(index)}
                 sx={{
                   "&:last-child td, &:last-child th": { border: 0 },
@@ -72,16 +61,8 @@ export default function MuiTable({
                   <IconButton
                     aria-label="delete"
                     size="small"
-                    color="info"
-                    onClick={() => handleEdit(row)}
-                  >
-                    <EditIcon fontSize="inherit" />
-                  </IconButton>
-                  <IconButton
-                    aria-label="delete"
-                    size="small"
                     color="error"
-                    onClick={() => handleDelete(row)}
+                    onClick={() => handleDelete(index)}
                   >
                     <DeleteIcon fontSize="inherit" />
                   </IconButton>
@@ -89,35 +70,13 @@ export default function MuiTable({
                 <TableCell align="center">
                   <b>{index + 1}</b>
                 </TableCell>
-                <TableCell align="">{row.username}</TableCell>
-                <TableCell align="">{row.name}</TableCell>
-                <TableCell align="">{row.email}</TableCell>
-                <TableCell align="center">
-                  {row.role === appConst.ROLE.ADMIN.name ? (
-                    <SoftBadge
-                      variant="gradient"
-                      badgeContent={appConst.ROLE.ADMIN.name}
-                      color="success"
-                      size="xs"
-                      container
-                    />
-                  ) : row.role === appConst.ROLE.SUPPER_ADMIN.name ? (
-                    <SoftBadge
-                      variant="gradient"
-                      badgeContent={appConst.ROLE.SUPPER_ADMIN.name}
-                      color="info"
-                      size="xs"
-                      container
-                    />
-                  ) : (
-                    <SoftBadge
-                      variant="gradient"
-                      badgeContent="USER"
-                      color="secondary"
-                      size="xs"
-                      container
-                    />
-                  )}
+                <TableCell align="">
+                  <SoftInput
+                    type="text"
+                    name="name"
+                    value={row?.name || ""}
+                    onChange={(event) => handleChange(event, index)}
+                  />
                 </TableCell>
               </TableRow>
             ))

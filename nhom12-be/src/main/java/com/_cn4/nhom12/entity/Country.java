@@ -26,6 +26,9 @@ public class Country {
     @Column(name = "continentsId")
     String continentsId;
 
+    @Column(name = "continentsName")
+    String continentsName;
+
     @OneToMany(mappedBy = "countryId", cascade = CascadeType.ALL, orphanRemoval = true)
     List<City> cities;
 

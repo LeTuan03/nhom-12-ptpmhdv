@@ -9,5 +9,6 @@ import java.util.List;
 public class CountryRequest {
     private String name;
     private String continentsId;
+    private String continentsName;
     private List<City> cities;
 }

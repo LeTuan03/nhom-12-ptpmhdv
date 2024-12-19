@@ -16,7 +16,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-@RequestMapping("/api/countries")
+@RequestMapping("/countries")
 public class CountryController {
     @Autowired
     private CountryService countryService;

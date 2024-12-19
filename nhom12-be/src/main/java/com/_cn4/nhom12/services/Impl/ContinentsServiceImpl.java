@@ -24,14 +24,23 @@ public class ContinentsServiceImpl implements ContinentsService {
 
     private void setValueDtos(Continents entity, Continents request) {
         if (!Objects.isNull(request.getId())) {
-
             entity.setId(request.getId());
         }
         entity.setName(request.getName());
-        if(Objects.nonNull(request.getCountries()) && Objects.nonNull(entity.getId())) {
-            entity.setCountries(request.getCountries());
+
+        if (Objects.nonNull(request.getCountries()) && Objects.nonNull(entity.getId())) {
+            entity.getCountries().removeIf(country -> !request.getCountries().contains(country));
+
+            for (Country country : request.getCountries()) {
+                if (!entity.getCountries().contains(country)) {
+                    entity.getCountries().add(country);
+                }
+            }
+        } else {
+            entity.getCountries().clear();
         }
     }
+
 
     @Override
     public List<Continents> getAllContinents() {
@@ -42,9 +51,8 @@ public class ContinentsServiceImpl implements ContinentsService {
     @Override
     public ResponseEntity<Continents> createContinents(Continents request) {
         Continents entity = new Continents();
-
-        this.setValueDtos(entity, request);
-
+        entity.setName(request.getName());
+//        this.setValueDtos(entity, request);
         continentsRepo.save(entity);
         return new ResponseEntity<>(continentsRepo.save(entity), HttpStatus.OK);
     }

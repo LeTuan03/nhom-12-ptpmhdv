@@ -7,6 +7,7 @@ import com._cn4.nhom12.repository.CityRepository;
 import com._cn4.nhom12.repository.CountryRepository;
 import com._cn4.nhom12.services.CountryService;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 
@@ -38,6 +40,7 @@ public class CountryServiceImpl implements CountryService {
         Country entity = new Country();
         entity.setName(request.getName());
         entity.setContinentsId(request.getContinentsId());
+        entity.setContinentsName(request.getContinentsName());
 
         Country savedCountry = countryRepository.save(entity);
 
@@ -76,56 +79,46 @@ public class CountryServiceImpl implements CountryService {
         }
         Country existingCountry = optionalCountry.get();
 
-
         existingCountry.setName(request.getName());
         existingCountry.setContinentsId(request.getContinentsId());
+        existingCountry.setContinentsName(request.getContinentsName());
 
+        Country savedCountry = countryRepository.save(existingCountry);
 
+        List<City> existingCities = new ArrayList<>(existingCountry.getCities());
         List<City> updatedCities = new ArrayList<>();
 
         for (City updatedCity : request.getCities()) {
-            if (updatedCity.getId() != null) {
-
-                City existingCity = existingCountry.getCities().stream()
+            if (Objects.nonNull(updatedCity.getId())) {
+                City existingCity = existingCities.stream()
                         .filter(city -> city.getId().equals(updatedCity.getId()))
                         .findFirst()
                         .orElse(null);
 
                 if (existingCity != null) {
-
                     existingCity.setName(updatedCity.getName());
                     updatedCities.add(existingCity);
-                } else {
-
-                    City newCity = new City();
-                    newCity.setName(updatedCity.getName());
-                    newCity.setCountryId(existingCountry.getId());
-                    updatedCities.add(newCity);
                 }
             } else {
-
                 City newCity = new City();
                 newCity.setName(updatedCity.getName());
-                newCity.setCountryId(existingCountry.getId());
+                newCity.setCountryId(savedCountry.getId());
                 updatedCities.add(newCity);
             }
         }
 
+        List<City> citiesToRemove = existingCities.stream()
+                .filter(city -> updatedCities.stream().noneMatch(updatedCity ->
+                        updatedCity.getId() != null && updatedCity.getId().equals(city.getId())))
+                .toList();
 
-        existingCountry.getCities().removeIf(city ->
-                updatedCities.stream().noneMatch(updatedCity ->
-                        updatedCity.getId() != null && updatedCity.getId().equals(city.getId())
-                )
-        );
-
+        cityRepository.deleteAll(citiesToRemove);
 
         List<City> savedCities = cityRepository.saveAll(updatedCities);
 
+        savedCountry.setCities(savedCities);
 
-        existingCountry.setCities(savedCities);
-
-
-        return countryRepository.save(existingCountry);
+        return savedCountry;
     }
 
 }
