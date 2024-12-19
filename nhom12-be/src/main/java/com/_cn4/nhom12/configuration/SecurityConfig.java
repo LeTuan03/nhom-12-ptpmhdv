@@ -18,8 +18,8 @@ public class SecurityConfig {
                 .cors() // Enable CORS configuration
                 .and()
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/account/register", "/account/login").permitAll() // Public endpoints
-                        .requestMatchers("/admin/**").hasAuthority("ADMIN") // Secure admin endpoints
+                        .requestMatchers("/account/register", "/account/login", "/account/get-info").permitAll() // Public endpoints
+                        .requestMatchers("/**").hasAnyAuthority("ADMIN", "SUPPER_ADMIN") // Secure admin endpoints
                         .anyRequest().authenticated() // All other requests require authentication
                 )
                 .addFilterBefore(new JwtFilter(), UsernamePasswordAuthenticationFilter.class);
