@@ -5,7 +5,10 @@ const { BASE_URL } = require("const/app-config");
 const URL = BASE_URL + "/account";
 
 export const login = (payload) => {
-  return axios.post(URL + "/login", payload);
+  return axios.post(URL + "/login", payload)
+
+};export const register = (payload) => {
+  return axios.post(URL + "/register", payload);
 };
 
 export const getUser = () => {

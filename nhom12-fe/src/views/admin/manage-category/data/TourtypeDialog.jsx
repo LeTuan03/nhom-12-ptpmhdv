@@ -7,11 +7,11 @@ import DialogTitle from "@mui/material/DialogTitle";
 import SoftBox from "components/SoftBox";
 import SoftTypography from "components/SoftTypography";
 import SoftInput from "components/SoftInput";
-import { Autocomplete, Avatar, Grid } from "@mui/material";
+import { Grid } from "@mui/material";
 import PropTypes from "prop-types";
-import { createContinents, updateContinents } from "../continents-service";
+import { createTourtypes, updateTourtypes } from "../tourtype-service";
 
-export default function ContinentsDialog(props) {
+export default function TourtypeDialog(props) {
   let { open, item, handleClose, handleOk = () => {} } = props;
   const [state, setState] = React.useState({});
 
@@ -24,7 +24,6 @@ export default function ContinentsDialog(props) {
     return {
       id: state?.id,
       name: state?.name,
-      countries: state?.countries || [],
     };
   };
   const handleFormSubmit = async () => {
@@ -32,10 +31,10 @@ export default function ContinentsDialog(props) {
       const payload = convertData();
 
       if (item?.id) {
-        const data = await updateContinents(payload);
+        const data = await updateTourtypes(payload, item?.id);
         console.log(data);
       } else {
-        const data = await createContinents(payload);
+        const data = await createTourtypes(payload);
         console.log(data);
       }
     } catch (error) {
@@ -68,7 +67,7 @@ export default function ContinentsDialog(props) {
             },
           }}
         >
-          <DialogTitle>Thêm mới/Cập nhật thông tin lục địa</DialogTitle>
+          <DialogTitle>Thêm mới/Cập nhật thông tin loại hình du lịch</DialogTitle>
           <DialogContent>
             <Grid container spacing={2}>
               <Grid item lg={12} md={12} sm={12}>
@@ -79,7 +78,7 @@ export default function ContinentsDialog(props) {
                       variant="caption"
                       fontWeight="bold"
                     >
-                      Tên lục địa
+                      Tên loại hình du lịch
                     </SoftTypography>
                   </SoftBox>
                   <SoftInput
@@ -117,7 +116,7 @@ export default function ContinentsDialog(props) {
     </React.Fragment>
   );
 }
-ContinentsDialog.prototype = {
+TourtypeDialog.prototype = {
   open: PropTypes.string.isRequired,
   handleClose: PropTypes.func.isRequired,
   item: PropTypes.object,

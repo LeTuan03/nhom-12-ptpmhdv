@@ -30,7 +30,7 @@ export default function MuiTable({
             </TableCell>
             <TableCell sx={{ color: "#fff", width: "30px" }}>STT</TableCell>
             <TableCell sx={{ color: "#fff" }} align="center">
-              Tên lục địa
+              Tên loại hình du lịch
             </TableCell>
           </TableRow>
         </TableHead>

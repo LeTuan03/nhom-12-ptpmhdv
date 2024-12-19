@@ -12,6 +12,7 @@ import PropTypes from "prop-types";
 import { formatDateNoTime } from "const/app-function";
 import { createUser, updateUser } from "../user-service";
 import { appConst } from "../../../../const/app-const";
+import { register } from "../../../../layouts/authentication/sign-in/sign-service";
 
 export default function UserDialog(props) {
   let { open, item, handleClose, handleOk = () => {} } = props;
@@ -58,7 +59,7 @@ export default function UserDialog(props) {
         const data = await updateUser(payload, item?.id);
         console.log(data);
       } else {
-        const data = await createUser(payload);
+        const data = await register(payload);
         console.log(data);
       }
     } catch (error) {

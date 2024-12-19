@@ -20,7 +20,7 @@ function NotFound() {
     >
      <SoftBox mt={4} mb={1}>
         <SoftButton variant="gradient" color="dark" fullWidth>
-          <Link to={"/home"}>Back to home</Link>
+          <Link to={"/"}>Back to home</Link>
         </SoftButton>
       </SoftBox>
     </BlankLayout>

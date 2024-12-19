@@ -20,14 +20,14 @@ import { collapseIconBox } from "examples/Sidenav/styles/sidenavCollapse";
 import { collapseIcon } from "examples/Sidenav/styles/sidenavCollapse";
 import MuiTable from "./data/MuiTable";
 import { useEffect, useState } from "react";
-import ContinentsDialog from "./data/ContinentsDialog";
+import TourtypeDialog from "./data/TourtypeDialog";
 import SoftConfirmDialog from "components/SoftConfirmDialog";
 import SoftInput from "components/SoftInput";
 import SearchIcon from '@mui/icons-material/Search';
-import { deleteContinents, getAllContinents } from "./continents-service";
+import { deleteTourtypes, getAllTourtypes } from "./tourtype-service";
 import { appConst } from "const/app-const";
 
-function ManageUser() {
+function ManageTourtype() {
   const [controller] = useSoftUIController();
   const { miniSidenav, transparentSidenav, sidenavColor } = controller;
   const [openEdit, setOpenEdit] = useState(false);
@@ -49,7 +49,7 @@ function ManageUser() {
 
   const handleSearch = async () => {
     try {
-      const data = await getAllContinents();
+      const data = await getAllTourtypes();
       if(data?.status === appConst.CODE.SUCCEED) {
         handleSetState("listItems", data?.data)
       }
@@ -73,7 +73,7 @@ function ManageUser() {
 
   const handleYesDelete = async () => {
     try {
-      const data = await deleteContinents(state.item?.id);
+      const data = await deleteTourtypes(state.item?.id);
     } catch (error) {
 
     } finally {
@@ -121,7 +121,7 @@ function ManageUser() {
             </SoftBox>
             <SoftBox>
               <MuiTable data={state?.listItems} handleEdit={handleEdit} handleDelete={handleDelete} />
-              {openEdit && <ContinentsDialog open={openEdit} handleClose={handleClose} handleOk={handleSearch} item={state?.item} />}
+              {openEdit && <TourtypeDialog open={openEdit} handleClose={handleClose} handleOk={handleSearch} item={state?.item} />}
               {state?.openConfirm && <SoftConfirmDialog open={state?.openConfirm} handleClose={handleClose} handleOk={handleYesDelete} />}
             </SoftBox>
           </Card>
@@ -133,4 +133,4 @@ function ManageUser() {
   );
 }
 
-export default ManageUser;
+export default ManageTourtype;

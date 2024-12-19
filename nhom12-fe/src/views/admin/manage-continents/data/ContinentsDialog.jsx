@@ -24,7 +24,7 @@ export default function ContinentsDialog(props) {
     return {
       id: state?.id,
       name: state?.name,
-      countries: state?.countries,
+      countries: state?.countries || [],
     };
   };
   const handleFormSubmit = async () => {

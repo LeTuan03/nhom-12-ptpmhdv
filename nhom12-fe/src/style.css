@@ -17,3 +17,6 @@
 .MuiGrid-item {
   padding-top: 5px !important;
 }
+.MuiPaper-root {
+  border-radius: 0.5rem !important;
+}

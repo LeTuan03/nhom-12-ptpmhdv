@@ -20,11 +20,11 @@ import { collapseIconBox } from "examples/Sidenav/styles/sidenavCollapse";
 import { collapseIcon } from "examples/Sidenav/styles/sidenavCollapse";
 import MuiTable from "./data/MuiTable";
 import { useEffect, useState } from "react";
-import UserDialog from "./data/UserDialog";
+import ContinentsDialog from "./data/ContinentsDialog";
 import SoftConfirmDialog from "components/SoftConfirmDialog";
 import SoftInput from "components/SoftInput";
 import SearchIcon from '@mui/icons-material/Search';
-import { deleteUser, getAllUser } from "./user-service";
+import { deleteContinents, getAllContinents } from "./continents-service";
 import { appConst } from "const/app-const";
 
 function ManageUser() {
@@ -49,7 +49,7 @@ function ManageUser() {
 
   const handleSearch = async () => {
     try {
-      const data = await getAllUser();
+      const data = await getAllContinents();
       if(data?.status === appConst.CODE.SUCCEED) {
         handleSetState("listItems", data?.data)
       }
@@ -73,7 +73,7 @@ function ManageUser() {
 
   const handleYesDelete = async () => {
     try {
-      const data = await deleteUser(state.item?.id);
+      const data = await deleteContinents(state.item?.id);
     } catch (error) {
 
     } finally {
@@ -121,7 +121,7 @@ function ManageUser() {
             </SoftBox>
             <SoftBox>
               <MuiTable data={state?.listItems} handleEdit={handleEdit} handleDelete={handleDelete} />
-              {openEdit && <UserDialog open={openEdit} handleClose={handleClose} handleOk={handleSearch} item={state?.item} />}
+              {openEdit && <ContinentsDialog open={openEdit} handleClose={handleClose} handleOk={handleSearch} item={state?.item} />}
               {state?.openConfirm && <SoftConfirmDialog open={state?.openConfirm} handleClose={handleClose} handleOk={handleYesDelete} />}
             </SoftBox>
           </Card>

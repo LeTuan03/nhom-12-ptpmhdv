@@ -34,6 +34,15 @@ function SignIn() {
       const data = await getUser();
       if (data.status === appConst.CODE.SUCCEED) {
         sessionStorage.setItem("current-user", JSON.stringify(data?.data));
+        if (
+          [appConst.ROLE.SUPPER_ADMIN.name, appConst.ROLE.ADMIN.name].includes(
+            data?.data?.role
+          )
+        ) {
+          navigate("/dashboard");
+        } else {
+          navigate("/");
+        }
       }
     } catch (error) {
       console.error("Error during login:", error);

@@ -20,11 +20,11 @@ import { collapseIconBox } from "examples/Sidenav/styles/sidenavCollapse";
 import { collapseIcon } from "examples/Sidenav/styles/sidenavCollapse";
 import MuiTable from "./data/MuiTable";
 import { useEffect, useState } from "react";
-import ContinentsDialog from "./data/ContinentsDialog";
+import CountriesDialog from "./data/CountriesDialog";
 import SoftConfirmDialog from "components/SoftConfirmDialog";
 import SoftInput from "components/SoftInput";
 import SearchIcon from '@mui/icons-material/Search';
-import { deleteContinents, getAllContinents } from "./continents-service";
+import { deleteCountries, getAllCountries } from "./countries-service";
 import { appConst } from "const/app-const";
 
 function ManageCountries() {
@@ -49,7 +49,7 @@ function ManageCountries() {
 
   const handleSearch = async () => {
     try {
-      const data = await getAllContinents();
+      const data = await getAllCountries();
       if(data?.status === appConst.CODE.SUCCEED) {
         handleSetState("listItems", data?.data)
       }
@@ -59,11 +59,10 @@ function ManageCountries() {
   }
 
   const handleEdit = (item) => {
-    handleSetState("item", item)
+    handleSetState("item",  item );
     console.log(item);
-    handleOpenDialog()
-
-  }
+    handleOpenDialog();
+  };
 
   const handleDelete = (item) => {
     handleSetState("item", item)
@@ -73,7 +72,7 @@ function ManageCountries() {
 
   const handleYesDelete = async () => {
     try {
-      const data = await deleteContinents(state.item?.id);
+      const data = await deleteCountries(state.item?.id);
     } catch (error) {
 
     } finally {
@@ -87,7 +86,7 @@ function ManageCountries() {
   }, [])
   return (
     <DashboardLayout>
-      <DashboardNavbar title='Quản lý châu lục' subTitle="Danh sách châu lục" />
+      <DashboardNavbar title='Quản lý địa chỉ' subTitle="Danh sách địa chỉ" />
       <SoftBox py={3}>
         <SoftBox mb={3}>
           <Card>
@@ -121,7 +120,7 @@ function ManageCountries() {
             </SoftBox>
             <SoftBox>
               <MuiTable data={state?.listItems} handleEdit={handleEdit} handleDelete={handleDelete} />
-              {openEdit && <ContinentsDialog open={openEdit} handleClose={handleClose} handleOk={handleSearch} item={state?.item} />}
+              {openEdit && <CountriesDialog open={openEdit} handleClose={handleClose} handleOk={handleSearch} item={state?.item} />}
               {state?.openConfirm && <SoftConfirmDialog open={state?.openConfirm} handleClose={handleClose} handleOk={handleYesDelete} />}
             </SoftBox>
           </Card>

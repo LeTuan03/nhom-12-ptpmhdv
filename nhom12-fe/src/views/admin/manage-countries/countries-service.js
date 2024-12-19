@@ -2,18 +2,18 @@ import axios from "utils/axios";
 
 const { BASE_URL } = require("const/app-config");
 
-const URL = BASE_URL + "/continents";
+const URL = BASE_URL + "/countries";
 
-export const getAllContinents = async () => {
+export const getAllCountries = async () => {
   return axios(URL);
 };
 
-export const createContinents  = async (payload) => {
-  return axios.post(URL + "", payload);
+export const createCountries  = async (payload) => {
+  return axios.post(URL + "/with-cities", payload);
 };
-export const updateContinents  = async (payload) => {
-  return axios.put(URL + "" , payload);
+export const updateCountries  = async (payload, id) => {
+  return axios.put(URL + `/${id}/with-cities` , payload);
 };
-export const deleteContinents  = async (id) => {
+export const deleteCountries  = async (id) => {
   return axios.delete(URL + "/" + id);
 };

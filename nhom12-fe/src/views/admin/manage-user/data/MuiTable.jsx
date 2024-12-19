@@ -17,6 +17,11 @@ export default function MuiTable({
   handleEdit = () => {},
   handleDelete = () => {},
 }) {
+  const [selectedRowIndex, setSelectedRowIndex] = React.useState(null);
+
+  const handleRowClick = (index) => {
+    setSelectedRowIndex(index);
+  };
   return (
     <TableContainer component={Paper} sx={{ scale: "0.92" }}>
       <Table aria-label="simple table" size="small">
@@ -41,64 +46,82 @@ export default function MuiTable({
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.map((row, index) => (
-            <TableRow
-              key={row.name}
-              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-            >
-              <TableCell>
-                <IconButton
-                  aria-label="delete"
-                  size="small"
-                  color="info"
-                  onClick={() => handleEdit(row)}
-                >
-                  <EditIcon fontSize="inherit" />
-                </IconButton>
-                <IconButton
-                  aria-label="delete"
-                  size="small"
-                  color="error"
-                  onClick={() => handleDelete(row)}
-                >
-                  <DeleteIcon fontSize="inherit" />
-                </IconButton>
-              </TableCell>
-              <TableCell align="center">
-                <b>{index + 1}</b>
-              </TableCell>
-              <TableCell align="">{row.username}</TableCell>
-              <TableCell align="">{row.name}</TableCell>
-              <TableCell align="">{row.email}</TableCell>
-              <TableCell align="center">
-                {row.role === appConst.ROLE.ADMIN.name ? (
-                  <SoftBadge
-                    variant="gradient"
-                    badgeContent={appConst.ROLE.ADMIN.name}
-                    color="success"
-                    size="xs"
-                    container
-                  />
-                ) : row.role === appConst.ROLE.SUPPER_ADMIN.name ? (
-                  <SoftBadge
-                    variant="gradient"
-                    badgeContent={appConst.ROLE.SUPPER_ADMIN.name}
-                    color="info"
-                    size="xs"
-                    container
-                  />
-                ) : (
-                  <SoftBadge
-                    variant="gradient"
-                    badgeContent="USER"
-                    color="secondary"
-                    size="xs"
-                    container
-                  />
-                )}
+          {data?.length <= 0 ? (
+            <TableRow>
+              <TableCell
+                sx={{ textAlign: "center", height: "300px" }}
+                colSpan={9}
+                align=""
+              >
+                Không có bản ghi nào hiển thị
               </TableCell>
             </TableRow>
-          ))}
+          ) : (
+            data.map((row, index) => (
+              <TableRow
+                key={row.name}
+                onClick={() => handleRowClick(index)}
+                sx={{
+                  "&:last-child td, &:last-child th": { border: 0 },
+                  "&:hover": { backgroundColor: "#f5f5f5", cursor: "pointer" }, // Hiệu ứng hover
+                  backgroundColor:
+                    selectedRowIndex === index ? "#e4f6fb" : "inherit",
+                }}
+              >
+                <TableCell>
+                  <IconButton
+                    aria-label="delete"
+                    size="small"
+                    color="info"
+                    onClick={() => handleEdit(row)}
+                  >
+                    <EditIcon fontSize="inherit" />
+                  </IconButton>
+                  <IconButton
+                    aria-label="delete"
+                    size="small"
+                    color="error"
+                    onClick={() => handleDelete(row)}
+                  >
+                    <DeleteIcon fontSize="inherit" />
+                  </IconButton>
+                </TableCell>
+                <TableCell align="center">
+                  <b>{index + 1}</b>
+                </TableCell>
+                <TableCell align="">{row.username}</TableCell>
+                <TableCell align="">{row.name}</TableCell>
+                <TableCell align="">{row.email}</TableCell>
+                <TableCell align="center">
+                  {row.role === appConst.ROLE.ADMIN.name ? (
+                    <SoftBadge
+                      variant="gradient"
+                      badgeContent={appConst.ROLE.ADMIN.name}
+                      color="success"
+                      size="xs"
+                      container
+                    />
+                  ) : row.role === appConst.ROLE.SUPPER_ADMIN.name ? (
+                    <SoftBadge
+                      variant="gradient"
+                      badgeContent={appConst.ROLE.SUPPER_ADMIN.name}
+                      color="info"
+                      size="xs"
+                      container
+                    />
+                  ) : (
+                    <SoftBadge
+                      variant="gradient"
+                      badgeContent="USER"
+                      color="secondary"
+                      size="xs"
+                      container
+                    />
+                  )}
+                </TableCell>
+              </TableRow>
+            ))
+          )}
         </TableBody>
       </Table>
     </TableContainer>
