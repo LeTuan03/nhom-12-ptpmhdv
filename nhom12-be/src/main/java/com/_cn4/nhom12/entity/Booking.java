@@ -25,6 +25,7 @@ public class Booking {
     @Column(name = "email")
     private String email;
 
+    @Column(name = "placeId")
     private String placeId;
 
     @Column(name = "startDate")
