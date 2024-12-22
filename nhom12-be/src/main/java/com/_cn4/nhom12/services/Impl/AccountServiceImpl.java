@@ -116,6 +116,9 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public ResponseEntity<Account> register(AccountCreationRequest request) {
+        if (accountRepo.existsByEmail(request.getEmail())) {
+            throw new RuntimeException("Email đã tồn tại");
+        }
         Account entity = new Account();
         this.setValueDtos(entity, request);
         entity.setPassword(passwordEncoder.encode(request.getPassword()));

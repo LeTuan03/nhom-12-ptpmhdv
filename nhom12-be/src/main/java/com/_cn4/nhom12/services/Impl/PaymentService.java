@@ -15,6 +15,9 @@ public class PaymentService {
     private final VNPAYConfig vnPayConfig;
 
     public PaymentDTO.VNPayResponse createVnPayPayment(HttpServletRequest request) {
+        String customerId = request.getParameter("customerId");
+        String orderId = request.getParameter("orderId");
+
         long amount = Integer.parseInt(request.getParameter("amount")) * 100L;
         String bankCode = request.getParameter("bankCode");
         Map<String, String> vnpParamsMap = vnPayConfig.getVNPayConfig();
@@ -23,6 +26,9 @@ public class PaymentService {
             vnpParamsMap.put("vnp_BankCode", bankCode);
         }
         vnpParamsMap.put("vnp_IpAddr", VNPayUtil.getIpAddress(request));
+
+        vnpParamsMap.put("vnp_OrderInfo", "customerId=" + customerId + "&orderId=" + orderId);
+
         //build query url
         String queryUrl = VNPayUtil.getPaymentURL(vnpParamsMap, true);
         String hashData = VNPayUtil.getPaymentURL(vnpParamsMap, false);
