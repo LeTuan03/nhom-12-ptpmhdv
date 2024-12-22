@@ -14,6 +14,7 @@ import ManageUser from "views/admin/manage-user";
 import ManageContinents from "views/admin/manage-continents";
 import ManageCountries from "views/admin/manage-countries";
 import ManageTourType from "views/admin/manage-category";
+import Destination from "views/client/destination";
 
 
 // Soft UI Dashboard React icons
@@ -157,6 +158,16 @@ const routes = [
     route: "/",
     icon: <SpaceShip size="12px" />,
     component: <Home />,
+    noCollapse: true,    
+    isMenu: false,
+  },
+  {
+    type: "collapse",
+    name: "Destination",
+    key: "destination",
+    route: "/destination",
+    icon: <SpaceShip size="12px" />,
+    component: <Destination />,
     noCollapse: true,    
     isMenu: false,
   },
