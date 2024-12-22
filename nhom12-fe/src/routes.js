@@ -26,6 +26,7 @@ import SpaceShip from "examples/Icons/SpaceShip";
 import CustomerSupport from "examples/Icons/CustomerSupport";
 import CreditCard from "examples/Icons/CreditCard";
 import Cube from "examples/Icons/Cube";
+import ManageDestination from "./views/admin/manage-destination";
 
 const routes = [
   {
@@ -38,7 +39,17 @@ const routes = [
     noCollapse: true,    
     isMenu: true,
   },
-  { type: "title", title: "Quản lý nôi dung", key: "sumary-content", isMenu: true, },
+  { type: "title", title: "Quản lý nội dung", key: "sumary-content", isMenu: true, },
+  {
+    type: "collapse",
+    name: "Quản lý điểm đến",
+    key: "manage-destination",
+    route: "/manage-destination",
+    icon: <Office size="12px" />,
+    component: <ManageDestination />,
+    noCollapse: true,
+    isMenu: true,
+  },
   { type: "title", title: "Danh mục", key: "sumary", isMenu: true, },
   {
     type: "collapse",
@@ -47,7 +58,7 @@ const routes = [
     route: "/manage-user",
     icon: <Office size="12px" />,
     component: <ManageUser />,
-    noCollapse: true,    
+    noCollapse: true,
     isMenu: true,
   },
   {
