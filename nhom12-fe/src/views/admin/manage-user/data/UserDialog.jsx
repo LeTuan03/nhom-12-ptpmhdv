@@ -13,6 +13,7 @@ import { formatDateNoTime } from "const/app-function";
 import { createUser, updateUser } from "../user-service";
 import { appConst } from "../../../../const/app-const";
 import { register } from "../../../../layouts/authentication/sign-in/sign-service";
+import { toast } from "react-toastify";
 
 export default function UserDialog(props) {
   let { open, item, handleClose, handleOk = () => {} } = props;
@@ -34,6 +35,8 @@ export default function UserDialog(props) {
       const reader = new FileReader();
       reader.onload = () => {
         console.log(reader.result);
+
+        setState((pre) => ({ ...pre, ["avatar"]: reader.result }));
       };
       reader.readAsDataURL(newImage);
     }
@@ -61,8 +64,10 @@ export default function UserDialog(props) {
       } else {
         const data = await register(payload);
         console.log(data);
+        toast.error("Đăng ký tài khoản thành công")
       }
     } catch (error) {
+      toast.error(error?.response?.data?.message)
     } finally {
       handleClose();
       handleOk();

@@ -26,6 +26,8 @@ import SoftInput from "components/SoftInput";
 import SearchIcon from '@mui/icons-material/Search';
 import { deleteUser, getAllUser } from "./user-service";
 import { appConst } from "const/app-const";
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 function ManageUser() {
   const [controller] = useSoftUIController();
@@ -129,6 +131,7 @@ function ManageUser() {
       </SoftBox>
 
       <Footer />
+      <ToastContainer autoClose={3000}/>
     </DashboardLayout>
   );
 }

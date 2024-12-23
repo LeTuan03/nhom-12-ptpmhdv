@@ -30,7 +30,7 @@ function ClientLayout({ color, header, title, description, image, top, children 
       >
         <Grid item xs={12}>
           <SoftBox mt={top}>
-            <SoftBox p={3}>{children}</SoftBox>
+            <SoftBox p={0}>{children}</SoftBox>
           </SoftBox>
         </Grid>
         <Grid item xs={12} md={5}>

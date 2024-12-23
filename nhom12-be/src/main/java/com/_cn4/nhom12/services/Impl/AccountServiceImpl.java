@@ -18,6 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -99,6 +100,9 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public ResponseEntity<Account> updateAccount(AccountCreationRequest request, String id) {
+        if(Objects.isNull(request.getUsername()) || request.getUsername() == "") {
+            throw new RuntimeException("Vui lòng nhập đầy đủ thông tin");
+        }
         Optional<Account> itemExist = accountRepo.findById(id);
         Account entity = itemExist.get();
         this.setValueDtos(entity, request);
@@ -116,8 +120,15 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public ResponseEntity<Account> register(AccountCreationRequest request) {
+        System.out.println(request.getUsername());
+        if(Objects.isNull(request.getUsername()) || request.getUsername() == "") {
+            throw new RuntimeException("Vui lòng nhập đầy đủ thông tin");
+        }
         if (accountRepo.existsByEmail(request.getEmail())) {
             throw new RuntimeException("Email đã tồn tại");
+        }
+        if (accountRepo.existsByUsername(request.getUsername())) {
+            throw new RuntimeException("Username đã tồn tại");
         }
         Account entity = new Account();
         this.setValueDtos(entity, request);
