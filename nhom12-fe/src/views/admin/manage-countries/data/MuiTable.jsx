@@ -51,7 +51,7 @@ export default function MuiTable({
                 key={row.name}
                 onClick={() => handleRowClick(index)}
                 sx={{
-                  "&:last-child td, &:last-child th": { border: 0 },
+                  "& td, & th": { border: "1px solid #f5f5f5" },
                   "&:hover": { backgroundColor: "#f5f5f5", cursor: "pointer" }, // Hiệu ứng hover
                   backgroundColor:
                     selectedRowIndex === index ? "#e4f6fb" : "inherit",

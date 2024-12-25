@@ -22,6 +22,7 @@ public class DestinationRequest {
     String entryFee;
     String openingHours;
     String contactInfo;
+    String image;
     Continents continent;
     Country country;
     City city;

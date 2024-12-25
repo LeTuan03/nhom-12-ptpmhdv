@@ -81,6 +81,7 @@ public class DestinationServiceImpl implements DestinationService {
         entity.setEntryFee(request.getEntryFee());
         entity.setOpeningHours(request.getOpeningHours());
         entity.setDescription(request.getDescription());
+        entity.setImage(request.getImage());
 
         if (!CollectionUtils.isEmpty(request.getTourTypes())) {
             Set<TourType> tourTypeSet = new HashSet<>();

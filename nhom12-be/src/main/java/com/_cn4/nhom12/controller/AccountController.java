@@ -1,5 +1,6 @@
 package com._cn4.nhom12.controller;
 
+import com._cn4.nhom12.DTO.ApiResponse;
 import com._cn4.nhom12.DTO.request.AccountCreationRequest;
 import com._cn4.nhom12.DTO.request.LoginRequest;
 import com._cn4.nhom12.entity.Account;
@@ -47,7 +48,7 @@ public class AccountController {
     }
 
     @PostMapping("/register")
-    ResponseEntity<Account> register(@RequestBody AccountCreationRequest request) {
+    ApiResponse<Account> register(@RequestBody AccountCreationRequest request) {
         return accountService.register(request);
     }
 

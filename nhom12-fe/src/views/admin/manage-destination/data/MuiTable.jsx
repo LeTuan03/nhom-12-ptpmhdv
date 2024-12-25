@@ -9,8 +9,6 @@ import Paper from "@mui/material/Paper";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { IconButton } from "@mui/material";
-import SoftBadge from "components/SoftBadge";
-import { appConst } from "../../../../const/app-const";
 
 export default function MuiTable({
   data = [],
@@ -32,16 +30,13 @@ export default function MuiTable({
             </TableCell>
             <TableCell sx={{ color: "#fff", width: "30px" }}>STT</TableCell>
             <TableCell sx={{ color: "#fff" }} align="center">
-              Tên đăng nhập
+              Tên địa điểm
             </TableCell>
             <TableCell sx={{ color: "#fff" }} align="center">
-              Họ và tên
+              Vị trí
             </TableCell>
             <TableCell sx={{ color: "#fff" }} align="center">
-              Email
-            </TableCell>
-            <TableCell sx={{ color: "#fff" }} align="center">
-              Vai trò
+              Thông tin liên lạc
             </TableCell>
           </TableRow>
         </TableHead>
@@ -62,7 +57,7 @@ export default function MuiTable({
                 key={row.name}
                 onClick={() => handleRowClick(index)}
                 sx={{
-                  "&:last-child td, &:last-child th": { border: 0 },
+                  "& td, & th": { border: "1px solid #f5f5f5" },
                   "&:hover": { backgroundColor: "#f5f5f5", cursor: "pointer" }, // Hiệu ứng hover
                   backgroundColor:
                     selectedRowIndex === index ? "#e4f6fb" : "inherit",
@@ -89,36 +84,9 @@ export default function MuiTable({
                 <TableCell align="center">
                   <b>{index + 1}</b>
                 </TableCell>
-                <TableCell align="">{row.username}</TableCell>
                 <TableCell align="">{row.name}</TableCell>
-                <TableCell align="">{row.email}</TableCell>
-                <TableCell align="center">
-                  {row.role === appConst.ROLE.ADMIN.name ? (
-                    <SoftBadge
-                      variant="gradient"
-                      badgeContent={appConst.ROLE.ADMIN.name}
-                      color="success"
-                      size="xs"
-                      container
-                    />
-                  ) : row.role === appConst.ROLE.SUPPER_ADMIN.name ? (
-                    <SoftBadge
-                      variant="gradient"
-                      badgeContent={appConst.ROLE.SUPPER_ADMIN.name}
-                      color="info"
-                      size="xs"
-                      container
-                    />
-                  ) : (
-                    <SoftBadge
-                      variant="gradient"
-                      badgeContent="USER"
-                      color="secondary"
-                      size="xs"
-                      container
-                    />
-                  )}
-                </TableCell>
+                <TableCell align="">{row.location}</TableCell>
+                <TableCell align="">{row.contactInfo}</TableCell>
               </TableRow>
             ))
           )}
