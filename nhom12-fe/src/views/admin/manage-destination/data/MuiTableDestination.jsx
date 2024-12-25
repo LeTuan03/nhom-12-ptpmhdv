@@ -6,13 +6,11 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { IconButton } from "@mui/material";
 
-export default function MuiTable({
+export default function MuiTableDestination({
   data = [],
-  handleEdit = () => {},
   handleDelete = () => {},
 }) {
   const [selectedRowIndex, setSelectedRowIndex] = React.useState(null);
@@ -21,7 +19,7 @@ export default function MuiTable({
     setSelectedRowIndex(index);
   };
   return (
-    <TableContainer component={Paper} sx={{ scale: "0.92" }}>
+    <TableContainer component={Paper}>
       <Table aria-label="simple table" size="small">
         <TableHead>
           <TableRow sx={{ background: "#17c1e8" }}>
@@ -58,14 +56,6 @@ export default function MuiTable({
                 }}
               >
                 <TableCell>
-                  <IconButton
-                    aria-label="delete"
-                    size="small"
-                    color="info"
-                    onClick={() => handleEdit(row)}
-                  >
-                    <EditIcon fontSize="inherit" />
-                  </IconButton>
                   <IconButton
                     aria-label="delete"
                     size="small"

@@ -24,7 +24,7 @@ import DestinationDialog from "./data/DestinationDialog";
 import SoftConfirmDialog from "components/SoftConfirmDialog";
 import SoftInput from "components/SoftInput";
 import SearchIcon from '@mui/icons-material/Search';
-import { deleteUser, getAllUser } from "./destination-service";
+import { deleteDestination,  searchDestination } from "./destination-service";
 import { appConst } from "const/app-const";
 
 function ManageDestination() {
@@ -49,7 +49,7 @@ function ManageDestination() {
 
   const handleSearch = async () => {
     try {
-      const data = await getAllUser();
+      const data = await searchDestination({});
       if(data?.status === appConst.CODE.SUCCEED) {
         handleSetState("listItems", data?.data)
       }
@@ -73,7 +73,7 @@ function ManageDestination() {
 
   const handleYesDelete = async () => {
     try {
-      const data = await deleteUser(state.item?.id);
+      const data = await deleteDestination(state.item?.id);
     } catch (error) {
 
     } finally {

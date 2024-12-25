@@ -1,5 +1,6 @@
 package com._cn4.nhom12.services.Impl;
 
+import com._cn4.nhom12.DTO.ApiResponse;
 import com._cn4.nhom12.DTO.request.AccountCreationRequest;
 import com._cn4.nhom12.DTO.request.AccountUpdateRequest;
 import com._cn4.nhom12.DTO.request.LoginRequest;
@@ -119,8 +120,7 @@ public class AccountServiceImpl implements AccountService {
     private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Override
-    public ResponseEntity<Account> register(AccountCreationRequest request) {
-        System.out.println(request.getUsername());
+    public ApiResponse<Account> register(AccountCreationRequest request) {
         if(Objects.isNull(request.getUsername()) || request.getUsername() == "") {
             throw new RuntimeException("Vui lòng nhập đầy đủ thông tin");
         }
@@ -133,7 +133,10 @@ public class AccountServiceImpl implements AccountService {
         Account entity = new Account();
         this.setValueDtos(entity, request);
         entity.setPassword(passwordEncoder.encode(request.getPassword()));
-        return new ResponseEntity<>(accountRepo.save(entity), HttpStatus.OK);
+        ApiResponse response = new ApiResponse<>();
+        response.setData(accountRepo.save(entity));
+        response.setMessage("Đăng ký thành công tài khoản");
+        return response;
     }
 
     @Override

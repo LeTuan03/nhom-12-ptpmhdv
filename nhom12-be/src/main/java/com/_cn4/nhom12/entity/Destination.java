@@ -41,6 +41,9 @@ public class Destination {
     @Column(name = "contact_info")
     private String contactInfo;
 
+    @Column(name = "image")
+    private String image;
+    
     @ManyToOne
     @JoinColumn(name = "continentId")
     Continents continent;

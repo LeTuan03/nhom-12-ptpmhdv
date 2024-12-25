@@ -1,5 +1,6 @@
 package com._cn4.nhom12.services;
 
+import com._cn4.nhom12.DTO.ApiResponse;
 import com._cn4.nhom12.DTO.request.AccountCreationRequest;
 import com._cn4.nhom12.DTO.request.LoginRequest;
 import com._cn4.nhom12.entity.Account;
@@ -19,7 +20,7 @@ public interface AccountService {
 
     ResponseEntity<String> deleteAccount(String id);
 
-    ResponseEntity<Account> register(AccountCreationRequest request);
+    ApiResponse<Account> register(AccountCreationRequest request);
 
     ResponseEntity<?> login(LoginRequest request);
 }
