@@ -45,6 +45,7 @@ public class PlaceServiceImpl implements PlaceService {
         account.ifPresent(entity::setOwner);
 
         entity.setDestinationId(request.getDestinationId());
+        entity.setDestinationName(request.getDestinationName());
         entity.setName(request.getName());
         entity.setImageUrl(request.getImageUrl());
         entity.setPricePerPerson(request.getPricePerPerson());

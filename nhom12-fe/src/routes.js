@@ -27,6 +27,7 @@ import CustomerSupport from "examples/Icons/CustomerSupport";
 import CreditCard from "examples/Icons/CreditCard";
 import Cube from "examples/Icons/Cube";
 import ManageDestination from "./views/admin/manage-destination";
+import ManagePlace from "./views/admin/manage-place";
 
 const routes = [
   {
@@ -47,6 +48,16 @@ const routes = [
     route: "/manage-destination",
     icon: <Office size="12px" />,
     component: <ManageDestination />,
+    noCollapse: true,
+    isMenu: true,
+  },
+  {
+    type: "collapse",
+    name: "Quản lý địa điểm",
+    key: "manage-place",
+    route: "/manage-place",
+    icon: <Office size="12px" />,
+    component: <ManagePlace />,
     noCollapse: true,
     isMenu: true,
   },

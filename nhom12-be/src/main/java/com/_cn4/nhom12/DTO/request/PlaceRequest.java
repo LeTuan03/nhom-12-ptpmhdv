@@ -15,5 +15,6 @@ public class PlaceRequest {
     private List<Booking> bookings;
     private String ownerId;
     private String destinationId;
+    private String destinationName;
     private String imageUrl;
 }
