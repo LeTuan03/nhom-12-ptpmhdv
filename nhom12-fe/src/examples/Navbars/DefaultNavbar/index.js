@@ -89,6 +89,9 @@ function DefaultNavbar({ transparent, light, action }) {
           <DefaultNavbarLink icon="donut_large" name="dashboard" route="/dashboard" light={light} />
           <DefaultNavbarLink icon="home" name="home" route="/" light={light} />
           <DefaultNavbarLink icon="home" name="destination" route="/destination" light={light} />
+          <DefaultNavbarLink icon="home" name="area" route="/area" light={light} />
+          <DefaultNavbarLink icon="home" name="detailArea" route="/detailArea" light={light} />
+          <DefaultNavbarLink icon="home" name="reservation" route="/reservation" light={light} />
           <DefaultNavbarLink icon="person" name="profile" route="/profile" light={light} />
           <DefaultNavbarLink
             icon="account_circle"
