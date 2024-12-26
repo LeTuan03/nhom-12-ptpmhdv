@@ -23,6 +23,8 @@ public class Place {
 
     private String destinationId;
 
+    private String destinationName;
+
     @OneToMany(mappedBy = "placeId", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Booking> bookings;
 
