@@ -28,6 +28,9 @@ import CreditCard from "examples/Icons/CreditCard";
 import Cube from "examples/Icons/Cube";
 import ManageDestination from "./views/admin/manage-destination";
 import ManagePlace from "./views/admin/manage-place";
+import Area from "./views/client/area";
+import DetailArea from "./views/client/detail-area";
+import Reservation from "./views/client/reservation";
 
 const routes = [
   {
@@ -190,6 +193,36 @@ const routes = [
     route: "/destination",
     icon: <SpaceShip size="12px" />,
     component: <Destination />,
+    noCollapse: true,    
+    isMenu: false,
+  },
+  {
+    type: "collapse",
+    name: "Area",
+    key: "area",
+    route: "/area",
+    icon: <SpaceShip size="12px" />,
+    component: <Area />,
+    noCollapse: true,    
+    isMenu: false,
+  },
+  {
+    type: "collapse",
+    name: "DetailArea",
+    key: "detailArea",
+    route: "/detailArea",
+    icon: <SpaceShip size="12px" />,
+    component: <DetailArea />,
+    noCollapse: true,    
+    isMenu: false,
+  },
+  {
+    type: "collapse",
+    name: "Reservation",
+    key: "reservation",
+    route: "/reservation",
+    icon: <SpaceShip size="12px" />,
+    component: <Reservation />,
     noCollapse: true,    
     isMenu: false,
   },
