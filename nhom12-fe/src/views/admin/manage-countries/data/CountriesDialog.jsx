@@ -9,6 +9,7 @@ import SoftTypography from "components/SoftTypography";
 import SoftInput from "components/SoftInput";
 import {
   Autocomplete,
+  Avatar,
   Grid,
   Icon,
   ListItemIcon,
@@ -23,6 +24,12 @@ import {
 } from "../../../../examples/Sidenav/styles/sidenavCollapse";
 import { useSoftUIController } from "../../../../context";
 import MuiTableDialog from "./MuiTableDialog";
+import Box from "@mui/material/Box";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import { a11yProps, CustomTabPanel } from "../../../../utils/CustomTabPanel";
+import { uploadImageV2 } from "../../../../const/app-service";
+import { API_PATH_V2 } from "../../../../utils/axios-customize";
 
 export default function CountriesDialog(props) {
   const [controller] = useSoftUIController();
@@ -60,6 +67,8 @@ export default function CountriesDialog(props) {
   const convertData = () => {
     return {
       name: state?.name,
+      description: state?.description,
+      image: state?.image,
       continentsId: state?.continents?.id,
       continentsName: state?.continents?.name,
       cities: state?.cities?.map((item) => ({
@@ -135,13 +144,30 @@ export default function CountriesDialog(props) {
       cities: updatedCities,
     }));
   };
+  const handleImageChange = async (event) => {
+    try {
+      const newImage = event.target.files[0];
+      if (newImage) {
+        let formData = new FormData();
+        formData.append("file", newImage);
+        const data = await uploadImageV2(formData);
+        let urlImageNew = API_PATH_V2 + "/public/image/" + data?.data?.name;
+        setState((pre) => ({ ...pre, "image":  urlImageNew || data?.data || "" }));
+      }
+    } catch (e) {
+    }
+  };
+  const [value, setValue] = React.useState(0);
 
+  const handleChangeTabs = (event, newValue) => {
+    setValue(newValue);
+  };
   return (
     <React.Fragment>
       <Grid container>
         <Dialog
           fullWidth
-          maxWidth={"sm"}
+          maxWidth={"md"}
           open={open}
           onClose={() => {
             if (typeof handleClose === "function") handleClose();
@@ -156,80 +182,157 @@ export default function CountriesDialog(props) {
         >
           <DialogTitle>Thêm mới/Cập nhật danh mục địa chỉ</DialogTitle>
           <DialogContent>
-            <Grid container spacing={2}>
-              <Grid item lg={6} md={6} sm={12}>
-                <SoftBox>
-                  <SoftBox ml={0.5}>
-                    <SoftTypography
-                      component="label"
-                      variant="caption"
-                      fontWeight="bold"
-                    >
-                      Vai trò
-                    </SoftTypography>
+            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+              <Tabs
+                value={value}
+                defaultValue={value}
+                onChange={handleChangeTabs}
+                aria-label="basic tabs example"
+              >
+                <Tab label="Thông tin chung" {...a11yProps(0)} />
+                <Tab label="Ảnh  bìa" {...a11yProps(1)} />
+              </Tabs>
+            </Box>
+            <CustomTabPanel value={value} index={0}>
+              <Grid container spacing={2}>
+                <Grid item lg={6} md={6} sm={12}>
+                  <SoftBox>
+                    <SoftBox ml={0.5}>
+                      <SoftTypography
+                        component="label"
+                        variant="caption"
+                        fontWeight="bold"
+                      >
+                        Châu lục
+                      </SoftTypography>
+                    </SoftBox>
+                    <Autocomplete
+                      options={
+                        Array.isArray(state?.optionsContinents)
+                          ? state?.optionsContinents
+                          : []
+                      }
+                      fullWidth
+                      value={state?.continents || null}
+                      getOptionLabel={(option) => option?.name || ""}
+                      onChange={(event, data) =>
+                        handleChangeOption(data, "continents")
+                      }
+                      renderInput={(params) => <TextField {...params} />}
+                    />
                   </SoftBox>
-                  <Autocomplete
-                    options={
-                      Array.isArray(state?.optionsContinents)
-                        ? state?.optionsContinents
-                        : []
-                    }
-                    fullWidth
-                    value={state?.continents || null}
-                    getOptionLabel={(option) => option?.name || ""}
-                    onChange={(event, data) =>
-                      handleChangeOption(data, "continents")
-                    }
-                    renderInput={(params) => <TextField {...params} />}
-                  />
-                </SoftBox>
-              </Grid>
-              <Grid item lg={6} md={6} sm={12}>
-                <SoftBox>
-                  <SoftBox ml={0.5}>
-                    <SoftTypography
-                      component="label"
-                      variant="caption"
-                      fontWeight="bold"
-                    >
-                      Tên nước
-                    </SoftTypography>
+                </Grid>
+                <Grid item lg={6} md={6} sm={12}>
+                  <SoftBox>
+                    <SoftBox ml={0.5}>
+                      <SoftTypography
+                        component="label"
+                        variant="caption"
+                        fontWeight="bold"
+                      >
+                        Tên nước
+                      </SoftTypography>
+                    </SoftBox>
+                    <SoftInput
+                      type="text"
+                      name="name"
+                      value={state?.name || ""}
+                      onChange={(event) => handleChange(event)}
+                    />
                   </SoftBox>
-                  <SoftInput
-                    type="text"
-                    name="name"
-                    value={state?.name || ""}
-                    onChange={(event) => handleChange(event)}
+                </Grid>
+                <Grid item lg={12} md={12} sm={12}>
+                  <SoftBox>
+                    <SoftBox ml={0.5}>
+                      <SoftTypography
+                        component="label"
+                        variant="caption"
+                        fontWeight="bold"
+                      >
+                        Chi tiết
+                      </SoftTypography>
+                    </SoftBox>
+                    <SoftInput
+                      type="text"
+                      name="description"
+                      value={state?.description || ""}
+                      onChange={(event) => handleChange(event)}
+                    />
+                  </SoftBox>
+                </Grid>
+                <Grid item lg={12} md={12} sm={12}>
+                  <SoftBox>
+                    <ListItemIcon
+                      onClick={() => handleAdd()}
+                      sx={(theme) =>
+                        collapseIconBox(theme, {
+                          active: true,
+                          transparentSidenav,
+                          color: sidenavColor,
+                        })
+                      }
+                      style={{ width: "fit-content" }}
+                    >
+                      <Icon
+                        sx={(theme) => collapseIcon(theme, { active: true })}
+                      >
+                        add
+                      </Icon>
+                    </ListItemIcon>
+                  </SoftBox>
+                </Grid>
+                <Grid item lg={12} md={12} sm={12}>
+                  <MuiTableDialog
+                    data={state?.cities}
+                    handleDelete={handleDelete}
+                    handleChange={handleChangeCellTable}
                   />
-                </SoftBox>
+                </Grid>
               </Grid>
-              <Grid item lg={12} md={12} sm={12}>
-                <SoftBox>
-                  <ListItemIcon
-                    onClick={() => handleAdd()}
-                    sx={(theme) =>
-                      collapseIconBox(theme, {
-                        active: true,
-                        transparentSidenav,
-                        color: sidenavColor,
-                      })
-                    }
-                    style={{ width: "fit-content" }}
+            </CustomTabPanel>
+            <CustomTabPanel value={value} index={1}>
+              <Grid container spacing={2}>
+                <Grid
+                  item
+                  lg={12}
+                  md={12}
+                  sm={12}
+                  justifyContent={"center"}
+                  display={"flex"}
+                  sx={{ marginTop: 2 }}
+                >
+                  <Button
+                    variant="contained"
+                    sx={{ color: "#fff" }}
+                    size="small"
                   >
-                    <Icon sx={(theme) => collapseIcon(theme, { active: true })}>
-                      add
-                    </Icon>
-                  </ListItemIcon>
-                </SoftBox>
+                    <label htmlFor={`image`}>Tải ảnh lên</label>
+                  </Button>
+                  <TextField
+                    type="file"
+                    id={`image`}
+                    accept="image/*"
+                    style={{ display: "none" }}
+                    onChange={(e) => handleImageChange(e)}
+                  />
+                </Grid>
+                <Grid
+                  item
+                  lg={12}
+                  md={12}
+                  sm={12}
+                  justifyContent={"center"}
+                  display={"flex"}
+                >
+                  <Avatar
+                    style={{ width: "100%", height: "100%", marginTop: 10 }}
+                    sizes="large"
+                    variant="rounded"
+                    src={state?.image}
+                  />
+                </Grid>
               </Grid>
-              <Grid item lg={12} md={12} sm={12}>
-                <MuiTableDialog
-                  data={state?.cities}
-                  handleDelete={handleDelete}
-                  handleChange={handleChangeCellTable}
-                />
-              </Grid>
-            </Grid>
+            </CustomTabPanel>
           </DialogContent>
           <DialogActions>
             <Button

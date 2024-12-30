@@ -1,5 +1,3 @@
-
-
 // react-router-dom components
 import { Link } from "react-router-dom";
 
@@ -17,7 +15,7 @@ import SoftTypography from "components/SoftTypography";
 import SoftButton from "components/SoftButton";
 import SoftAvatar from "components/SoftAvatar";
 
-function DefaultProjectCard({ image, title, description}) {
+function DefaultProjectCard({ image, title, description }) {
   return (
     <Card
       sx={{
@@ -28,14 +26,26 @@ function DefaultProjectCard({ image, title, description}) {
         overflow: "visible",
       }}
     >
-      <SoftBox position="relative" width="100.25%" shadow="xl" borderRadius="xl">
+      <SoftBox
+        position="relative"
+        width="100.25%"
+        shadow="xl"
+        borderRadius="xl"
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          minWidth: "22.5rem",
+        }}
+      >
         <CardMedia
           src={image}
           component="img"
           title={title}
           sx={{
-            maxWidth: "100%",
             margin: 0,
+            height: "15rem",
+            width: "100%",
+            minWidth: "22.5rem",
             boxShadow: ({ boxShadows: { md } }) => md,
             objectFit: "cover",
             objectPosition: "center",

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // react-router-dom components
 import { Link, useNavigate } from "react-router-dom";
@@ -19,6 +19,7 @@ import CoverLayout from "layouts/authentication/components/CoverLayout";
 import curved9 from "assets/images/curved-images/curved-6.jpg";
 import { getUser, login } from "./sign-service";
 import { appConst } from "const/app-const";
+import { removeAuth } from "../../../const/app-service";
 
 function SignIn() {
   const navigate = useNavigate();
@@ -51,9 +52,7 @@ function SignIn() {
 
   const handleFormSubmit = async () => {
     try {
-      console.log(state);
       const data = await login(state);
-      console.log(data);
       if (data.status === appConst.CODE.SUCCEED) {
         sessionStorage.setItem("access_token", data?.data);
         await getUserInfo();
@@ -62,7 +61,9 @@ function SignIn() {
       console.error("Error during login:", error);
     }
   };
-
+  useEffect(() => {
+    removeAuth();
+  }, []);
   return (
     <CoverLayout
       title="Welcome back"

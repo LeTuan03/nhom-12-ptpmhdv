@@ -13,6 +13,7 @@ public interface DestinationService {
     List<Destination> search(String destinationName,
                              String cityName,
                              String countryName,
+                             String countryId,
                              String continentName);
 
     ResponseEntity<Destination> create(DestinationRequest request);

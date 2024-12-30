@@ -2,6 +2,7 @@ package com._cn4.nhom12.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+
 import java.util.Set;
 
 @Data
@@ -31,4 +32,7 @@ public class Place {
     @ManyToOne
     @JoinColumn(name = "ownerId")
     private Account owner;
+
+    @Column(name = "description")
+    private String description;
 }

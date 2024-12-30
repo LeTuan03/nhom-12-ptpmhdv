@@ -17,4 +17,5 @@ public class PlaceRequest {
     private String destinationId;
     private String destinationName;
     private String imageUrl;
+    private String description;
 }

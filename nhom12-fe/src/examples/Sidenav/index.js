@@ -29,6 +29,7 @@ import sidenavLogoLabel from "examples/Sidenav/styles/sidenav";
 
 // Soft UI Dashboard React context
 import { useSoftUIController, setMiniSidenav } from "context";
+import { getCurrentUser } from "../../const/app-function";
 
 function Sidenav({ color, brand, brandName, routes, ...rest }) {
   const [controller, dispatch] = useSoftUIController();
@@ -58,7 +59,10 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
   }, [dispatch, location]);
 
   // Render all the routes from the routes.js (All the visible items on the Sidenav)
-  const renderRoutes = routes.filter(item => item.isMenu).map(({ type, name, icon, title, noCollapse, key, route, href }) => {
+  const renderRoutes = routes.filter(item => {
+    const hasRole = item.roles.some(role => role.name === getCurrentUser()?.role);
+    return hasRole && item.isMenu;
+  }).map(({ type, name, icon, title, noCollapse, key, route, href }) => {
     let returnValue;
 
     if (type === "collapse") {

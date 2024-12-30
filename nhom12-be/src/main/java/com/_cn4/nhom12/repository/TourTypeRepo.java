@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface TourTypeRepo extends JpaRepository<TourType, String> {
-    List<TourType> findNameContainingIgnoreCase(String name);
+    List<TourType> findByName(String name);
 }

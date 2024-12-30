@@ -19,6 +19,8 @@ import Tabs from "@mui/material/Tabs";
 import { getAllContinents } from "../../manage-continents/continents-service";
 import MuiTableDestination from "./MuiTableDestination";
 import { getAllTourtypes } from "../../manage-category/tourtype-service";
+import { uploadImageV2 } from "../../../../const/app-service";
+import { API_PATH_V2 } from "../../../../utils/axios-customize";
 
 export default function DestinationDialog(props) {
   let { open, item, handleClose, handleOk = () => {} } = props;
@@ -40,16 +42,17 @@ export default function DestinationDialog(props) {
     setState((pre) => ({ ...pre, [source]: data }));
   };
 
-  const handleImageChange = (event) => {
-    const newImage = event.target.files[0];
-    if (newImage) {
-      console.log(newImage);
-      const reader = new FileReader();
-      reader.onload = () => {
-        console.log(reader.result);
-        setState((pre) => ({ ...pre, image: reader.result }));
-      };
-      reader.readAsDataURL(newImage);
+  const handleImageChange = async (event) => {
+    try {
+      const newImage = event.target.files[0];
+      if (newImage) {
+        let formData = new FormData();
+        formData.append("file", newImage);
+        const data = await uploadImageV2(formData);
+        let urlImageNew = API_PATH_V2 + "/public/image/" + data?.data?.name;
+        setState((pre) => ({ ...pre, "image":  urlImageNew || data?.data || "" }));
+      }
+    } catch (e) {
     }
   };
 
@@ -62,7 +65,7 @@ export default function DestinationDialog(props) {
       entryFee: state?.entryFee,
       openingHours: state?.openingHours,
       contactInfo: state?.contactInfo,
-      image: "state?.image",
+      image: state?.image,
       continent: state?.continent,
       country: state?.country,
       city: state?.city,

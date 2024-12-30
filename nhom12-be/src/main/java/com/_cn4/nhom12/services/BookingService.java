@@ -7,8 +7,10 @@ import java.util.List;
 
 public interface BookingService {
     List<Booking> getAllBookings();
+    List<Booking> getBookingsByBuyerId(String buyerId);
     Booking getBookingById(String id);
-    Booking createBooking(Booking booking, String placeId);
+    Booking updateStatusBooking(String bookingId);
+    Booking createBooking(Booking booking);
     Booking updateBooking(String id, Booking updatedBooking);
     void deleteBooking(String id);
     List<BookingWithRatingDTO> getBookingsAndRatings(String buyerId);

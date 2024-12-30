@@ -41,6 +41,8 @@ public class CountryServiceImpl implements CountryService {
         entity.setName(request.getName());
         entity.setContinentsId(request.getContinentsId());
         entity.setContinentsName(request.getContinentsName());
+        entity.setDescription(request.getDescription());
+        entity.setImage(request.getImage());
 
         Country savedCountry = countryRepository.save(entity);
 
@@ -82,6 +84,8 @@ public class CountryServiceImpl implements CountryService {
         existingCountry.setName(request.getName());
         existingCountry.setContinentsId(request.getContinentsId());
         existingCountry.setContinentsName(request.getContinentsName());
+        existingCountry.setDescription(request.getDescription());
+        existingCountry.setImage(request.getImage());
 
         Country savedCountry = countryRepository.save(existingCountry);
 

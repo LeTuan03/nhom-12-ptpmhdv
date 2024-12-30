@@ -23,8 +23,14 @@ public class Country {
     @Column(name = "name", nullable = false, unique = true)
     String name;
 
+    @Column(name = "description")
+    private String description;
+
     @Column(name = "continentsId")
     String continentsId;
+
+    @Column(name = "image")
+    String image;
 
     @Column(name = "continentsName")
     String continentsName;

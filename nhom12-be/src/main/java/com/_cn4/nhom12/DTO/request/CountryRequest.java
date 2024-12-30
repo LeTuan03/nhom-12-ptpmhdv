@@ -8,6 +8,8 @@ import java.util.List;
 @Getter
 public class CountryRequest {
     private String name;
+    private String description;
+    private String image;
     private String continentsId;
     private String continentsName;
     private List<City> cities;
