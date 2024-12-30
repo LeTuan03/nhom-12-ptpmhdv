@@ -18,7 +18,7 @@ public class TourTypeServiceImpl implements TourTypeService {
 
     @Override
     public List<TourType> searchTourTypes(String name) {
-        return tourTypeRepo.findNameContainingIgnoreCase(name);
+        return tourTypeRepo.findByName(name);
     }
     public TourTypeServiceImpl(TourTypeRepo tourTypeRepo) {
         this.tourTypeRepo = tourTypeRepo;

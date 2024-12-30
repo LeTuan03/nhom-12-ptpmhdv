@@ -9,15 +9,18 @@ import SoftTypography from "components/SoftTypography";
 import SoftInput from "components/SoftInput";
 import { Autocomplete, Avatar, Grid, TextField } from "@mui/material";
 import PropTypes from "prop-types";
-import { formatDateNoTime } from "const/app-function";
-import { createUser, updateUser } from "../user-service";
-import { appConst } from "../../../../const/app-const";
-import { register } from "../../../../layouts/authentication/sign-in/sign-service";
+import { createBooking, updateBooking } from "../booking-service";
 import { toast } from "react-toastify";
-import { API_PATH_V2 } from "../../../../utils/axios-customize";
-import { uploadImageV2 } from "../../../../const/app-service";
+import { getAllUser } from "../../manage-user/user-service";
+import { getAllDestination } from "../../manage-destination/destination-service";
+import {
+  formatDateNoTime,
+  getCurrentUser,
+} from "../../../../const/app-function";
+import { getAllPlace } from "../../manage-place/place-service";
+import { appConst } from "../../../../const/app-const";
 
-export default function UserDialog(props) {
+export default function BookingDialog(props) {
   let { open, item, handleClose, handleOk = () => {} } = props;
   const [state, setState] = React.useState({});
 
@@ -30,59 +33,72 @@ export default function UserDialog(props) {
     console.log(data);
     setState((pre) => ({ ...pre, [source]: data }));
   };
-  const handleImageChange = async (event) => {
-    try {
-      const newImage = event.target.files[0];
-      if (newImage) {
-        let formData = new FormData();
-        formData.append("file", newImage);
-        const data = await uploadImageV2(formData);
-        let urlImageNew = API_PATH_V2 + "/public/image/" + data?.data?.name;
-        setState((pre) => ({ ...pre, "avatar":  urlImageNew || data?.data || "" }));
-      }
-    } catch (e) {
-    }
-  };
+
   const convertData = () => {
     return {
-      avatar: state?.avatar,
-      birthday: state?.birthday,
-      email: state?.email,
-      gender: state?.gender,
-      name: state?.name,
-      password: state?.password,
+      id: state?.id,
+      customerName: state?.customerName,
       phone: state?.phone,
-      role: state?.role?.name,
-      username: state?.username,
+      email: state?.email,
+      placeId: state?.place?.id,
+      placeName: state?.place?.name,
+      startDate: state?.startDate,
+      numberOfPeople: state?.numberOfPeople,
+      totalPrice: state?.totalPrice,
+      specialRequests: state?.specialRequests,
+      buyer: state?.buyer,
+      statusRoom: state?.statusRoom?.name,
+      statusOrder: state?.statusOrder?.name,
     };
   };
   const handleFormSubmit = async () => {
     try {
       const payload = convertData();
-
       if (item?.id) {
-        const data = await updateUser(payload, item?.id);
-        console.log(data);
+        const data = await updateBooking(payload, item?.id);
+        toast.success("Thành công");
       } else {
-        const data = await register(payload);
-        console.log(data);
-        toast.error("Đăng ký tài khoản thành công")
+        const data = await createBooking(payload);
+        toast.success("Thành công");
       }
     } catch (error) {
-      toast.error(error?.response?.data?.message)
+      toast.error(error?.response?.data?.message);
     } finally {
       handleClose();
       handleOk();
     }
+  };
+  const getListOptions = async () => {
+    try {
+      const listUser = await getAllUser();
+      const listPlaces = await getAllPlace();
+      setState((pre) => ({
+        ...pre,
+        ["listUser"]: listUser?.data,
+        ["listPlaces"]: listPlaces?.data,
+      }));
+    } catch (e) {}
   };
 
   React.useEffect(() => {
     setState((pre) => ({
       ...pre,
       ...item,
-      birthday: formatDateNoTime(item?.birthday),
-      role: appConst.LIST_ROLE.find(x => x.name === item?.role) || appConst.ROLE.USER,
+      startDate: formatDateNoTime(item?.startDate),
+      place: item?.placeId
+        ? {
+            id: item?.placeId,
+            name: item?.placeName,
+          }
+        : null,
+      statusRoom: appConst.LIST_STATUS_ROOM_BOOKING.find(
+        (i) => i.name === item?.statusRoom
+      ),
+      statusOrder: appConst.LIST_STATUS_ORDER_BOOKING.find(
+        (i) => i.name === item?.statusOrder
+      ),
     }));
+    getListOptions();
   }, [item]);
 
   return (
@@ -101,7 +117,7 @@ export default function UserDialog(props) {
             },
           }}
         >
-          <DialogTitle>Thêm mới/Cập nhật thông tin tài khoản</DialogTitle>
+          <DialogTitle>Thêm mới/Cập nhật thông tin đặt chỗ</DialogTitle>
           <DialogContent>
             <Grid container spacing={2}>
               <Grid item lg={4} md={6} sm={12}>
@@ -112,13 +128,13 @@ export default function UserDialog(props) {
                       variant="caption"
                       fontWeight="bold"
                     >
-                      Tên đăng nhập
+                      Tên khách hàng
                     </SoftTypography>
                   </SoftBox>
                   <SoftInput
                     type="text"
-                    name="username"
-                    value={state?.username || ""}
+                    name="customerName"
+                    value={state?.customerName || ""}
                     onChange={(event) => handleChange(event)}
                   />
                 </SoftBox>
@@ -131,32 +147,13 @@ export default function UserDialog(props) {
                       variant="caption"
                       fontWeight="bold"
                     >
-                      Họ và tên
+                      Email
                     </SoftTypography>
                   </SoftBox>
                   <SoftInput
                     type="text"
-                    name="name"
-                    value={state?.name || ""}
-                    onChange={(event) => handleChange(event)}
-                  />
-                </SoftBox>
-              </Grid>
-              <Grid item lg={4} md={6} sm={12}>
-                <SoftBox>
-                  <SoftBox ml={0.5}>
-                    <SoftTypography
-                      component="label"
-                      variant="caption"
-                      fontWeight="bold"
-                    >
-                      Mật khẩu
-                    </SoftTypography>
-                  </SoftBox>
-                  <SoftInput
-                    type="password"
-                    name="password"
-                    value={state?.password || ""}
+                    name="email"
+                    value={state?.email || ""}
                     onChange={(event) => handleChange(event)}
                   />
                 </SoftBox>
@@ -188,13 +185,13 @@ export default function UserDialog(props) {
                       variant="caption"
                       fontWeight="bold"
                     >
-                      Email
+                      Số người
                     </SoftTypography>
                   </SoftBox>
                   <SoftInput
-                    type="email"
-                    name="email"
-                    value={state?.email || ""}
+                    type="number"
+                    name="numberOfPeople"
+                    value={state?.numberOfPeople || ""}
                     onChange={(event) => handleChange(event)}
                   />
                 </SoftBox>
@@ -207,13 +204,13 @@ export default function UserDialog(props) {
                       variant="caption"
                       fontWeight="bold"
                     >
-                      Ngày sinh
+                      Ngày bắt đầu
                     </SoftTypography>
                   </SoftBox>
                   <SoftInput
                     type="date"
-                    name="birthday"
-                    value={state?.birthday || ""}
+                    name="startDate"
+                    value={state?.startDate || ""}
                     onChange={(event) => handleChange(event)}
                   />
                 </SoftBox>
@@ -226,75 +223,136 @@ export default function UserDialog(props) {
                       variant="caption"
                       fontWeight="bold"
                     >
-                      Giới tính
-                    </SoftTypography>
-                  </SoftBox>
-                  <SoftInput
-                    type="text"
-                    name="gender"
-                    value={state?.gender || ""}
-                    onChange={(event) => handleChange(event)}
-                  />
-                </SoftBox>
-              </Grid>
-              <Grid item lg={4} md={6} sm={12}>
-                <SoftBox>
-                  <SoftBox ml={0.5}>
-                    <SoftTypography
-                      component="label"
-                      variant="caption"
-                      fontWeight="bold"
-                    >
-                      Vai trò
+                      Trạng thái phòng
                     </SoftTypography>
                   </SoftBox>
                   <Autocomplete
-                    options={appConst.LIST_ROLE}
+                    options={appConst.LIST_STATUS_ROOM_BOOKING}
                     fullWidth
-                    value={state?.role || null}
+                    value={state?.statusRoom || null}
                     getOptionLabel={(option) => option.name}
-                    onChange={(event, data) => handleChangeOption(data, "role")}
+                    onChange={(event, data) =>
+                      handleChangeOption(data, "statusRoom")
+                    }
                     renderInput={(params) => <TextField {...params} />}
                   />
                 </SoftBox>
               </Grid>
-              <Grid
-                item
-                lg={12}
-                md={12}
-                sm={12}
-                justifyContent={"center"}
-                display={"flex"}
-              >
-                <Button
-                  variant="contained"
-                  sx={{ color: "#fff", marginTop: 1 }}
-                  size="small"
-                >
-                  <label htmlFor={`avataImage`}>Tải ảnh lên</label>
-                </Button>
-                <TextField
-                  type="file"
-                  id={`avataImage`}
-                  accept="image/*"
-                  style={{ display: "none" }}
-                  onChange={(e) => handleImageChange(e)}
-                />
+              <Grid item lg={4} md={6} sm={12}>
+                <SoftBox>
+                  <SoftBox ml={0.5}>
+                    <SoftTypography
+                      component="label"
+                      variant="caption"
+                      fontWeight="bold"
+                    >
+                      Tổng tiền
+                    </SoftTypography>
+                  </SoftBox>
+                  <SoftInput
+                    disabled={true}
+                    type="number"
+                    name="totalPrice"
+                    value={state?.totalPrice || ""}
+                    onChange={(event) => handleChange(event)}
+                  />
+                </SoftBox>
               </Grid>
-              <Grid
-                item
-                lg={12}
-                md={12}
-                sm={12}
-                justifyContent={"center"}
-                display={"flex"}
-              >
-                <Avatar
-                  style={{ width: 250, height: 250, marginTop: 10 }}
-                  sizes="large"
-                  variant="rounded"
-                  src={state?.avatar}
-                />
+              <Grid item lg={4} md={6} sm={12}>
+                <SoftBox>
+                  <SoftBox ml={0.5}>
+                    <SoftTypography
+                      component="label"
+                      variant="caption"
+                      fontWeight="bold"
+                    >
+                      Người mua
+                    </SoftTypography>
+                  </SoftBox>
+                  <Autocomplete
+                    options={state?.listUser?.length ? state?.listUser : []}
+                    fullWidth
+                    value={state?.buyer || null}
+                    getOptionLabel={(option) => option.name}
+                    onChange={(event, data) =>
+                      handleChangeOption(data, "buyer")
+                    }
+                    renderInput={(params) => <TextField {...params} />}
+                  />
+                </SoftBox>
+              </Grid>
+              <Grid item lg={4} md={6} sm={12}>
+                <SoftBox>
+                  <SoftBox ml={0.5}>
+                    <SoftTypography
+                      component="label"
+                      variant="caption"
+                      fontWeight="bold"
+                    >
+                      Địa điểm
+                    </SoftTypography>
+                  </SoftBox>
+                  <Autocomplete
+                    options={
+                      state?.listPlaces?.length
+                        ? getCurrentUser()?.role !== appConst.ROLE.SUPPER_ADMIN
+                          ? state?.listPlaces?.filter(
+                              (i) => i?.owner?.id === getCurrentUser()?.id
+                            )
+                          : state?.listPlaces
+                        : []
+                    }
+                    fullWidth
+                    value={state?.place || null}
+                    getOptionLabel={(option) => option.name}
+                    onChange={(event, data) =>
+                      handleChangeOption(data, "place")
+                    }
+                    renderInput={(params) => <TextField {...params} />}
+                  />
+                </SoftBox>
+              </Grid>
+              <Grid item lg={4} md={6} sm={12}>
+                <SoftBox>
+                  <SoftBox ml={0.5}>
+                    <SoftTypography
+                      component="label"
+                      variant="caption"
+                      fontWeight="bold"
+                    >
+                      Trạng thái phiếu
+                    </SoftTypography>
+                  </SoftBox>
+                  <Autocomplete
+                    options={appConst.LIST_STATUS_ORDER_BOOKING}
+                    fullWidth
+                    value={state?.statusOrder || null}
+                    getOptionLabel={(option) => option.name}
+                    onChange={(event, data) =>
+                      handleChangeOption(data, "statusOrder")
+                    }
+                    renderInput={(params) => <TextField {...params} />}
+                  />
+                </SoftBox>
+              </Grid>
+              <Grid item lg={8} md={6} sm={12}>
+                <SoftBox>
+                  <SoftBox ml={0.5}>
+                    <SoftTypography
+                      component="label"
+                      variant="caption"
+                      fontWeight="bold"
+                    >
+                      Yêu cầu đặc biệt
+                    </SoftTypography>
+                  </SoftBox>
+                  <SoftInput
+                    type="text"
+                    name="specialRequests"
+                    value={state?.specialRequests || ""}
+                    onChange={(event) => handleChange(event)}
+                  />
+                </SoftBox>
               </Grid>
             </Grid>
           </DialogContent>
@@ -323,7 +381,7 @@ export default function UserDialog(props) {
     </React.Fragment>
   );
 }
-UserDialog.prototype = {
+BookingDialog.prototype = {
   open: PropTypes.string.isRequired,
   handleClose: PropTypes.func.isRequired,
   item: PropTypes.object,

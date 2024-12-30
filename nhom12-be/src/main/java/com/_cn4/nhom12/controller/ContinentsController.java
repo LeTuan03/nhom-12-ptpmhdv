@@ -1,12 +1,15 @@
 package com._cn4.nhom12.controller;
 
 import com._cn4.nhom12.entity.Continents;
+import com._cn4.nhom12.enums.Constant;
 import com._cn4.nhom12.services.ContinentsService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,16 +33,19 @@ public class ContinentsController {
     }
 
     @PostMapping
+    @Secured({Constant.ROLE_SUPER_ADMIN})
     ResponseEntity<Continents> create(@RequestBody Continents request) {
         return continentsService.createContinents(request);
     }
 
     @PutMapping
+    @Secured({Constant.ROLE_SUPER_ADMIN})
     ResponseEntity<Continents> update(@RequestBody Continents request) {
         return continentsService.updateContinents(request);
     }
 
     @DeleteMapping("/{id}")
+    @Secured({Constant.ROLE_SUPER_ADMIN})
     ResponseEntity<String> deleteById(@PathVariable String id) {
         return continentsService.deleteContinents(id);
     }

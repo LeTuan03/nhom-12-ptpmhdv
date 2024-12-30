@@ -12,12 +12,13 @@ public interface DestinationRepo extends JpaRepository<Destination, String> {
             "(:destinationName IS NULL OR LOWER(d.name) LIKE LOWER(CONCAT('%', :destinationName, '%'))) AND " +
             "(:cityName IS NULL OR LOWER(d.city.name) LIKE LOWER(CONCAT('%', :cityName, '%'))) AND " +
             "(:countryName IS NULL OR LOWER(d.country.name) LIKE LOWER(CONCAT('%', :countryName, '%'))) AND " +
+            "(:countryId IS NULL OR d.country.id = :countryId) AND " +
             "(:continentName IS NULL OR LOWER(d.continent.name) LIKE LOWER(CONCAT('%', :continentName, '%')))")
     List<Destination> search(
             @Param("destinationName") String destinationName,
             @Param("cityName") String cityName,
             @Param("countryName") String countryName,
+            @Param("countryId") String countryId,
             @Param("continentName") String continentName
     );
-
 }

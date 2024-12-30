@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface BookingRepo extends JpaRepository<Booking, String> {
     List<Booking> findByBuyerId(String buyerId);
+    List<Booking> findByBuyerIdAndStatusOrder(String buyerId, String orderStatus);
 }

@@ -1,8 +1,12 @@
 package com._cn4.nhom12.services.Impl;
 
 import com._cn4.nhom12.DTO.response.BookingWithRatingDTO;
+import com._cn4.nhom12.entity.Account;
+import com._cn4.nhom12.DTO.response.BookingWithRatingDTO;
 import com._cn4.nhom12.entity.Booking;
 import com._cn4.nhom12.entity.Place;
+import com._cn4.nhom12.enums.Constant;
+import com._cn4.nhom12.repository.AccountRepo;
 import com._cn4.nhom12.repository.BookingRepo;
 import com._cn4.nhom12.repository.PlaceRepo;
 import com._cn4.nhom12.services.BookingService;
@@ -11,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,9 +31,20 @@ public class BookingServiceImpl implements BookingService {
     @Autowired
     private RatingService ratingService;
 
+    @Autowired
+    private AccountRepo accountRepo;
+
+    @Autowired
+    private RatingService ratingService;
+
     @Override
     public List<Booking> getAllBookings() {
         return bookingRepository.findAll();
+    }
+
+    @Override
+    public List<Booking> getBookingsByBuyerId(String buyerId) {
+        return bookingRepository.findByBuyerIdAndStatusOrder(buyerId, Constant.BOOKING_SOLD);
     }
 
     @Override
@@ -36,23 +53,41 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public Booking createBooking(Booking booking, String placeId) {
-        Place place = placeRepository.findById(placeId).orElseThrow(() -> new RuntimeException("Place not found!"));
+    public Booking updateStatusBooking(String bookingId) {
+        Booking entity = bookingRepository.findById(bookingId)
+                .orElseThrow(() -> new RuntimeException("Booking not found for id: " + bookingId)); // Ném lỗi nếu không tìm thấy booking
+
+        entity.setStatusOrder(Constant.BOOKING_SOLD);
+        return bookingRepository.save(entity); // Lưu lại booking với trạng thái đã thay đổi
+    }
+
+
+    @Override
+    public Booking createBooking(Booking booking) {
+        Place place = placeRepository.findById(booking.getPlaceId()).orElseThrow(() -> new RuntimeException("Place not found!"));
+        Account account = accountRepo.findById(booking.getBuyer().getId()).orElseThrow(() -> new RuntimeException("Account not found!"));
         booking.setPlaceId(place.getId());
+        booking.setBuyer(account);
         booking.setTotalPrice(place.getPricePerPerson() * booking.getNumberOfPeople());
         return bookingRepository.save(booking);
     }
 
     @Override
     public Booking updateBooking(String id, Booking updatedBooking) {
+        Place place = placeRepository.findById(updatedBooking.getPlaceId()).orElseThrow(() -> new RuntimeException("Place not found!"));
+        Account account = accountRepo.findById(updatedBooking.getBuyer().getId()).orElseThrow(() -> new RuntimeException("Account not found!"));
         Booking existingBooking = getBookingById(id);
         existingBooking.setCustomerName(updatedBooking.getCustomerName());
         existingBooking.setPhone(updatedBooking.getPhone());
         existingBooking.setEmail(updatedBooking.getEmail());
         existingBooking.setStartDate(updatedBooking.getStartDate());
         existingBooking.setNumberOfPeople(updatedBooking.getNumberOfPeople());
-//        existingBooking.setTotalPrice(existingBooking.getPlace().getPricePerPerson() * updatedBooking.getNumberOfPeople());
+        existingBooking.setStatusRoom(updatedBooking.getStatusRoom());
+        existingBooking.setTotalPrice(place.getPricePerPerson() * updatedBooking.getNumberOfPeople());
         existingBooking.setSpecialRequests(updatedBooking.getSpecialRequests());
+        existingBooking.setPlaceId(place.getId());
+        existingBooking.setBuyer(account);
+        existingBooking.setStatusOrder(updatedBooking.getStatusOrder());
         return bookingRepository.save(existingBooking);
     }
 
