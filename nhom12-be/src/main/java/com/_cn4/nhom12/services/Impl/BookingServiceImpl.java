@@ -1,5 +1,6 @@
 package com._cn4.nhom12.services.Impl;
 
+import com._cn4.nhom12.DTO.response.BookingWithRatingDTO;
 import com._cn4.nhom12.entity.Account;
 import com._cn4.nhom12.DTO.response.BookingWithRatingDTO;
 import com._cn4.nhom12.entity.Booking;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class BookingServiceImpl implements BookingService {
@@ -31,6 +33,9 @@ public class BookingServiceImpl implements BookingService {
 
     @Autowired
     private AccountRepo accountRepo;
+
+    @Autowired
+    private RatingService ratingService;
 
     @Override
     public List<Booking> getAllBookings() {
