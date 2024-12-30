@@ -1,4 +1,3 @@
-
 // Soft UI Dashboard React layouts
 import Dashboard from "layouts/dashboard";
 import Tables from "layouts/tables";
@@ -16,7 +15,6 @@ import ManageCountries from "views/admin/manage-countries";
 import ManageTourType from "views/admin/manage-category";
 import Destination from "views/client/destination";
 
-
 // Soft UI Dashboard React icons
 import Shop from "examples/Icons/Shop";
 import Office from "examples/Icons/Office";
@@ -31,6 +29,8 @@ import ManagePlace from "./views/admin/manage-place";
 import Area from "./views/client/area";
 import DetailArea from "./views/client/detail-area";
 import Reservation from "./views/client/reservation";
+import ManageBooking from "./views/admin/manage-booking";
+import { appConst } from "./const/app-const";
 
 const routes = [
   {
@@ -40,10 +40,17 @@ const routes = [
     route: "/dashboard",
     icon: <Shop size="12px" />,
     component: <Dashboard />,
-    noCollapse: true,    
+    noCollapse: true,
     isMenu: true,
+    roles: [appConst.ROLE.SUPPER_ADMIN, appConst.ROLE.ADMIN],
   },
-  { type: "title", title: "Quản lý nội dung", key: "sumary-content", isMenu: true, },
+  {
+    type: "title",
+    title: "Quản lý nội dung",
+    key: "sumary-content",
+    isMenu: true,
+    roles: [appConst.ROLE.SUPPER_ADMIN, appConst.ROLE.ADMIN],
+  },
   {
     type: "collapse",
     name: "Quản lý điểm đến",
@@ -53,6 +60,7 @@ const routes = [
     component: <ManageDestination />,
     noCollapse: true,
     isMenu: true,
+    roles: [appConst.ROLE.SUPPER_ADMIN],
   },
   {
     type: "collapse",
@@ -63,8 +71,21 @@ const routes = [
     component: <ManagePlace />,
     noCollapse: true,
     isMenu: true,
+    roles: [appConst.ROLE.SUPPER_ADMIN, appConst.ROLE.ADMIN],
   },
-  { type: "title", title: "Danh mục", key: "sumary", isMenu: true, },
+  {
+    type: "collapse",
+    name: "Quản lý đặt chỗ",
+    key: "manage-boking",
+    route: "/manage-boking",
+    icon: <Office size="12px" />,
+    component: <ManageBooking />,
+    noCollapse: true,
+    isMenu: true,
+    roles: [appConst.ROLE.SUPPER_ADMIN, appConst.ROLE.ADMIN],
+  },
+  { type: "title", title: "Danh mục", key: "sumary", isMenu: true,
+    roles: [appConst.ROLE.SUPPER_ADMIN, appConst.ROLE.ADMIN], },
   {
     type: "collapse",
     name: "Quản lý tài khoản",
@@ -74,6 +95,7 @@ const routes = [
     component: <ManageUser />,
     noCollapse: true,
     isMenu: true,
+    roles: [appConst.ROLE.SUPPER_ADMIN, appConst.ROLE.ADMIN],
   },
   {
     type: "collapse",
@@ -84,6 +106,7 @@ const routes = [
     component: <ManageContinents />,
     noCollapse: true,
     isMenu: true,
+    roles: [appConst.ROLE.SUPPER_ADMIN],
   },
   {
     type: "collapse",
@@ -94,6 +117,7 @@ const routes = [
     component: <ManageCountries />,
     noCollapse: true,
     isMenu: true,
+    roles: [appConst.ROLE.SUPPER_ADMIN],
   },
   {
     type: "collapse",
@@ -104,6 +128,7 @@ const routes = [
     component: <ManageTourType />,
     noCollapse: true,
     isMenu: true,
+    roles: [appConst.ROLE.SUPPER_ADMIN],
   },
   // {
   //   type: "collapse",
@@ -145,36 +170,40 @@ const routes = [
   //   noCollapse: true,
   //   isMenu: true,
   // },
-  { type: "title", title: "Account Pages", key: "account-pages", isMenu: true, },
+  { type: "title", title: "Thông tin chung", key: "account-pages", isMenu: true ,
+    roles: [appConst.ROLE.SUPPER_ADMIN, appConst.ROLE.ADMIN],},
   {
     type: "collapse",
-    name: "Profile",
+    name: "Thông tin cá nhân",
     key: "profile",
     route: "/profile",
     icon: <CustomerSupport size="12px" />,
     component: <Profile />,
-    noCollapse: true,    
+    noCollapse: true,
     isMenu: true,
+    roles: [appConst.ROLE.SUPPER_ADMIN, appConst.ROLE.ADMIN],
   },
   {
     type: "collapse",
-    name: "Sign In",
+    name: "Đăng nhập",
     key: "sign-in",
     route: "/authentication/sign-in",
     icon: <Document size="12px" />,
     component: <SignIn />,
-    noCollapse: true,    
+    noCollapse: true,
     isMenu: true,
+    roles: [appConst.ROLE.SUPPER_ADMIN, appConst.ROLE.ADMIN],
   },
   {
     type: "collapse",
-    name: "Sign Up",
+    name: "Đăng ký",
     key: "sign-up",
     route: "/authentication/sign-up",
     icon: <SpaceShip size="12px" />,
     component: <SignUp />,
-    noCollapse: true,    
+    noCollapse: true,
     isMenu: true,
+    roles: [appConst.ROLE.SUPPER_ADMIN, appConst.ROLE.ADMIN],
   },
   {
     type: "collapse",
@@ -183,8 +212,9 @@ const routes = [
     route: "/",
     icon: <SpaceShip size="12px" />,
     component: <Home />,
-    noCollapse: true,    
+    noCollapse: true,
     isMenu: false,
+    roles: [appConst.ROLE.SUPPER_ADMIN, appConst.ROLE.ADMIN, appConst.ROLE.USER],
   },
   {
     type: "collapse",
@@ -193,8 +223,20 @@ const routes = [
     route: "/destination",
     icon: <SpaceShip size="12px" />,
     component: <Destination />,
-    noCollapse: true,    
+    noCollapse: true,
     isMenu: false,
+    roles: [appConst.ROLE.SUPPER_ADMIN, appConst.ROLE.ADMIN, appConst.ROLE.USER],
+  },
+  {
+    type: "collapse",
+    name: "Destination",
+    key: "destination",
+    route: "/destination/:id",
+    icon: <SpaceShip size="12px" />,
+    component: <Destination />,
+    noCollapse: true,
+    isMenu: false,
+    roles: [appConst.ROLE.SUPPER_ADMIN, appConst.ROLE.ADMIN, appConst.ROLE.USER],
   },
   {
     type: "collapse",
@@ -203,8 +245,20 @@ const routes = [
     route: "/area",
     icon: <SpaceShip size="12px" />,
     component: <Area />,
-    noCollapse: true,    
+    noCollapse: true,
     isMenu: false,
+    roles: [appConst.ROLE.SUPPER_ADMIN, appConst.ROLE.ADMIN, appConst.ROLE.USER],
+  },
+  {
+    type: "collapse",
+    name: "Area",
+    key: "area",
+    route: "/area/:id",
+    icon: <SpaceShip size="12px" />,
+    component: <Area />,
+    noCollapse: true,
+    isMenu: false,
+    roles: [appConst.ROLE.SUPPER_ADMIN, appConst.ROLE.ADMIN, appConst.ROLE.USER],
   },
   {
     type: "collapse",
@@ -213,8 +267,20 @@ const routes = [
     route: "/detailArea",
     icon: <SpaceShip size="12px" />,
     component: <DetailArea />,
-    noCollapse: true,    
+    noCollapse: true,
     isMenu: false,
+    roles: [appConst.ROLE.SUPPER_ADMIN, appConst.ROLE.ADMIN, appConst.ROLE.USER],
+  },
+  {
+    type: "collapse",
+    name: "DetailArea",
+    key: "detailArea",
+    route: "/detail-area/:id",
+    icon: <SpaceShip size="12px" />,
+    component: <DetailArea />,
+    noCollapse: true,
+    isMenu: false,
+    roles: [appConst.ROLE.SUPPER_ADMIN, appConst.ROLE.ADMIN, appConst.ROLE.USER],
   },
   {
     type: "collapse",
@@ -223,8 +289,9 @@ const routes = [
     route: "/reservation",
     icon: <SpaceShip size="12px" />,
     component: <Reservation />,
-    noCollapse: true,    
+    noCollapse: true,
     isMenu: false,
+    roles: [appConst.ROLE.SUPPER_ADMIN, appConst.ROLE.ADMIN, appConst.ROLE.USER],
   },
   {
     type: "collapse",
@@ -233,8 +300,9 @@ const routes = [
     route: "/not-found",
     icon: <SpaceShip size="12px" />,
     component: <NotFound />,
-    noCollapse: true,    
+    noCollapse: true,
     isMenu: false,
+    roles: [appConst.ROLE.SUPPER_ADMIN, appConst.ROLE.ADMIN, appConst.ROLE.USER],
   },
 ];
 const publicRoutes = [
@@ -245,7 +313,7 @@ const publicRoutes = [
     route: "/profile",
     icon: <CustomerSupport size="12px" />,
     component: <Profile />,
-    noCollapse: true,    
+    noCollapse: true,
     isMenu: false,
   },
   {
@@ -255,7 +323,7 @@ const publicRoutes = [
     route: "/authentication/sign-in",
     icon: <Document size="12px" />,
     component: <SignIn />,
-    noCollapse: true,    
+    noCollapse: true,
     isMenu: false,
   },
   {
@@ -265,8 +333,8 @@ const publicRoutes = [
     route: "/authentication/sign-up",
     icon: <SpaceShip size="12px" />,
     component: <SignUp />,
-    noCollapse: true,    
+    noCollapse: true,
     isMenu: false,
   },
-]
-export  {routes, publicRoutes};
+];
+export { routes, publicRoutes };

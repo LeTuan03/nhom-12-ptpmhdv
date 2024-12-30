@@ -7,3 +7,18 @@ export const formatDateNoTime = (date) => {
 export const formatTimestampToDate = (date) => {
   return date ? moment(date).format(`DD/MM/YYYY`) : null;
 };
+
+export const getCurrentUser = () => {
+  let user = sessionStorage.getItem("current-user");
+  return user ? JSON.parse(user) : undefined;
+};
+
+export const formatPrice = (number, locale = 'vi-VN', currency = "VND") => {
+  return number
+    ? new Intl.NumberFormat(locale, {
+        style: "currency",
+        currency: currency,
+      }).format(number)
+    : null;
+};
+

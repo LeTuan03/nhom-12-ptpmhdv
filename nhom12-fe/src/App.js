@@ -31,6 +31,9 @@ import {
 // Images
 import brand from "assets/images/logo-ct.png";
 import "./style.css"
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import { getToken } from "./const/app-service";
 
 export default function App() {
   
@@ -116,6 +119,17 @@ export default function App() {
     </SoftBox>
   );
 
+  // useEffect(() => {
+  //   getTokens();
+  // }, []);
+  //
+  // const getTokens = async () => {
+  //   try {
+  //     const response = await getToken();
+  //     localStorage.setItem('access_token_v2', response?.access_token);
+  //   } catch (error) {}
+  // };
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -138,6 +152,7 @@ export default function App() {
         <Route path="/" element={<Navigate to="/" />} />
         <Route path="*" element={<Navigate to="/not-found" />} />
       </Routes>
+      <ToastContainer autoClose={3000}/>
     </ThemeProvider>
   );
 }

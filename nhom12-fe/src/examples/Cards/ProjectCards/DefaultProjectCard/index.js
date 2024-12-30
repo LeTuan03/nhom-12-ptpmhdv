@@ -1,5 +1,3 @@
-
-
 // react-router-dom components
 import { Link } from "react-router-dom";
 
@@ -17,7 +15,14 @@ import SoftTypography from "components/SoftTypography";
 import SoftButton from "components/SoftButton";
 import SoftAvatar from "components/SoftAvatar";
 
-function DefaultProjectCard({ image, label, title, description, action, authors }) {
+function DefaultProjectCard({
+  image,
+  label,
+  title,
+  description,
+  action,
+  authors,
+}) {
   const renderAuthors = authors.map(({ image: media, name }) => (
     <Tooltip key={name} title={name} placement="bottom">
       <SoftAvatar
@@ -48,14 +53,26 @@ function DefaultProjectCard({ image, label, title, description, action, authors 
         overflow: "visible",
       }}
     >
-      <SoftBox position="relative" width="100.25%" shadow="xl" borderRadius="xl">
+      <SoftBox
+        position="relative"
+        width="100.25%"
+        shadow="xl"
+        borderRadius="xl"
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          minWidth: "22.5rem",
+        }}
+      >
         <CardMedia
           src={image}
           component="img"
           title={title}
           sx={{
-            maxWidth: "100%",
             margin: 0,
+            height: "15rem",
+            width: "100%",
+            minWidth: "22.5rem",
             boxShadow: ({ boxShadows: { md } }) => md,
             objectFit: "cover",
             objectPosition: "center",
@@ -63,16 +80,18 @@ function DefaultProjectCard({ image, label, title, description, action, authors 
         />
       </SoftBox>
       <SoftBox pt={3} px={0.5}>
-        <SoftBox mb={1}>
-          <SoftTypography
-            variant="button"
-            fontWeight="regular"
-            textTransform="capitalize"
-            textGradient
-          >
-            {label}
-          </SoftTypography>
-        </SoftBox>
+        {label && (
+          <SoftBox mb={1}>
+            <SoftTypography
+              variant="button"
+              fontWeight="regular"
+              textTransform="capitalize"
+              textGradient
+            >
+              {label}
+            </SoftTypography>
+          </SoftBox>
+        )}
         <SoftBox mb={1}>
           {action.type === "internal" ? (
             <SoftTypography
@@ -96,12 +115,18 @@ function DefaultProjectCard({ image, label, title, description, action, authors 
             </SoftTypography>
           )}
         </SoftBox>
-        <SoftBox mb={3} lineHeight={0}>
-          <SoftTypography variant="button" fontWeight="regular" color="text">
-            {description}
-          </SoftTypography>
-        </SoftBox>
-        <SoftBox display="flex" justifyContent="space-between" alignItems="center">
+        {description && (
+          <SoftBox mb={3} lineHeight={0}>
+            <SoftTypography variant="button" fontWeight="regular" color="text">
+              {description}
+            </SoftTypography>
+          </SoftBox>
+        )}
+        <SoftBox
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+        >
           {action.type === "internal" ? (
             <SoftButton
               component={Link}
@@ -139,13 +164,13 @@ DefaultProjectCard.defaultProps = {
 
 // Typechecking props for the DefaultProjectCard
 DefaultProjectCard.propTypes = {
-  image: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
+  image: PropTypes.string,
+  label: PropTypes.string,
+  title: PropTypes.string,
+  description: PropTypes.string,
   action: PropTypes.shape({
     type: PropTypes.oneOf(["external", "internal"]),
-    route: PropTypes.string.isRequired,
+    route: PropTypes.string,
     color: PropTypes.oneOf([
       "primary",
       "secondary",
@@ -156,9 +181,9 @@ DefaultProjectCard.propTypes = {
       "light",
       "dark",
       "white",
-    ]).isRequired,
-    label: PropTypes.string.isRequired,
-  }).isRequired,
+    ]),
+    label: PropTypes.string,
+  }),
   authors: PropTypes.arrayOf(PropTypes.object),
 };
 

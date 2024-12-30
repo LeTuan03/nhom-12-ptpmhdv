@@ -41,8 +41,9 @@ public class DestinationServiceImpl implements DestinationService {
     }
 
     @Override
-    public List<Destination> search(String destinationName, String cityName, String countryName, String continentName) {
-        return destinationRepo.search(destinationName, cityName, countryName, continentName);
+    public List<Destination> search(String destinationName, String cityName, String countryName,
+                                    String countryId, String continentName) {
+        return destinationRepo.search(destinationName, cityName, countryName, countryId, continentName);
     }
 
     @Override

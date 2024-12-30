@@ -1,5 +1,3 @@
-
-
 import { useState, useEffect } from "react";
 
 // react-router components
@@ -23,12 +21,14 @@ import DefaultNavbarMobile from "examples/Navbars/DefaultNavbar/DefaultNavbarMob
 
 // Soft UI Dashboard React base styles
 import breakpoints from "assets/theme/base/breakpoints";
+import { getCurrentUser } from "../../../const/app-function";
 
 function DefaultNavbar({ transparent, light, action }) {
   const [mobileNavbar, setMobileNavbar] = useState(false);
   const [mobileView, setMobileView] = useState(false);
 
-  const openMobileNavbar = ({ currentTarget }) => setMobileNavbar(currentTarget.parentNode);
+  const openMobileNavbar = ({ currentTarget }) =>
+    setMobileNavbar(currentTarget.parentNode);
   const closeMobileNavbar = () => setMobileNavbar(false);
 
   useEffect(() => {
@@ -43,10 +43,10 @@ function DefaultNavbar({ transparent, light, action }) {
       }
     }
 
-    /** 
-     The event listener that's calling the displayMobileNavbar function when 
+    /**
+     The event listener that's calling the displayMobileNavbar function when
      resizing the window.
-    */
+     */
     window.addEventListener("resize", displayMobileNavbar);
 
     // Call the displayMobileNavbar function to set the state with the initial value.
@@ -60,7 +60,11 @@ function DefaultNavbar({ transparent, light, action }) {
     <Container>
       <SoftBox
         py={1.5}
-        px={{ xs: transparent ? 4 : 5, sm: transparent ? 2 : 5, lg: transparent ? 0 : 5 }}
+        px={{
+          xs: transparent ? 4 : 5,
+          sm: transparent ? 2 : 5,
+          lg: transparent ? 0 : 5,
+        }}
         my={2}
         mx={3}
         width="calc(100% - 48px)"
@@ -73,35 +77,80 @@ function DefaultNavbar({ transparent, light, action }) {
         position="absolute"
         left={0}
         zIndex={3}
-        sx={({ palette: { transparent: transparentColor, white }, functions: { rgba } }) => ({
-          backgroundColor: transparent ? transparentColor.main : rgba(white.main, 0.8),
+        sx={({
+          palette: { transparent: transparentColor, white },
+          functions: { rgba },
+        }) => ({
+          backgroundColor: transparent
+            ? transparentColor.main
+            : rgba(white.main, 0.8),
           backdropFilter: transparent ? "none" : `saturate(200%) blur(30px)`,
           // position: "fixed",
           // top: 0,
         })}
       >
-        <SoftBox component={Link} to="/" py={transparent ? 1.5 : 0.75} lineHeight={1}>
-          <SoftTypography variant="button" fontWeight="bold" color={light ? "white" : "dark"}>
-          Travel Lite
+        <SoftBox
+          component={Link}
+          to="/"
+          py={transparent ? 1.5 : 0.75}
+          lineHeight={1}
+        >
+          <SoftTypography
+            variant="button"
+            fontWeight="bold"
+            color={light ? "white" : "dark"}
+          >
+            Travel Lite
           </SoftTypography>
         </SoftBox>
-        <SoftBox color="inherit" display={{ xs: "none", lg: "flex" }} m={0} p={0}>
-          <DefaultNavbarLink icon="donut_large" name="dashboard" route="/dashboard" light={light} />
-          <DefaultNavbarLink icon="home" name="home" route="/" light={light} />
-          <DefaultNavbarLink icon="home" name="destination" route="/destination" light={light} />
-          <DefaultNavbarLink icon="home" name="area" route="/area" light={light} />
-          <DefaultNavbarLink icon="home" name="detailArea" route="/detailArea" light={light} />
-          <DefaultNavbarLink icon="home" name="reservation" route="/reservation" light={light} />
-          <DefaultNavbarLink icon="person" name="profile" route="/profile" light={light} />
+        <SoftBox
+          color="inherit"
+          display={{ xs: "none", lg: "flex" }}
+          m={0}
+          p={0}
+        >
+          <DefaultNavbarLink
+            icon="donut_large"
+            name="dashboard"
+            route="/dashboard"
+            light={light}
+          />
+          <DefaultNavbarLink
+            icon="home"
+            name="Trang chủ"
+            route="/"
+            light={light}
+          />
+          {/*<DefaultNavbarLink icon="home" name="destination" route="/destination" light={light} />*/}
+          {/*<DefaultNavbarLink icon="home" name="area" route="/area" light={light} />*/}
+          {/*<DefaultNavbarLink icon="home" name="detailArea" route="/detailArea" light={light} />*/}
+          {getCurrentUser() ? (
+            <>
+              <DefaultNavbarLink
+                icon="home"
+                name="Đặt phòng"
+                route="/reservation"
+                light={light}
+              />
+              <DefaultNavbarLink
+                icon="person"
+                name="Thông tin cá nhân"
+                route="/profile"
+                light={light}
+              />
+            </>
+          ) : (
+            <></>
+          )}
           <DefaultNavbarLink
             icon="account_circle"
-            name="sign up"
+            name="Đăng ký"
             route="/authentication/sign-up"
             light={light}
           />
           <DefaultNavbarLink
             icon="key"
-            name="sign in"
+            name="Đăng nhập"
             route="/authentication/sign-in"
             light={light}
           />
@@ -148,7 +197,9 @@ function DefaultNavbar({ transparent, light, action }) {
           <Icon fontSize="default">{mobileNavbar ? "close" : "menu"}</Icon>
         </SoftBox>
       </SoftBox>
-      {mobileView && <DefaultNavbarMobile open={mobileNavbar} close={closeMobileNavbar} />}
+      {mobileView && (
+        <DefaultNavbarMobile open={mobileNavbar} close={closeMobileNavbar} />
+      )}
     </Container>
   );
 }

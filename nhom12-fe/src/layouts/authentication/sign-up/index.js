@@ -1,6 +1,6 @@
 
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // react-router-dom components
 import { Link } from "react-router-dom";
@@ -22,38 +22,79 @@ import Separator from "layouts/authentication/components/Separator";
 
 // Images
 import curved6 from "assets/images/curved-images/curved14.jpg";
+import { register } from "../sign-in/sign-service";
+import * as React from "react";
+import { appConst } from "../../../const/app-const";
+import { toast } from "react-toastify";
+import { removeAuth } from "../../../const/app-service";
 
 function SignUp() {
   const [agreement, setAgremment] = useState(true);
 
+  const [state, setState] = React.useState({});
+
+  const handleChange = (event) => {
+    let { name, value } = event.target;
+    setState((pre) => ({ ...pre, [name]: value }));
+  };
+
   const handleSetAgremment = () => setAgremment(!agreement);
+
+  const convertData = () => {
+    return {
+      avatar: state?.avatar,
+      birthday: state?.birthday,
+      email: state?.email,
+      gender: state?.gender,
+      name: state?.name,
+      password: state?.password,
+      phone: state?.phone,
+      role: appConst.ROLE.USER.name,
+      username: state?.username,
+    };
+  };
+  const handleRegister = async (event) => {
+    event.preventDefault();
+    try {
+      let payload = convertData();
+      const data = await register(payload);
+      toast.success("Đăng ký thành công tài khoản")
+      console.log(data);
+    } catch (error) {
+      toast.error(error?.response?.data?.message);
+    }
+  }
+
+  useEffect(() => {
+    removeAuth();
+  }, []);
 
   return (
     <BasicLayout
       title="Welcome!"
-      description="Use these awesome forms to login or create new account in your project for free."
+      description="Sử dụng miễn phí các biểu mẫu tuyệt vời này để đăng nhập hoặc tạo tài khoản mới trong dự án của bạn."
       image={curved6}
     >
       <Card>
         <SoftBox p={3} mb={1} textAlign="center">
           <SoftTypography variant="h5" fontWeight="medium">
-            Register with
-          </SoftTypography>
+            Đăng nhập với
+              </SoftTypography>
         </SoftBox>
         <SoftBox mb={2}>
           <Socials />
         </SoftBox>
         <Separator />
         <SoftBox pt={2} pb={3} px={3}>
-          <SoftBox component="form" role="form">
+          <form  onSubmit={handleRegister}>
             <SoftBox mb={2}>
-              <SoftInput placeholder="Name" />
+              <SoftInput name={"username"} placeholder="Name" onChange={handleChange} />
             </SoftBox>
             <SoftBox mb={2}>
-              <SoftInput type="email" placeholder="Email" />
+              <SoftInput name={"email"} type="email" placeholder="Email" onChange={handleChange} />
             </SoftBox>
             <SoftBox mb={2}>
-              <SoftInput type="password" placeholder="Password" />
+              <SoftInput name={"password"} type="password" placeholder="Password" onChange={handleChange}/>
             </SoftBox>
             <SoftBox display="flex" alignItems="center">
               <Checkbox checked={agreement} onChange={handleSetAgremment} />
@@ -76,13 +117,13 @@ function SignUp() {
               </SoftTypography>
             </SoftBox>
             <SoftBox mt={4} mb={1}>
-              <SoftButton variant="gradient" color="dark" fullWidth>
-                sign up
+              <SoftButton type={"submit"} variant="gradient" color="dark" fullWidth>
+                Đăng ký
               </SoftButton>
             </SoftBox>
             <SoftBox mt={3} textAlign="center">
               <SoftTypography variant="button" color="text" fontWeight="regular">
-                Already have an account?&nbsp;
+                Đã có tài khoản?&nbsp;
                 <SoftTypography
                   component={Link}
                   to="/authentication/sign-in"
@@ -91,11 +132,11 @@ function SignUp() {
                   fontWeight="bold"
                   textGradient
                 >
-                  Sign in
+                  Đăng nhập
                 </SoftTypography>
               </SoftTypography>
             </SoftBox>
-          </SoftBox>
+          </form>
         </SoftBox>
       </Card>
     </BasicLayout>

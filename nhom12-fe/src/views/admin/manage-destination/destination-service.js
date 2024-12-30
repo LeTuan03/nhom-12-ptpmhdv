@@ -7,9 +7,12 @@ const URL = BASE_URL + "/destination";
 export const getAllDestination = async () => {
   return axios(URL);
 };
+export const getDestinationById = async (id) => {
+  return axios(URL+"/"+id);
+};
 export const searchDestination = async (payload) => {
   let config = {
-    parmas: payload
+    params: payload
   }
   return axios(URL + "/search", config);
 };

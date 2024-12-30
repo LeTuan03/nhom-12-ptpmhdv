@@ -28,6 +28,9 @@ public class Booking {
     @Column(name = "placeId")
     private String placeId;
 
+    @Column(name = "placeName")
+    private String placeName;
+
     @Column(name = "startDate")
     private LocalDate startDate;
 
@@ -46,4 +49,7 @@ public class Booking {
 
     @Column(name = "statusRoom")
     private String statusRoom;
+
+    @Column(name = "statusOrder")
+    private String statusOrder;
 }
