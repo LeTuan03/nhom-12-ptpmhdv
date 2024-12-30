@@ -1,6 +1,7 @@
 package com._cn4.nhom12.controller;
 
 
+import com._cn4.nhom12.DTO.response.BookingWithRatingDTO;
 import com._cn4.nhom12.entity.Booking;
 import com._cn4.nhom12.services.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,14 @@ public class BookingController {
     public ResponseEntity<Void> deleteBooking(@PathVariable String id) {
         bookingService.deleteBooking(id);
         return ResponseEntity.noContent().build();
+    }
+
+    // API lấy các booking của người dùng và kiểm tra đánh giá cho mỗi place
+    @GetMapping("/getByBuyerId/{buyerId}")
+    public ResponseEntity<List<BookingWithRatingDTO>> getBookingsAndRatings(@PathVariable String buyerId) {
+        // Lấy danh sách các booking của người dùng và kiểm tra đã đánh giá chưa
+        List<BookingWithRatingDTO> bookingsWithRatings = bookingService.getBookingsAndRatings(buyerId);
+        return ResponseEntity.ok(bookingsWithRatings);
     }
 }
 

@@ -1,5 +1,6 @@
 package com._cn4.nhom12.services;
 
+import com._cn4.nhom12.DTO.response.BookingWithRatingDTO;
 import com._cn4.nhom12.entity.Booking;
 
 import java.util.List;
@@ -10,4 +11,5 @@ public interface BookingService {
     Booking createBooking(Booking booking, String placeId);
     Booking updateBooking(String id, Booking updatedBooking);
     void deleteBooking(String id);
+    List<BookingWithRatingDTO> getBookingsAndRatings(String buyerId);
 }

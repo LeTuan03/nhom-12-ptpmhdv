@@ -1,14 +1,17 @@
 package com._cn4.nhom12.services.Impl;
 
+import com._cn4.nhom12.DTO.response.BookingWithRatingDTO;
 import com._cn4.nhom12.entity.Booking;
 import com._cn4.nhom12.entity.Place;
 import com._cn4.nhom12.repository.BookingRepo;
 import com._cn4.nhom12.repository.PlaceRepo;
 import com._cn4.nhom12.services.BookingService;
+import com._cn4.nhom12.services.RatingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class BookingServiceImpl implements BookingService {
@@ -18,6 +21,9 @@ public class BookingServiceImpl implements BookingService {
 
     @Autowired
     private PlaceRepo placeRepository;
+
+    @Autowired
+    private RatingService ratingService;
 
     @Override
     public List<Booking> getAllBookings() {
@@ -54,4 +60,20 @@ public class BookingServiceImpl implements BookingService {
     public void deleteBooking(String id) {
         bookingRepository.deleteById(id);
     }
+
+
+    // Lấy các booking của người dùng và kiểm tra xem đã đánh giá địa điểm chưa
+    public List<BookingWithRatingDTO> getBookingsAndRatings(String buyerId) {
+        // Lấy danh sách các booking của người dùng
+        List<Booking> bookings = bookingRepository.findByBuyerId(buyerId);
+
+        // Tạo danh sách DTO kết hợp giữa booking và thông tin đánh giá
+        return bookings.stream().map(booking -> {
+            // Kiểm tra xem người dùng đã đánh giá địa điểm chưa
+            boolean hasRated = ratingService.hasRated(booking.getPlaceId(), buyerId);
+
+            return new BookingWithRatingDTO(booking, hasRated);
+        }).collect(Collectors.toList());
+    }
+
 }
