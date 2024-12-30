@@ -3,6 +3,7 @@ package com._cn4.nhom12.services.Impl;
 import com._cn4.nhom12.entity.TourType;
 import com._cn4.nhom12.repository.TourTypeRepo;
 import com._cn4.nhom12.services.TourTypeService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -12,8 +13,13 @@ import java.util.List;
 @Service
 public class TourTypeServiceImpl implements TourTypeService {
 
-    TourTypeRepo tourTypeRepo;
+    @Autowired
+    private TourTypeRepo tourTypeRepo;
 
+    @Override
+    public List<TourType> searchTourTypes(String name) {
+        return tourTypeRepo.findNameContainingIgnoreCase(name);
+    }
     public TourTypeServiceImpl(TourTypeRepo tourTypeRepo) {
         this.tourTypeRepo = tourTypeRepo;
     }

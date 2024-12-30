@@ -4,6 +4,7 @@ import com._cn4.nhom12.entity.TourType;
 import com._cn4.nhom12.services.TourTypeService;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,12 +14,18 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequestMapping("/tourtypes")
 class TourTypeController {
-    private final TourTypeService tourTypeService;
+    @Autowired
+    private TourTypeService tourTypeService;
 
     public TourTypeController(TourTypeService tourTypeService) {
         this.tourTypeService = tourTypeService;
     }
 
+    @GetMapping("/search")
+    ResponseEntity<List<TourType>> searchTourTypes(@RequestParam String name) {
+        List<TourType> result = tourTypeService.searchTourTypes(name);
+        return  ResponseEntity.ok(result);
+    }
     @GetMapping
     List<TourType> getAll() {
         return tourTypeService.getAllTourTypes();
