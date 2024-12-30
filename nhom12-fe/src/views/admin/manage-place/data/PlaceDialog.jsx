@@ -9,14 +9,14 @@ import SoftTypography from "components/SoftTypography";
 import SoftInput from "components/SoftInput";
 import { Autocomplete, Avatar, Grid, TextField } from "@mui/material";
 import PropTypes from "prop-types";
-import { formatDateNoTime } from "const/app-function";
+import { formatDateNoTime, getCurrentUser } from "const/app-function";
 import { createPlace, updatePlace } from "../place-service";
 import { appConst } from "../../../../const/app-const";
 import { toast } from "react-toastify";
-import { getAllContinents } from "../../manage-continents/continents-service";
-import { getAllTourtypes } from "../../manage-category/tourtype-service";
 import { getAllUser } from "../../manage-user/user-service";
 import { getAllDestination } from "../../manage-destination/destination-service";
+import { uploadImageV2 } from "../../../../const/app-service";
+import { API_PATH_V2 } from "../../../../utils/axios-customize";
 
 export default function PlaceDialog(props) {
   let { open, item, handleClose, handleOk = () => {} } = props;
@@ -31,26 +31,35 @@ export default function PlaceDialog(props) {
     console.log(data);
     setState((pre) => ({ ...pre, [source]: data }));
   };
-  const handleImageChange = (event) => {
-    const newImage = event.target.files[0];
-    if (newImage) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        setState((pre) => ({ ...pre, ["imageUrl"]: reader.result }));
-      };
-      reader.readAsDataURL(newImage);
+  const handleImageChange = async (event) => {
+    try {
+      const newImage = event.target.files[0];
+      if (newImage) {
+        let formData = new FormData();
+        formData.append("file", newImage);
+        const data = await uploadImageV2(formData);
+        let urlImageNew = API_PATH_V2 + "/public/image/" + data?.data?.name;
+        setState((pre) => ({ ...pre, "imageUrl":  urlImageNew || data?.data || "" }));
+        // const reader = new FileReader();
+        // reader.onload = () => {
+        //   setState((pre) => ({ ...pre, ["imageUrl"]: reader.result }));
+        // };
+        // reader.readAsDataURL(newImage);
+      }
+    } catch (e) {
     }
   };
   const convertData = () => {
     return {
       id: state?.id,
       name: state?.name,
-      imageUrl: "state?.imageUrl",
+      imageUrl: state?.imageUrl,
       pricePerPerson: state?.pricePerPerson,
       destinationId: state?.destination?.id,
       destinationName: state?.destination?.name,
       bookings: state?.bookings,
       ownerId: state?.owner?.id,
+      description: state?.description,
     };
   };
   const handleFormSubmit = async () => {
@@ -92,6 +101,7 @@ export default function PlaceDialog(props) {
             name: item?.destinationName,
           }
         : null,
+      owner: item?.owner || getCurrentUser()
     }));
     getListOptions();
   }, [item]);
@@ -146,6 +156,7 @@ export default function PlaceDialog(props) {
                     </SoftTypography>
                   </SoftBox>
                   <Autocomplete
+                    disabled={getCurrentUser()?.role !== appConst.ROLE.SUPPER_ADMIN.name}
                     options={state?.listUser?.length ? state?.listUser : []}
                     fullWidth
                     value={state?.owner || null}
@@ -196,9 +207,28 @@ export default function PlaceDialog(props) {
                     </SoftTypography>
                   </SoftBox>
                   <SoftInput
-                    type="text"
+                    type="number"
                     name="pricePerPerson"
                     value={state?.pricePerPerson || ""}
+                    onChange={(event) => handleChange(event)}
+                  />
+                </SoftBox>
+              </Grid>
+              <Grid item lg={8} md={6} sm={12}>
+                <SoftBox>
+                  <SoftBox ml={0.5}>
+                    <SoftTypography
+                      component="label"
+                      variant="caption"
+                      fontWeight="bold"
+                    >
+                      Chi tiết
+                    </SoftTypography>
+                  </SoftBox>
+                  <SoftInput
+                    type="text"
+                    name="description"
+                    value={state?.description || ""}
                     onChange={(event) => handleChange(event)}
                   />
                 </SoftBox>

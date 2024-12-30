@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // Authentication layout components
 import ClientLayout from "layouts/authentication/components/ClientLayout";
@@ -23,21 +23,49 @@ import homeDecor3 from "assets/images/home-decor-3.jpg";
 import backgroundImage from "assets/images/banner.jpg"; // Thêm ảnh nền bất kỳ
 import team1 from "assets/images/team-1.jpg";
 import team2 from "assets/images/team-2.jpg";
-import team3 from "assets/images/team-3.jpg";
-import team4 from "assets/images/team-4.jpg";
 import iconMain from "assets/images/apple-icon.png";
 import SoftBox from "../../../components/SoftBox";
+import { getAllContinents } from "../../admin/manage-continents/continents-service";
+import { getAllCountries } from "../../admin/manage-countries/countries-service";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
+  const navigate = useNavigate();
+  const [state, setState] = useState({});
   const [selectedTab, setSelectedTab] = useState(0);
-  const [search, setSearch] = useState("");
 
   const handleSearchSubmit = () => {
-    console.log("Searching for:", search);
-    // Thêm logic tìm kiếm tại đây
+    navigate(`/destination/${state?.country?.id}`);
   };
 
-  const handleTabChange = (event, newValue) => setSelectedTab(newValue);
+  const handleTabChange = (event, newValue) => {
+    setSelectedTab(newValue);
+    setState((pre) => ({
+      ...pre,
+      listCountries: state?.listContinents?.length
+        ? state?.listContinents[newValue]?.countries
+        : [],
+    }));
+  };
+
+  const getListOptions = async () => {
+    try {
+      const listContinents = await getAllContinents();
+      setState((pre) => ({
+        ...pre,
+        listContinents: listContinents?.data,
+        listCountries: listContinents?.data?.[0]?.countries || [],
+      }));
+    } catch (e) {}
+  };
+
+  useEffect(() => {
+    getListOptions();
+  }, []);
+
+  const handleChangeOption = (data, source) => {
+    setState((pre) => ({ ...pre, [source]: data }));
+  };
   return (
     <ClientLayout top={10}>
       {/* Phần header */}
@@ -73,7 +101,7 @@ function Home() {
             color: "#ffffff",
           }}
         >
-          Find travel inspirations, your way!
+          Tìm cảm hứng du lịch theo cách của bạn!
         </Typography>
 
         {/* Thanh tìm kiếm */}
@@ -93,15 +121,9 @@ function Home() {
           <Autocomplete
             disablePortal
             fullWidth
-            options={[
-              { label: "The Shaw shank Redemption", year: 1994 },
-              { label: "The Godfather", year: 1972 },
-              { label: "The Godfather: Part II", year: 1974 },
-              { label: "The Dark Knight", year: 2008 },
-              { label: "12 Angry Men", year: 1957 },
-              { label: "Schindler's List", year: 1993 },
-              { label: "Pulp Fiction", year: 1994 },
-            ]}
+            options={state?.listCountries?.length ? state?.listCountries : []}
+            getOptionLabel={(option) => option.name}
+            onChange={(event, data) => handleChangeOption(data, "country")}
             renderInput={(params) => (
               <TextField
                 fullWidth
@@ -124,7 +146,7 @@ function Home() {
       >
         <Grid item xs={12}>
           <Typography variant="h5" fontWeight="bold" sx={{ fontSize: "24px" }}>
-            Travel guide from A - Z
+            Hướng dẫn du lịch từ A - Z
           </Typography>
         </Grid>
         <Grid item xs={12}>
@@ -132,84 +154,43 @@ function Home() {
             variant="h5"
             sx={{ color: "rgb(143 143 143)", fontSize: "16px" }}
           >
-            Travel guide for the perfect trip
+            Cẩm nang du lịch cho chuyến đi hoàn hảo
           </Typography>
         </Grid>
-        <Grid item xs={12} md={6} lg={6}>
+        <Grid item xs={12} md={12} lg={12}>
           <SoftBox
             mb={3}
             mt={3}
             sx={{ backgroundColor: "rgb(255 255 255 / 80%)" }}
           >
             <Tabs value={selectedTab} onChange={handleTabChange}>
-              <Tab sx={{ width: "200px" }} label="Asia" />
-              <Tab sx={{ width: "200px" }} label="Europe" />
-              <Tab sx={{ width: "200px" }} label="North America" />
-              <Tab sx={{ width: "200px" }} label="South America" />
-              <Tab sx={{ width: "200px" }} label="Africa" />
-              <Tab sx={{ width: "200px" }} label="Australia" />
+              {state?.listContinents?.map((item) => (
+                <Tab key={item.id} sx={{ width: "200px" }} label={item?.name} />
+              ))}
             </Tabs>
           </SoftBox>
         </Grid>
         <Grid container item xs={12} spacing={3}>
-          <Grid item xs={12} md={6} lg={4}>
-            <DefaultProjectCard
-              image={homeDecor1}
-              label="Hotel 1"
-              title="Luxury Hotel"
-              description="Enjoy premium services and breathtaking views."
-              action={{
-                type: "internal",
-                route: "/hotel-details/1",
-                color: "info",
-                label: "View",
-              }}
-              authors={[
-                { image: team1, name: "John Doe" },
-                { image: team2, name: "Jane Smith" },
-              ]}
-            />
-          </Grid>
-          <Grid item xs={12} md={6} lg={4}>
-            <DefaultProjectCard
-              image={homeDecor2}
-              label="Hotel 2"
-              title="Scenic Resort"
-              description="A perfect getaway for nature lovers."
-              action={{
-                type: "internal",
-                route: "/hotel-details/2",
-                color: "info",
-                label: "View",
-              }}
-              authors={[
-                { image: team3, name: "Alice Johnson" },
-                { image: team4, name: "Bob Brown" },
-              ]}
-            />
-          </Grid>
-          <Grid item xs={12} md={6} lg={4}>
-            <DefaultProjectCard
-              image={homeDecor3}
-              label="Hotel 3"
-              title="Urban Oasis"
-              description="Experience modern living in the heart of the city."
-              action={{
-                type: "internal",
-                route: "/hotel-details/3",
-                color: "info",
-                label: "View",
-              }}
-              authors={[
-                { image: team2, name: "Jane Smith" },
-                { image: team4, name: "Bob Brown" },
-              ]}
-            />
-          </Grid>
+          {state?.listCountries?.map((item) => (
+            <Grid item xs={12} md={6} lg={4}>
+              <DefaultProjectCard
+                image={item?.image || homeDecor1}
+                title={item?.name}
+                action={{
+                  type: "internal",
+                  route: `/destination/${item?.id}`,
+                  color: "info",
+                  label: "Xem chi tiết",
+                }}
+                authors={[
+                  { image: team1, name: "John Doe" },
+                  { image: team2, name: "Jane Smith" },
+                ]}
+              />
+            </Grid>
+          ))}
         </Grid>
       </Grid>
-      {/*Travel guide*/}
-      {/*Travel guide*/}
       <Grid
         container
         sx={{
@@ -218,7 +199,7 @@ function Home() {
       >
         <Grid item xs={12}>
           <Typography variant="h5" fontWeight="bold" sx={{ fontSize: "24px" }}>
-            Popular destinations
+            Cảm hứng du lịch
           </Typography>
         </Grid>
         <Grid item xs={12}>
@@ -226,101 +207,11 @@ function Home() {
             variant="h5"
             sx={{ color: "rgb(143 143 143)", fontSize: "16px" }}
           >
-            Prepare your luggage and explore these destinations now!
+            Hãy đọc bài viết sau để lên kế hoạch cho chuyến du lịch của mình
+            nhé!
           </Typography>
         </Grid>
-        <Grid item xs={12} md={6} lg={6}>
-          <SoftBox
-            mb={3}
-            mt={3}
-            sx={{ backgroundColor: "rgb(255 255 255 / 80%)" }}
-          >
-            <Tabs value={selectedTab} onChange={handleTabChange}>
-              <Tab sx={{ width: "200px" }} label="Popular destination" />
-              <Tab sx={{ width: "200px" }} label="Cultural experience" />
-              <Tab sx={{ width: "200px" }} label="Culinary tourism" />
-            </Tabs>
-          </SoftBox>
-        </Grid>
-        <Grid container item xs={12} spacing={3}>
-          <Grid item xs={12} md={6} lg={4}>
-            <DefaultProjectCard
-              image={homeDecor1}
-              label="Hotel 1"
-              title="Luxury Hotel"
-              description="Enjoy premium services and breathtaking views."
-              action={{
-                type: "internal",
-                route: "/hotel-details/1",
-                color: "info",
-                label: "View",
-              }}
-              authors={[
-                { image: team1, name: "John Doe" },
-                { image: team2, name: "Jane Smith" },
-              ]}
-            />
-          </Grid>
-          <Grid item xs={12} md={6} lg={4}>
-            <DefaultProjectCard
-              image={homeDecor2}
-              label="Hotel 2"
-              title="Scenic Resort"
-              description="A perfect getaway for nature lovers."
-              action={{
-                type: "internal",
-                route: "/hotel-details/2",
-                color: "info",
-                label: "View",
-              }}
-              authors={[
-                { image: team3, name: "Alice Johnson" },
-                { image: team4, name: "Bob Brown" },
-              ]}
-            />
-          </Grid>
-          <Grid item xs={12} md={6} lg={4}>
-            <DefaultProjectCard
-              image={homeDecor3}
-              label="Hotel 3"
-              title="Urban Oasis"
-              description="Experience modern living in the heart of the city."
-              action={{
-                type: "internal",
-                route: "/hotel-details/3",
-                color: "info",
-                label: "View",
-              }}
-              authors={[
-                { image: team2, name: "Jane Smith" },
-                { image: team4, name: "Bob Brown" },
-              ]}
-            />
-          </Grid>
-        </Grid>
-      </Grid>
-      {/*Travel guide*/}
-      {/*Travel guide*/}
-      <Grid
-        container
-        sx={{
-          p: 5,
-        }}
-      >
-        <Grid item xs={12}>
-          <Typography variant="h5" fontWeight="bold" sx={{ fontSize: "24px" }}>
-            Travel inspiration
-          </Typography>
-        </Grid>
-        <Grid item xs={12}>
-          <Typography
-            variant="h5"
-            sx={{ color: "rgb(143 143 143)", fontSize: "16px" }}
-          >
-            Read the following articles to plan your travel!
-          </Typography>
-        </Grid>
-        <Grid container item xs={12} spacing={3} sx={{mt: 3}}>
+        <Grid container item xs={12} spacing={3} sx={{ mt: 3 }}>
           <Grid item xs={12} md={6} lg={4}>
             <ProjectCardDesc
               image={homeDecor1}
