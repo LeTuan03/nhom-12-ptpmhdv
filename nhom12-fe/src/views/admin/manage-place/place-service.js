@@ -8,6 +8,10 @@ export const getAllPlace = async () => {
   return axios(URL);
 };
 
+export const getPlaceById = async (id) => {
+  return axios(URL + "/" + id);
+};
+
 export const createPlace = async (payload) => {
   return axios.post(URL, payload);
 };

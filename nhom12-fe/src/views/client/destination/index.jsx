@@ -1,11 +1,6 @@
 // Authentication layout components
 import ClientLayout from "layouts/authentication/components/ClientLayout";
-import {
-  Card,
-  Grid,
-  Typography,
-  Box,
-} from "@mui/material";
+import { Card, Grid, Typography, Box } from "@mui/material";
 import ProjectCardDesc from "examples/Cards/ProjectCards/ProjectCardDesc";
 
 // Images
@@ -14,8 +9,34 @@ import homeDecor2 from "assets/images/home-decor-2.jpg";
 import homeDecor3 from "assets/images/home-decor-3.jpg";
 import bannerImage from "assets/images/home-decor-3.jpg";
 import SoftBox from "components/SoftBox";
+import { useNavigate, useParams } from "react-router-dom";
+import { searchDestination } from "../../admin/manage-destination/destination-service";
+import { useEffect, useState } from "react";
+import { getCountriesById } from "../../admin/manage-countries/countries-service";
 
 function Destination() {
+  const params = useParams();
+  const navigate = useNavigate();
+  const [state, setState] = useState({});
+  const handleSearch = async () => {
+    if (!params?.id) return;
+    try {
+      const payload = {
+        countryId: params?.id,
+      };
+      const data = await searchDestination(payload);
+      const country = await getCountriesById(params?.id);
+      setState({ listItems: data?.data, country: country?.data });
+    } catch (error) {}
+  };
+
+  useEffect(() => {
+    handleSearch();
+  }, []);
+
+  const handleNavigate = (id) => {
+    navigate("/area/" + id);
+  };
   return (
     <ClientLayout top={10}>
       {/* Hero Section */}
@@ -50,15 +71,9 @@ function Destination() {
       <SoftBox mb={5}>
         <Card sx={{ width: "100%" }}>
           <SoftBox p={2} sx={{ padding: "10px 200px" }}>
-            <Typography variant="h1">Bangkok</Typography>
+            <Typography variant="h1">{state?.country?.name}</Typography>
             <Typography variant="p" mb={2} paddingBottom={5}>
-              Bangkok, còn được người dân địa phương gọi là Krung Thep, là một
-              đô thị rộng lớn với những tòa nhà chọc trời và nhiều di tích lịch
-              sử. Vùng đất c ủa Voi trắng sở hữu nhiều nét quyến rũ này đang chờ
-              được khám phá bởi các gia đình, cặp đôi, hay cả k hách du lịch độc
-              hành. Không có gì lạ khi Bangkok là một trong những điểm đến được
-              yêu thích cho kỳ nghỉ cuố i tuần. Không chỉ là nơi tọa lạc của
-              nhiều ngôi đền và tượng ...
+              {state?.country?.description}
             </Typography>
             <br></br>
             <Box
@@ -85,28 +100,31 @@ function Destination() {
                       color: "rgb(0, 135, 90)",
                     }}
                   >
-                    Tìm hiểu Bangkok
+                    Tìm hiểu {state?.country?.name}
                   </h2>
                   <div>Tham quan các điểm nổi bật của điểm đến này</div>
                 </Box>
               </Box>
             </Box>
             <Typography variant="h3" fontWeight={"bold"} mb={1}>
-              Điểm tham quan du lịch Bangkok nổi tiếng
+              Điểm tham quan du lịch nổi tiếng
             </Typography>
             <Grid container spacing={4} mt={1}>
-              <Grid item xs={12} md={6} xl={3}>
-                <ProjectCardDesc image={homeDecor1} description="Don Mueang" />
-              </Grid>
-              <Grid item xs={12} md={6} xl={3}>
-                <ProjectCardDesc image={homeDecor2} description="Lat Krabang" />
-              </Grid>
-              <Grid item xs={12} md={6} xl={3}>
-                <ProjectCardDesc image={homeDecor3} description="Ratchathewi" />
-              </Grid>
-              <Grid item xs={12} md={6} xl={3}>
-                <ProjectCardDesc image={homeDecor3} description="Huai Khwang" />
-              </Grid>
+              {state?.listItems?.map((item) => (
+                <Grid
+                  key={item?.id}
+                  item
+                  xs={12}
+                  md={6}
+                  xl={3}
+                  onClick={() => handleNavigate(item?.id)}
+                >
+                  <ProjectCardDesc
+                    image={item?.image}
+                    description={item?.name}
+                  />
+                </Grid>
+              ))}
             </Grid>
           </SoftBox>
         </Card>
