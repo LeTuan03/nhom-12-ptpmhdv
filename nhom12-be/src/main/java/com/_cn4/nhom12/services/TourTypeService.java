@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface TourTypeService {
     List<TourType> getAllTourTypes();
+    List<TourType> searchTourTypes(String name);
     TourType getTourTypeById(String id);
     TourType createTourType(TourType tourType);
     TourType updateTourType(String id, TourType tourType);

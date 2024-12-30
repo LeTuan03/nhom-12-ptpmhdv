@@ -8,6 +8,7 @@ import java.util.List;
 public interface ContinentsService {
 
     List<Continents> getAllContinents();
+    List<Continents> searchContinents(String name);
 
     ResponseEntity<Continents> createContinents(Continents request);
     ResponseEntity<Continents> getContinents(String id);

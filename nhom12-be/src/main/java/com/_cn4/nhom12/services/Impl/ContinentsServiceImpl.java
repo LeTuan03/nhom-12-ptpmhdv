@@ -7,6 +7,7 @@ import com._cn4.nhom12.services.ContinentsService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,13 @@ import java.util.Optional;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ContinentsServiceImpl implements ContinentsService {
 
+    @Autowired
     private ContinentsRepo continentsRepo;
+
+    @Override
+    public List<Continents> searchContinents(String name) {
+        return continentsRepo.findByNameContainingIgnoreCase(name);
+    }
 
     private void setValueDtos(Continents entity, Continents request) {
         if (!Objects.isNull(request.getId())) {

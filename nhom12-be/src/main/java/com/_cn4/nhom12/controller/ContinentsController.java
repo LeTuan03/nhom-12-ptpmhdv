@@ -5,6 +5,7 @@ import com._cn4.nhom12.services.ContinentsService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,9 +16,14 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequestMapping("/continents")
 public class ContinentsController {
+    @Autowired
     ContinentsService continentsService;
 
-
+    @GetMapping("/search")
+    ResponseEntity<List<Continents>> searchContinents(@RequestParam String name) {
+        List<Continents> result = continentsService.searchContinents(name);
+        return ResponseEntity.ok(result);
+    }
     @GetMapping
     List<Continents> getAll() {
         return continentsService.getAllContinents();
