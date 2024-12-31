@@ -33,6 +33,7 @@ import ManageBooking from "./views/admin/manage-booking";
 import { appConst } from "./const/app-const";
 import Success from "./views/client/success";
 import ErrorPurchase from "./views/client/error-purchase";
+import Moment from "./views/client/moment";
 
 const routes = [
   {
@@ -302,6 +303,17 @@ const routes = [
     route: "/reservation",
     icon: <SpaceShip size="12px" />,
     component: <Reservation />,
+    noCollapse: true,
+    isMenu: false,
+    roles: [appConst.ROLE.SUPPER_ADMIN, appConst.ROLE.ADMIN, appConst.ROLE.USER],
+  },
+  {
+    type: "collapse",
+    name: "Moment",
+    key: "moment",
+    route: "/moment/:id",
+    icon: <SpaceShip size="12px" />,
+    component: <Moment />,
     noCollapse: true,
     isMenu: false,
     roles: [appConst.ROLE.SUPPER_ADMIN, appConst.ROLE.ADMIN, appConst.ROLE.USER],

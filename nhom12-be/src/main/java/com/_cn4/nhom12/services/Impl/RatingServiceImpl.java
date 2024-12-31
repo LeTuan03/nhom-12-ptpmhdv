@@ -15,9 +15,12 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -46,12 +49,9 @@ public class RatingServiceImpl implements RatingService {
     public Rating createRating(RatingRequest request) {
 
         // Tìm thông tin người mua và place
-        Account buyer = accountRepository.findById(request.getBuyerId())
-                .orElseThrow(() -> new RuntimeException("Buyer not found"));
-        Place place = placeRepository.findById(request.getPlaceId())
-                .orElseThrow(() -> new RuntimeException("Place not found"));
-        Booking booking = bookingRepo.findById(request.getBookingId())
-                .orElseThrow(() -> new RuntimeException("Booking not found"));
+        Account buyer = accountRepository.findById(request.getBuyerId()).orElseThrow(() -> new RuntimeException("Buyer not found"));
+        Place place = placeRepository.findById(request.getPlaceId()).orElseThrow(() -> new RuntimeException("Place not found"));
+        Booking booking = bookingRepo.findById(request.getBookingId()).orElseThrow(() -> new RuntimeException("Booking not found"));
 
         // Tạo đánh giá mới
         Rating rating = new Rating();
@@ -76,4 +76,12 @@ public class RatingServiceImpl implements RatingService {
     public List<Rating> getAllRating() {
         return ratingRepository.findAll();
     }
+
+    @Override
+    public Rating getById(String id) {
+        Optional<Rating> itemExist = ratingRepository.findById(id);
+        Rating entity = itemExist.get();
+        return entity;
+    }
+
 }
