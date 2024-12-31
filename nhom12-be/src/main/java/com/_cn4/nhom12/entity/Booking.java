@@ -37,6 +37,9 @@ public class Booking {
     @Column(name = "placeName")
     private String placeName;
 
+    @Column(name = "placeImage")
+    private String placeImage;
+
     @Column(name = "startDate")
     private LocalDate startDate;
 

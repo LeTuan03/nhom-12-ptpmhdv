@@ -71,6 +71,7 @@ public class BookingServiceImpl implements BookingService {
         Place place = placeRepository.findById(booking.getPlaceId()).orElseThrow(() -> new RuntimeException("Place not found!"));
         Account account = accountRepo.findById(booking.getBuyer().getId()).orElseThrow(() -> new RuntimeException("Account not found!"));
         booking.setPlaceId(place.getId());
+        booking.setPlaceImage(place.getImageUrl());
         booking.setBuyer(account);
         booking.setTotalPrice(place.getPricePerPerson() * booking.getNumberOfPeople());
         return bookingRepository.save(booking);
@@ -92,6 +93,7 @@ public class BookingServiceImpl implements BookingService {
         existingBooking.setPlaceId(place.getId());
         existingBooking.setBuyer(account);
         existingBooking.setStatusOrder(updatedBooking.getStatusOrder());
+        existingBooking.setPlaceImage(place.getImageUrl());
         return bookingRepository.save(existingBooking);
     }
 

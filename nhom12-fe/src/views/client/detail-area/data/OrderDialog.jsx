@@ -43,6 +43,7 @@ export default function OrderDialog(props) {
       email: state?.email,
       placeId: state?.place?.id,
       placeName: state?.place?.name,
+      placeImage: state?.place?.imageUrl,
       startDate: state?.startDate,
       numberOfPeople: state?.numberOfPeople,
       totalPrice: state?.totalPrice,

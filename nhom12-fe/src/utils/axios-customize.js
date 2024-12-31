@@ -1,5 +1,6 @@
 import axios from 'axios';
 export const API_PATH_V2 = 'https://em-v2.oceantech.com.vn/em';
+export const API_PATH_LOCAL = 'http://127.0.0.1:5000';
 const instance = axios.create({
   API_PATH_V2,
 });

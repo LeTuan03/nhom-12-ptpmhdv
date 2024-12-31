@@ -1,5 +1,5 @@
 import axios from "utils/axios";
-import axiosCustom, { API_PATH_V2 } from "../utils/axios-customize";
+import axiosCustom, { API_PATH_LOCAL, API_PATH_V2 } from "../utils/axios-customize";
 
 const { BASE_URL } = require("const/app-config");
 
@@ -42,3 +42,8 @@ export const removeAuth = () => {
   sessionStorage.removeItem('current-user');
   sessionStorage.removeItem('access_token');
 }
+
+export const getRecommendForUser = (id) => {
+  let url = API_PATH_LOCAL + "/recommend_locations?user_id=" + id;
+  return axiosCustom.get(url);
+};

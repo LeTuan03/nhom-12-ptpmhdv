@@ -13,7 +13,9 @@ import {
   Balcony,
   AcUnit,
   AttachMoney,
-  Wifi1Bar,
+  HomeRepairService,
+  EmailOutlined,
+  Phone,
 } from "@mui/icons-material";
 import { useNavigate, useParams } from "react-router-dom";
 import { getPlaceById } from "../../admin/manage-place/place-service";
@@ -143,6 +145,7 @@ const Detail = ({ top = 10 }) => {
                 alt="imageUrl"
                 style={{
                   width: "100%",
+                  maxHeight: "70vh",
                   borderRadius: "8px",
                   boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
                 }}
@@ -195,7 +198,6 @@ const Detail = ({ top = 10 }) => {
                       <Typography variant="body1">🌐 Wi-Fi miễn phí</Typography>
                     </Box>
                   </Grid>
-
                   <Grid item xs={12} sm={12}>
                     <Box display="flex" alignItems="center">
                       <Typography variant="body1" fontWeight="bold">
@@ -203,42 +205,49 @@ const Detail = ({ top = 10 }) => {
                       </Typography>
                     </Box>
                   </Grid>
+                </Grid>
+              </Box>
+              <Typography variant="h5" fontWeight="bold" mb={2}>
+                Thông tin liên hệ
+              </Typography>
+              <Box mb={2}>
+                <Grid container spacing={2}>
+                  <Grid item xs={6} sm={4}>
+                    <Box display="flex" alignItems="center">
+                      <HomeRepairService
+                        sx={{ color: "#4caf50", marginRight: 1 }}
+                      />
+                      <Typography variant="body1">
+                        Tên chủ sở hữu: {state?.place?.owner?.name}
+                      </Typography>
+                    </Box>
+                  </Grid>
+                  <Grid item xs={6} sm={4}>
+                    <Box display="flex" alignItems="center">
+                      <EmailOutlined
+                        sx={{ color: "#f44336", marginRight: 1 }}
+                      />
+                      <Typography variant="body1">
+                        Email liên hệ: {state?.place?.owner?.email}
+                      </Typography>
+                    </Box>
+                  </Grid>
+                  <Grid item xs={6} sm={4}>
+                    <Box display="flex" alignItems="center">
+                      <Phone sx={{ color: "#03a9f4", marginRight: 1 }} />
+                      <Typography variant="body1">
+                        Số điện thoại: {state?.place?.owner?.phone}
+                      </Typography>
+                    </Box>
+                  </Grid>
                   <Grid item xs={12} display="flex" justifyContent="center">
-                    <Button
-                      variant="contained"
-                      color="primary"
+                    <button
                       onClick={handleOpenDialog}
-                      sx={{
-                        borderRadius: 2,
-                        mt: 2,
-                        padding: "8px 16px",
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 1,
-                        backgroundColor: "#03a9f4",
-                        "&:hover": {
-                          backgroundColor: "#0288d1",
-                        },
-                      }}
+                      className="button"
+                      style={{ marginTop: "20px" }}
                     >
-                      <AttachMoney sx={{ color: "white" }} />
-                      <Typography
-                        variant="body1"
-                        sx={{ color: "white", fontWeight: "bold" }}
-                      >
-                       <span style={{ color: "white", }}>{formatPrice(state?.place?.pricePerPerson)}</span>
-                      </Typography>
-                      <Typography
-                        variant="body1"
-                        sx={{
-                          color: "white",
-                          marginLeft: 2,
-                          fontWeight: "bold",
-                        }}
-                      >
-                        <span style={{ color: "white", }}>Đặt chỗ</span>
-                      </Typography>
-                    </Button>
+                      ĐẶT TRƯỚC
+                    </button>
                   </Grid>
                 </Grid>
               </Box>

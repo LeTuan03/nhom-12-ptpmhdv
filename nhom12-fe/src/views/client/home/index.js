@@ -18,17 +18,17 @@ import SearchIcon from "@mui/icons-material/Search";
 
 // Images
 import homeDecor1 from "assets/images/home-decor-1.jpg";
-import homeDecor2 from "assets/images/home-decor-2.jpg";
-import homeDecor3 from "assets/images/home-decor-3.jpg";
 import backgroundImage from "assets/images/banner.jpg"; // Thêm ảnh nền bất kỳ
 import team1 from "assets/images/team-1.jpg";
 import team2 from "assets/images/team-2.jpg";
 import iconMain from "assets/images/apple-icon.png";
 import SoftBox from "../../../components/SoftBox";
 import { getAllContinents } from "../../admin/manage-continents/continents-service";
-import { getAllCountries } from "../../admin/manage-countries/countries-service";
 import { useNavigate } from "react-router-dom";
 import { getAllRating } from "../reservation/reservation-service";
+import { getRecommendForUser } from "../../../const/app-service";
+import { getCurrentUser } from "../../../const/app-function";
+import { getPlacesByIds } from "../../admin/manage-place/place-service";
 
 function Home() {
   const navigate = useNavigate();
@@ -41,7 +41,7 @@ function Home() {
 
   const handleNavigate = (id) => {
     navigate(`/moment/${id}`);
-  }
+  };
   const handleTabChange = (event, newValue) => {
     setSelectedTab(newValue);
     setState((pre) => ({
@@ -56,6 +56,7 @@ function Home() {
     try {
       const listContinents = await getAllContinents();
       const listRatings = await getAllRating();
+
       setState((pre) => ({
         ...pre,
         listContinents: listContinents?.data,
@@ -65,8 +66,23 @@ function Home() {
     } catch (e) {}
   };
 
+  const getListOptionsRcm = async () => {
+    try {
+      if (getCurrentUser()?.id) {
+        const getIdRcm = await getRecommendForUser(getCurrentUser()?.id);
+        let listId = getIdRcm?.data?.data?.map((rcm) => rcm.location);
+        const listPlacesByIds = await getPlacesByIds(listId);
+        setState((pre) => ({
+          ...pre,
+          listPlacesByIds: listPlacesByIds?.data,
+        }));
+      }
+    } catch (e) {}
+  };
+
   useEffect(() => {
     getListOptions();
+    getListOptionsRcm();
   }, []);
 
   const handleChangeOption = (data, source) => {
@@ -219,7 +235,14 @@ function Home() {
         </Grid>
         <Grid container item xs={12} spacing={3} sx={{ mt: 3 }}>
           {state?.listRatings?.map((rate) => (
-            <Grid key={rate?.id} item xs={12} md={6} lg={4} onClick={() => handleNavigate(rate?.id)}>
+            <Grid
+              key={rate?.id}
+              item
+              xs={12}
+              md={6}
+              lg={4}
+              onClick={() => handleNavigate(rate?.id)}
+            >
               <ProjectCardDesc
                 image={rate?.image || homeDecor1}
                 description={rate?.title}
@@ -228,6 +251,49 @@ function Home() {
           ))}
         </Grid>
       </Grid>
+      {state?.listPlacesByIds?.length && (
+        <Grid
+          container
+          sx={{
+            p: 5,
+          }}
+        >
+          <Grid item xs={12}>
+            <Typography
+              variant="h5"
+              fontWeight="bold"
+              sx={{ fontSize: "24px" }}
+            >
+              Gợi ý cho bạn
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography
+              variant="h5"
+              sx={{ color: "rgb(143 143 143)", fontSize: "16px" }}
+            >
+              Cùng tìm hiểu những gợi ý thú vị cho chuyến đi sắp tới.
+            </Typography>
+          </Grid>
+          <Grid container item xs={12} spacing={3} sx={{ mt: 3 }}>
+            {state?.listPlacesByIds?.map((place) => (
+              <Grid
+                key={place?.id}
+                item
+                xs={12}
+                md={6}
+                lg={4}
+                onClick={() => navigate(`/detail-area/${place?.id}`)}
+              >
+                <ProjectCardDesc
+                  image={place?.imageUrl || homeDecor1}
+                  description={place?.name}
+                />
+              </Grid>
+            ))}
+          </Grid>
+        </Grid>
+      )}
       {/*Travel guide*/}
     </ClientLayout>
   );
