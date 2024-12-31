@@ -60,4 +60,10 @@ public class PlaceController {
         List<Place> places = placeService.getPlacesByDestination(destinationId);
         return ResponseEntity.ok(places);
     }
+
+    @PostMapping("/by-ids")
+    public ResponseEntity<List<Place>> getPlacesByIds(@RequestBody List<String> ids) {
+        List<Place> places = placeService.getPlacesByIds(ids);
+        return ResponseEntity.ok(places);
+    }
 }

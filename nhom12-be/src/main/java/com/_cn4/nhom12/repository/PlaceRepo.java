@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface PlaceRepo extends JpaRepository<Place, String> {
     List<Place> findByDestinationId(String destinationId);
+    List<Place> findByIdIn(List<String> ids);
 }

@@ -21,3 +21,7 @@ export const updatePlace = async (payload, id) => {
 export const deletePlace = async (id) => {
   return axios.delete(URL + "/" + id);
 };
+
+export const getPlacesByIds = async (payload) => {
+  return axios.post(URL + "/by-ids", payload);
+};

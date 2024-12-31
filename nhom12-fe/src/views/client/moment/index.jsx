@@ -19,6 +19,9 @@ import {
   Balcony,
   AcUnit,
   AttachMoney,
+  HomeRepairService,
+  EmailOutlined,
+  Phone,
 } from "@mui/icons-material";
 import { useNavigate, useParams } from "react-router-dom";
 import { formatPrice } from "../../../const/app-function";
@@ -56,7 +59,6 @@ const Moment = ({ top = 10 }) => {
           </Typography>
           <Typography variant="body1"> {state?.place?.description}</Typography>
           <Divider />
-
           {/* Room Info */}
           <Grid container spacing={3} mt={3}>
             <Grid item xs={12} md={4}>
@@ -65,6 +67,7 @@ const Moment = ({ top = 10 }) => {
                 alt="imageUrl"
                 style={{
                   width: "100%",
+                  maxHeight: "70vh",
                   borderRadius: "8px",
                   boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
                 }}
@@ -117,7 +120,6 @@ const Moment = ({ top = 10 }) => {
                       <Typography variant="body1">🌐 Wi-Fi miễn phí</Typography>
                     </Box>
                   </Grid>
-
                   <Grid item xs={12} sm={12}>
                     <Box display="flex" alignItems="center">
                       <Typography variant="body1" fontWeight="bold">
@@ -127,18 +129,56 @@ const Moment = ({ top = 10 }) => {
                   </Grid>
                 </Grid>
               </Box>
+              <Typography variant="h5" fontWeight="bold" mb={2}>
+                Thông tin liên hệ
+              </Typography>
+              <Box mb={2}>
+                <Grid container spacing={2}>
+                  <Grid item xs={6} sm={4}>
+                    <Box display="flex" alignItems="center">
+                      <HomeRepairService
+                        sx={{ color: "#4caf50", marginRight: 1 }}
+                      />
+                      <Typography variant="body1">
+                        Tên chủ sở hữu: {state?.place?.owner?.name}
+                      </Typography>
+                    </Box>
+                  </Grid>
+                  <Grid item xs={6} sm={4}>
+                    <Box display="flex" alignItems="center">
+                      <EmailOutlined
+                        sx={{ color: "#f44336", marginRight: 1 }}
+                      />
+                      <Typography variant="body1">
+                        Email liên hệ: {state?.place?.owner?.email}
+                      </Typography>
+                    </Box>
+                  </Grid>
+                  <Grid item xs={6} sm={4}>
+                    <Box display="flex" alignItems="center">
+                      <Phone sx={{ color: "#03a9f4", marginRight: 1 }} />
+                      <Typography variant="body1">
+                        Số điện thoại: {state?.place?.owner?.phone}
+                      </Typography>
+                    </Box>
+                  </Grid>
+                </Grid>
+              </Box>
               <Divider />
             </Grid>
           </Grid>
 
-          <Divider />
           <Typography variant="h4" fontWeight="bold" mb={2} textAlign="center">
             {state?.rate?.buyer?.name}
           </Typography>
           <Typography variant="body1"> {state?.rate?.description}</Typography>
           <Stack direction="row" alignItems="center" spacing={1} marginY={2}>
             <Typography>Đánh giá:</Typography>
-            <Rating value={state?.rate?.rate} readOnly />
+            <Rating
+              defaultValue={Number(state?.rate?.rate)}
+              value={Number(state?.rate?.rate)}
+              readOnly
+            />
           </Stack>
           <Box
             sx={{

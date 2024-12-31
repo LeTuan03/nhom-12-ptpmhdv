@@ -13,4 +13,5 @@ public interface PlaceService {
     Place createPlace(PlaceRequest place);
     Place updatePlace(String id, PlaceRequest updatedPlace);
     void deletePlace(String id);
+    List<Place> getPlacesByIds(List<String> ids);
 }

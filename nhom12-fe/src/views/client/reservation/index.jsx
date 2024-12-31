@@ -130,8 +130,8 @@ function Reservation() {
                 >
                   {/* Hình ảnh khách sạn */}
                   <Avatar
-                    alt={reservation.placeName}
-                    src={reservation.image}
+                    alt={reservation?.placeName}
+                    src={reservation?.placeImage}
                     sx={{
                       width: 120,
                       height: 120,
@@ -148,13 +148,13 @@ function Reservation() {
                     >
                       {reservation.placeName}
                     </Typography>
-                    <Typography
-                      variant="body1"
-                      sx={{ fontWeight: 500, color: "#666" }}
-                    >
+                    <Typography variant="body1" sx={{ color: "#999" }}>
                       Người đặt: {reservation.customerName}
                     </Typography>
-                    <Typography variant="body1" sx={{ color: "#999" }}>
+                    <Typography
+                      variant="body2"
+                      sx={{ color: "#444", fontSize: "0.9rem" }}
+                    >
                       Số điện thoại: {reservation.phone}
                     </Typography>
                     <Typography

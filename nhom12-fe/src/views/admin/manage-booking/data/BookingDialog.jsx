@@ -42,6 +42,7 @@ export default function BookingDialog(props) {
       email: state?.email,
       placeId: state?.place?.id,
       placeName: state?.place?.name,
+      placeImage: state?.place?.imageUrl,
       startDate: state?.startDate,
       numberOfPeople: state?.numberOfPeople,
       totalPrice: state?.totalPrice,
@@ -89,6 +90,7 @@ export default function BookingDialog(props) {
         ? {
             id: item?.placeId,
             name: item?.placeName,
+            imageUrl: item?.placeImage,
           }
         : null,
       statusRoom: appConst.LIST_STATUS_ROOM_BOOKING.find(
@@ -295,7 +297,8 @@ export default function BookingDialog(props) {
                   <Autocomplete
                     options={
                       state?.listPlaces?.length
-                        ? getCurrentUser()?.role !== appConst.ROLE.SUPPER_ADMIN.name
+                        ? getCurrentUser()?.role !==
+                          appConst.ROLE.SUPPER_ADMIN.name
                           ? state?.listPlaces?.filter(
                               (i) => i?.owner?.id === getCurrentUser()?.id
                             )

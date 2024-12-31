@@ -150,6 +150,11 @@ public class PlaceServiceImpl implements PlaceService {
     }
 
     @Override
+    public List<Place> getPlacesByIds(List<String> ids) {
+        return placeRepository.findByIdIn(ids);
+    }
+
+    @Override
     public List<Place> getPlacesByDestination(String destinationId) {
         Destination destination = destinationRepository.findById(destinationId)
                 .orElseThrow(() -> new RuntimeException("Destination with ID " + destinationId + " not found!"));
