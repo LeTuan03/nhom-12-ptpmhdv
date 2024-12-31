@@ -20,6 +20,7 @@ import curved9 from "assets/images/curved-images/curved-6.jpg";
 import { getUser, login } from "./sign-service";
 import { appConst } from "const/app-const";
 import { removeAuth } from "../../../const/app-service";
+import { toast } from "react-toastify";
 
 function SignIn() {
   const navigate = useNavigate();
@@ -58,6 +59,7 @@ function SignIn() {
         await getUserInfo();
       }
     } catch (error) {
+      toast.error("Tên tài khoản hoặc mật khẩu không chính xác")
       console.error("Error during login:", error);
     }
   };

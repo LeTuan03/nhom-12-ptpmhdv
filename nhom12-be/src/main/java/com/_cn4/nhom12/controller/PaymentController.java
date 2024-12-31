@@ -93,9 +93,12 @@ public class PaymentController {
             if ("00".equals(status)) {
                 // Giao dịch thành công
 //                redirectUrl += "?orderId=" + orderId + "&status=success";
+                redirectUrl = "http://localhost:3000/success";
+
             } else {
                 // Giao dịch thất bại
 //                redirectUrl += "?orderId=" + orderId + "&status=failed&message=Transaction failed with response code: " + status;
+                redirectUrl = "http://localhost:3000/error-purchase";
             }
         } catch (Exception e) {
             // Xử lý lỗi trong quá trình callback
