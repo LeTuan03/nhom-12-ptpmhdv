@@ -31,6 +31,8 @@ import DetailArea from "./views/client/detail-area";
 import Reservation from "./views/client/reservation";
 import ManageBooking from "./views/admin/manage-booking";
 import { appConst } from "./const/app-const";
+import Success from "./views/client/success";
+import ErrorPurchase from "./views/client/error-purchase";
 
 const routes = [
   {
@@ -300,6 +302,28 @@ const routes = [
     route: "/reservation",
     icon: <SpaceShip size="12px" />,
     component: <Reservation />,
+    noCollapse: true,
+    isMenu: false,
+    roles: [appConst.ROLE.SUPPER_ADMIN, appConst.ROLE.ADMIN, appConst.ROLE.USER],
+  },
+  {
+    type: "collapse",
+    name: "Success",
+    key: "success",
+    route: "/success",
+    icon: <SpaceShip size="12px" />,
+    component: <Success />,
+    noCollapse: true,
+    isMenu: false,
+    roles: [appConst.ROLE.SUPPER_ADMIN, appConst.ROLE.ADMIN, appConst.ROLE.USER],
+  },
+  {
+    type: "collapse",
+    name: "Error Purchase",
+    key: "error-purchase",
+    route: "/error-purchase",
+    icon: <SpaceShip size="12px" />,
+    component: <ErrorPurchase />,
     noCollapse: true,
     isMenu: false,
     roles: [appConst.ROLE.SUPPER_ADMIN, appConst.ROLE.ADMIN, appConst.ROLE.USER],

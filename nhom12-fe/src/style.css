@@ -20,3 +20,52 @@
 .MuiPaper-root {
   border-radius: 0.5rem !important;
 }
+
+.image {
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #e2feee;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  width: 15rem;
+  height: 15rem;
+  border-radius: 9999px;
+  animation: animate .6s linear alternate-reverse infinite;
+  transition: .6s ease;
+}
+
+.image svg {
+  color: #0afa2a;
+  width: 10rem;
+  height: 10rem;
+}
+@keyframes animate {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.09);
+  }
+}
+.image-error {
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #ead9d8;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  width: 15rem;
+  height: 15rem;
+  border-radius: 9999px;
+  animation: animate .6s linear alternate-reverse infinite;
+  transition: .6s ease;
+}
+
+.image-error svg {
+  color: rgb(178 43 43);
+  width: 10rem;
+  height: 10rem;
+}
