@@ -39,6 +39,9 @@ function Home() {
     navigate(`/destination/${state?.country?.id}`);
   };
 
+  const handleNavigate = (id) => {
+    navigate(`/moment/${id}`);
+  }
   const handleTabChange = (event, newValue) => {
     setSelectedTab(newValue);
     setState((pre) => ({
@@ -216,7 +219,7 @@ function Home() {
         </Grid>
         <Grid container item xs={12} spacing={3} sx={{ mt: 3 }}>
           {state?.listRatings?.map((rate) => (
-            <Grid key={rate?.id} item xs={12} md={6} lg={4}>
+            <Grid key={rate?.id} item xs={12} md={6} lg={4} onClick={() => handleNavigate(rate?.id)}>
               <ProjectCardDesc
                 image={rate?.image || homeDecor1}
                 description={rate?.title}

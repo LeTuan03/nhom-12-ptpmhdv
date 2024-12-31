@@ -1,7 +1,6 @@
 package com._cn4.nhom12.controller;
 
 import com._cn4.nhom12.DTO.request.RatingRequest;
-import com._cn4.nhom12.entity.Place;
 import com._cn4.nhom12.entity.Rating;
 import com._cn4.nhom12.services.RatingService;
 import jakarta.validation.Valid;
@@ -36,5 +35,10 @@ public class RatingController {
     @GetMapping
     public ResponseEntity<List<Rating>> getAllRating() {
         return ResponseEntity.ok(ratingService.getAllRating());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Rating> getById(@PathVariable String id) {
+        return ResponseEntity.ok(ratingService.getById(id));
     }
 }
