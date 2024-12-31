@@ -3,6 +3,7 @@ package com._cn4.nhom12.controller;
 import com._cn4.nhom12.entity.TourType;
 import com._cn4.nhom12.enums.Constant;
 import com._cn4.nhom12.services.TourTypeService;
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,13 +37,13 @@ class TourTypeController {
 
     @PostMapping
     @Secured({Constant.ROLE_SUPER_ADMIN})
-    TourType create(@RequestBody TourType request) {
+    TourType create(@RequestBody @Valid TourType request) {
         return tourTypeService.createTourType(request);
     }
 
     @PutMapping("/{id}")
     @Secured({Constant.ROLE_SUPER_ADMIN})
-    TourType update(@PathVariable String id, @RequestBody TourType request) {
+    TourType update(@PathVariable String id, @RequestBody @Valid TourType request) {
         return tourTypeService.updateTourType(id, request);
     }
 

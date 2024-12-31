@@ -4,6 +4,7 @@ import com._cn4.nhom12.DTO.request.DestinationRequest;
 import com._cn4.nhom12.entity.Destination;
 import com._cn4.nhom12.enums.Constant;
 import com._cn4.nhom12.services.DestinationService;
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -45,13 +46,13 @@ public class DestinationController {
 
     @PostMapping
     @Secured({Constant.ROLE_SUPER_ADMIN, Constant.ROLE_ADMIN})
-    public ResponseEntity<Destination> create(@RequestBody DestinationRequest request) {
+    public ResponseEntity<Destination> create(@RequestBody @Valid DestinationRequest request) {
         return destinationService.create(request);
     }
 
     @PutMapping("/{id}")
     @Secured({Constant.ROLE_SUPER_ADMIN, Constant.ROLE_ADMIN})
-    public ResponseEntity<Destination> update(@PathVariable String id, @RequestBody DestinationRequest request) {
+    public ResponseEntity<Destination> update(@PathVariable String id, @RequestBody @Valid DestinationRequest request) {
         return destinationService.update(request, id);
     }
 

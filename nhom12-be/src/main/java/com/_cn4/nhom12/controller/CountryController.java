@@ -4,6 +4,7 @@ import com._cn4.nhom12.DTO.request.CountryRequest;
 import com._cn4.nhom12.entity.Country;
 import com._cn4.nhom12.enums.Constant;
 import com._cn4.nhom12.services.CountryService;
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -36,13 +37,13 @@ public class CountryController {
 
     @PostMapping("/with-cities")
     @Secured({Constant.ROLE_SUPER_ADMIN})
-    public ResponseEntity<Country> createCountryWithCities(@RequestBody CountryRequest country) {
+    public ResponseEntity<Country> createCountryWithCities(@RequestBody @Valid CountryRequest country) {
         return ResponseEntity.ok(countryService.createCountryWithCities(country));
     }
 
     @PutMapping("/{id}/with-cities")
     @Secured({Constant.ROLE_SUPER_ADMIN})
-    public ResponseEntity<Country> updateCountryWithCities(@PathVariable String id, @RequestBody CountryRequest request) {
+    public ResponseEntity<Country> updateCountryWithCities(@PathVariable String id, @RequestBody @Valid CountryRequest request) {
         return ResponseEntity.ok(countryService.updateCountryWithCities(id, request));
     }
 

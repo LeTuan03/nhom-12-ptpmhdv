@@ -4,6 +4,7 @@ import com._cn4.nhom12.DTO.request.RatingRequest;
 import com._cn4.nhom12.entity.Place;
 import com._cn4.nhom12.entity.Rating;
 import com._cn4.nhom12.services.RatingService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class RatingController {
 
     // API tạo đánh giá mới cho một place
     @PostMapping
-    public ResponseEntity<Rating> createRating(@RequestBody RatingRequest request) {
+    public ResponseEntity<Rating> createRating(@RequestBody @Valid RatingRequest request) {
         try {
             // Tạo đánh giá mới
             Rating rating = ratingService.createRating(request);

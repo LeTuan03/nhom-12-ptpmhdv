@@ -41,7 +41,7 @@ public class AccountController {
 
     @PutMapping("/{id}")
     @Secured({Constant.ROLE_SUPER_ADMIN, Constant.ROLE_ADMIN, Constant.ROLE_USER})
-    ResponseEntity<Account> update(@RequestBody AccountCreationRequest request, @PathVariable String id) {
+    ResponseEntity<Account> update(@RequestBody @Valid AccountCreationRequest request, @PathVariable String id) {
         return accountService.updateAccount(request, id);
     }
 
@@ -62,7 +62,7 @@ public class AccountController {
     }
 
     @PostMapping("/login")
-    ResponseEntity<?> login(@RequestBody LoginRequest request) {
+    ResponseEntity<?> login(@RequestBody @Valid LoginRequest request) {
         return accountService.login(request);
     }
     @GetMapping("/get-info")
