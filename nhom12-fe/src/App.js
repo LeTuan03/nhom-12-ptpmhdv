@@ -125,6 +125,7 @@ export default function App() {
   //
   // const getTokens = async () => {
   //   try {
+  //     localStorage.removeItem('access_token_v2');
   //     const response = await getToken();
   //     localStorage.setItem('access_token_v2', response?.access_token);
   //   } catch (error) {}

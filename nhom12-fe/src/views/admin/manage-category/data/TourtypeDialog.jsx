@@ -10,6 +10,7 @@ import SoftInput from "components/SoftInput";
 import { Grid } from "@mui/material";
 import PropTypes from "prop-types";
 import { createTourtypes, updateTourtypes } from "../tourtype-service";
+import { toast } from "react-toastify";
 
 export default function TourtypeDialog(props) {
   let { open, item, handleClose, handleOk = () => {} } = props;
@@ -32,9 +33,11 @@ export default function TourtypeDialog(props) {
 
       if (item?.id) {
         const data = await updateTourtypes(payload, item?.id);
+        toast.success("Cập nhật thành công");
         console.log(data);
       } else {
         const data = await createTourtypes(payload);
+        toast.success("Thêm mới thành công");
         console.log(data);
       }
     } catch (error) {

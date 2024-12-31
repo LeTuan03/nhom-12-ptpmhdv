@@ -23,7 +23,7 @@ public class Country {
     @Column(name = "name", nullable = false, unique = true)
     String name;
 
-    @Column(name = "description")
+    @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
     @Column(name = "continentsId")

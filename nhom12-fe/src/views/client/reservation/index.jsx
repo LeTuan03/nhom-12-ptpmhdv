@@ -1,13 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ClientLayout from "layouts/authentication/components/ClientLayout";
-import {
-  Card,
-  Typography,
-  Box,
-  Button,
-  Avatar,
-  Paper,
-} from "@mui/material";
+import { Card, Typography, Box, Button, Avatar, Paper } from "@mui/material";
 import {
   formatPrice,
   formatTimestampToDate,
@@ -195,23 +188,25 @@ function Reservation() {
                     >
                       Tổng chi phí: {formatPrice(reservation.totalPrice)}
                     </Typography>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      sx={{
-                        borderRadius: 5,
-                        padding: "10px 20px",
-                        textTransform: "none",
-                        fontWeight: "bold",
-                        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
-                        "&:hover": {
-                          boxShadow: "0 6px 20px rgba(0,0,0,0.2)",
-                        },
-                      }}
-                      onClick={() => handleChange(reservation)}
-                    >
-                      <span style={{ color: "#fff" }}> Đánh giá </span>
-                    </Button>
+                    {!reservation?.isRated && (
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        sx={{
+                          borderRadius: 5,
+                          padding: "10px 20px",
+                          textTransform: "none",
+                          fontWeight: "bold",
+                          boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+                          "&:hover": {
+                            boxShadow: "0 6px 20px rgba(0,0,0,0.2)",
+                          },
+                        }}
+                        onClick={() => handleChange(reservation)}
+                      >
+                        <span style={{ color: "#fff" }}> Đánh giá </span>
+                      </Button>
+                    )}
                     {/*<Typography*/}
                     {/*  variant="body2"*/}
                     {/*  sx={{*/}
@@ -229,7 +224,11 @@ function Reservation() {
                     background: "#f9f9f9",
                   }}
                 >
-                  <RatingComponent checked={reservation?.checked} item={reservation}/>
+                  <RatingComponent
+                    checked={reservation?.checked}
+                    item={reservation}
+                    handleOk={handleSearch}
+                  />
                 </Paper>
               </Paper>
             ))}

@@ -26,6 +26,7 @@ import SoftInput from "components/SoftInput";
 import SearchIcon from '@mui/icons-material/Search';
 import { deleteDestination,  searchDestination } from "./destination-service";
 import { appConst } from "const/app-const";
+import { toast } from "react-toastify";
 
 function ManageDestination() {
   const [controller] = useSoftUIController();
@@ -74,6 +75,7 @@ function ManageDestination() {
   const handleYesDelete = async () => {
     try {
       const data = await deleteDestination(state.item?.id);
+      toast.success("Xóa thành công");
     } catch (error) {
 
     } finally {

@@ -26,6 +26,7 @@ import SoftInput from "components/SoftInput";
 import SearchIcon from '@mui/icons-material/Search';
 import { deleteTourtypes, getAllTourtypes } from "./tourtype-service";
 import { appConst } from "const/app-const";
+import { toast } from "react-toastify";
 
 function ManageTourtype() {
   const [controller] = useSoftUIController();
@@ -74,6 +75,7 @@ function ManageTourtype() {
   const handleYesDelete = async () => {
     try {
       const data = await deleteTourtypes(state.item?.id);
+      toast.success("Xóa thành công");
     } catch (error) {
 
     } finally {

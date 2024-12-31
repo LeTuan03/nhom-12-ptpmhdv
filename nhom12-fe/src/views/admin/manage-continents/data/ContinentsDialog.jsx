@@ -10,6 +10,7 @@ import SoftInput from "components/SoftInput";
 import { Autocomplete, Avatar, Grid } from "@mui/material";
 import PropTypes from "prop-types";
 import { createContinents, updateContinents } from "../continents-service";
+import { toast } from "react-toastify";
 
 export default function ContinentsDialog(props) {
   let { open, item, handleClose, handleOk = () => {} } = props;
@@ -33,9 +34,11 @@ export default function ContinentsDialog(props) {
 
       if (item?.id) {
         const data = await updateContinents(payload);
+        toast.success("Cập nhật thành công");
         console.log(data);
       } else {
         const data = await createContinents(payload);
+        toast.success("Thêm mới thành công");
         console.log(data);
       }
     } catch (error) {

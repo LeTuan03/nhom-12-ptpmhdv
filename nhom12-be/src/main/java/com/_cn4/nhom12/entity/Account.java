@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
+import java.time.LocalDate;
+
 @Data
 @NoArgsConstructor
 @Entity
@@ -36,4 +38,11 @@ public class Account {
     String avatar;
     @Column(name = "role")
     String role;
+    @Column(name = "createdDate")
+    private LocalDate createdDate;
+    @PrePersist
+    public void prePersist() {
+        this.createdDate = LocalDate.now();
+    }
+
 }

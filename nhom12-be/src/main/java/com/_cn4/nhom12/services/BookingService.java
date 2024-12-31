@@ -10,8 +10,9 @@ public interface BookingService {
     List<Booking> getBookingsByBuyerId(String buyerId);
     Booking getBookingById(String id);
     Booking updateStatusBooking(String bookingId);
+    Booking updateStatusRateBooking(String bookingId);
     Booking createBooking(Booking booking);
     Booking updateBooking(String id, Booking updatedBooking);
     void deleteBooking(String id);
-    List<BookingWithRatingDTO> getBookingsAndRatings(String buyerId);
+//    List<BookingWithRatingDTO> getBookingsAndRatings(String buyerId);
 }

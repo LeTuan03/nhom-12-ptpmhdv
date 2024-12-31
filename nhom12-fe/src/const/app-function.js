@@ -22,3 +22,6 @@ export const formatPrice = (number, locale = 'vi-VN', currency = "VND") => {
     : null;
 };
 
+export const formatNumber = (number) => {
+  return number ? number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : null;
+}

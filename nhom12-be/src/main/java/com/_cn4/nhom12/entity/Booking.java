@@ -40,7 +40,10 @@ public class Booking {
     @Column(name = "totalPrice")
     private double totalPrice;
 
-    @Column(name = "specialRequests")
+    @Column(name = "isRated")
+    private Boolean isRated;
+
+    @Column(name = "specialRequests", columnDefinition = "TEXT")
     private String specialRequests;
 
     @ManyToOne
@@ -52,4 +55,7 @@ public class Booking {
 
     @Column(name = "statusOrder")
     private String statusOrder;
+
+    @Column(name = "purchaseDate")
+    LocalDate purchaseDate;
 }

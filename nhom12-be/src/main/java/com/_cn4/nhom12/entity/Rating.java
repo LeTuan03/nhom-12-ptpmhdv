@@ -21,9 +21,11 @@ public class Rating {
     @Column(name = "title")
     String title;
     @Column(name = "rate")
-    String rate;
-    @Column(name = "description")
+    float rate;
+    @Column(name = "description", columnDefinition = "TEXT")
     private String description;
+    @Column(name = "image")
+    private String image;
     @ManyToOne
     @JoinColumn(name = "buyerId")
     private Account buyer;

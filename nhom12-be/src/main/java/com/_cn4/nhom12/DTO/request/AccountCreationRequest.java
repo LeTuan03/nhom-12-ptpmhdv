@@ -9,8 +9,6 @@ import lombok.Getter;
 
 @Getter
 public class AccountCreationRequest {
-    @NotBlank(message = "Tên không được để trống")
-    @Size(min = 5, message = "Tên không được ít hơn 5")
     private String name;
     private String password;
     private String phone;

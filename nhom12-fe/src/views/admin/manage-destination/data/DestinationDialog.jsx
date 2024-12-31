@@ -21,6 +21,7 @@ import MuiTableDestination from "./MuiTableDestination";
 import { getAllTourtypes } from "../../manage-category/tourtype-service";
 import { uploadImageV2 } from "../../../../const/app-service";
 import { API_PATH_V2 } from "../../../../utils/axios-customize";
+import { toast } from "react-toastify";
 
 export default function DestinationDialog(props) {
   let { open, item, handleClose, handleOk = () => {} } = props;
@@ -77,9 +78,11 @@ export default function DestinationDialog(props) {
       const payload = convertData();
       if (item?.id) {
         const data = await updateDestination(payload, item?.id);
+        toast.success("Cập nhật thành công");
         console.log(data);
       } else {
         const data = await createDestination(payload);
+        toast.success("Thêm mới thành công");
         console.log(data);
       }
     } catch (error) {
