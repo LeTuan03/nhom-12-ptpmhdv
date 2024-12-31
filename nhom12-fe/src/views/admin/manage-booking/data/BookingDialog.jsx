@@ -295,7 +295,7 @@ export default function BookingDialog(props) {
                   <Autocomplete
                     options={
                       state?.listPlaces?.length
-                        ? getCurrentUser()?.role !== appConst.ROLE.SUPPER_ADMIN
+                        ? getCurrentUser()?.role !== appConst.ROLE.SUPPER_ADMIN.name
                           ? state?.listPlaces?.filter(
                               (i) => i?.owner?.id === getCurrentUser()?.id
                             )

@@ -1,6 +1,7 @@
 package com._cn4.nhom12.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,6 +21,7 @@ public class TourType {
     @Column(name = "id")
     String id;
 
+    @NotBlank(message = "Tên không được để trống")
     @Column(name = "name")
     String name;
 }

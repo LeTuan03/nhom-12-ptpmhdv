@@ -4,6 +4,7 @@ import com._cn4.nhom12.DTO.request.PlaceRequest;
 import com._cn4.nhom12.entity.Place;
 import com._cn4.nhom12.enums.Constant;
 import com._cn4.nhom12.services.PlaceService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -34,14 +35,14 @@ public class PlaceController {
     // Tạo Place mới, có thể liên kết với một Destination
     @PostMapping
     @Secured({Constant.ROLE_SUPER_ADMIN, Constant.ROLE_ADMIN, Constant.ROLE_USER})
-    public ResponseEntity<Place> createPlace(@RequestBody PlaceRequest place) {
+    public ResponseEntity<Place> createPlace(@RequestBody @Valid PlaceRequest place) {
         return ResponseEntity.ok(placeService.createPlace(place));
     }
 
     // Cập nhật Place theo ID
     @PutMapping("/{id}")
     @Secured({Constant.ROLE_SUPER_ADMIN, Constant.ROLE_ADMIN})
-    public ResponseEntity<Place> updatePlace(@PathVariable String id, @RequestBody PlaceRequest place) {
+    public ResponseEntity<Place> updatePlace(@PathVariable String id, @RequestBody @Valid PlaceRequest place) {
         return ResponseEntity.ok(placeService.updatePlace(id, place));
     }
 

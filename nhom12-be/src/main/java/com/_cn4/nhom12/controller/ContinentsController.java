@@ -3,6 +3,7 @@ package com._cn4.nhom12.controller;
 import com._cn4.nhom12.entity.Continents;
 import com._cn4.nhom12.enums.Constant;
 import com._cn4.nhom12.services.ContinentsService;
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -34,13 +35,13 @@ public class ContinentsController {
 
     @PostMapping
     @Secured({Constant.ROLE_SUPER_ADMIN})
-    ResponseEntity<Continents> create(@RequestBody Continents request) {
+    ResponseEntity<Continents> create(@RequestBody @Valid Continents request) {
         return continentsService.createContinents(request);
     }
 
     @PutMapping
     @Secured({Constant.ROLE_SUPER_ADMIN})
-    ResponseEntity<Continents> update(@RequestBody Continents request) {
+    ResponseEntity<Continents> update(@RequestBody @Valid Continents request) {
         return continentsService.updateContinents(request);
     }
 

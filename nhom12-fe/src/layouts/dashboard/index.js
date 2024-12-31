@@ -44,14 +44,14 @@ function Dashboard() {
     try {
       const payload = {
         ownerId:
-          getCurrentUser()?.role !== appConst.ROLE.SUPPER_ADMIN
+          getCurrentUser()?.role !== appConst.ROLE.SUPPER_ADMIN.name
             ? getCurrentUser()?.id
             : null,
         placeId: null,
       };
       const payloadDiagram = {
         ownerId:
-          getCurrentUser()?.role !== appConst.ROLE.SUPPER_ADMIN
+          getCurrentUser()?.role !== appConst.ROLE.SUPPER_ADMIN.name
             ? getCurrentUser()?.id
             : null,
         year: new Date().getFullYear(),

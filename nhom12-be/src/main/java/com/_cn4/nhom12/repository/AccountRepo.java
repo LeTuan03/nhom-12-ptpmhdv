@@ -12,6 +12,7 @@ public interface AccountRepo extends JpaRepository<Account, String> {
     Optional<Account> findByUsername(String username);
     boolean existsByEmail(String email);
     boolean existsByUsername(String username);
+    boolean existsByRole(String role);
 
     @Query("SELECT COUNT(a) FROM Account a WHERE a.createdDate = CURRENT_DATE")
     Long countNewCustomersToday();

@@ -5,6 +5,7 @@ import com._cn4.nhom12.DTO.response.BookingWithRatingDTO;
 import com._cn4.nhom12.entity.Booking;
 import com._cn4.nhom12.enums.Constant;
 import com._cn4.nhom12.services.BookingService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -37,7 +38,7 @@ public class BookingController {
 
     @PostMapping
     @Secured({Constant.ROLE_SUPER_ADMIN, Constant.ROLE_ADMIN, Constant.ROLE_USER})
-    public ResponseEntity<Booking> createBooking(@RequestBody Booking booking) {
+    public ResponseEntity<Booking> createBooking(@RequestBody @Valid Booking booking) {
         return ResponseEntity.ok(bookingService.createBooking(booking));
     }
     @PostMapping("/{id}")
