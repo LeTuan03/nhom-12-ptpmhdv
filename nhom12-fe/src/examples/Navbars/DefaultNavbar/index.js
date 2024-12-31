@@ -109,12 +109,12 @@ function DefaultNavbar({ transparent, light, action }) {
           m={0}
           p={0}
         >
-          <DefaultNavbarLink
-            icon="donut_large"
-            name="dashboard"
-            route="/dashboard"
-            light={light}
-          />
+          {/*<DefaultNavbarLink*/}
+          {/*  icon="donut_large"*/}
+          {/*  name="dashboard"*/}
+          {/*  route="/dashboard"*/}
+          {/*  light={light}*/}
+          {/*/>*/}
           <DefaultNavbarLink
             icon="home"
             name="Trang chủ"
@@ -127,7 +127,7 @@ function DefaultNavbar({ transparent, light, action }) {
           {getCurrentUser() ? (
             <>
               <DefaultNavbarLink
-                icon="home"
+                icon="favorite"
                 name="Đặt phòng"
                 route="/reservation"
                 light={light}
@@ -142,18 +142,31 @@ function DefaultNavbar({ transparent, light, action }) {
           ) : (
             <></>
           )}
-          <DefaultNavbarLink
-            icon="account_circle"
-            name="Đăng ký"
-            route="/authentication/sign-up"
-            light={light}
-          />
-          <DefaultNavbarLink
-            icon="key"
-            name="Đăng nhập"
-            route="/authentication/sign-in"
-            light={light}
-          />
+          {getCurrentUser() ? (
+            <>
+              <DefaultNavbarLink
+                icon="account_circle"
+                name="Đăng xuất"
+                route="/authentication/sign-in"
+                light={light}
+              />
+            </>
+          ) : (
+            <>
+              <DefaultNavbarLink
+                icon="account_circle"
+                name="Đăng ký"
+                route="/authentication/sign-up"
+                light={light}
+              />
+              <DefaultNavbarLink
+                icon="key"
+                name="Đăng nhập"
+                route="/authentication/sign-in"
+                light={light}
+              />
+            </>
+          )}
         </SoftBox>
         {action &&
           (action.type === "internal" ? (

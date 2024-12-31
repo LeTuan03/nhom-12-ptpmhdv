@@ -26,6 +26,7 @@ import SoftInput from "components/SoftInput";
 import SearchIcon from '@mui/icons-material/Search';
 import { deleteCountries, getAllCountries } from "./countries-service";
 import { appConst } from "const/app-const";
+import { toast } from "react-toastify";
 
 function ManageCountries() {
   const [controller] = useSoftUIController();
@@ -73,6 +74,7 @@ function ManageCountries() {
   const handleYesDelete = async () => {
     try {
       const data = await deleteCountries(state.item?.id);
+      toast.success("Xóa thành công");
     } catch (error) {
 
     } finally {

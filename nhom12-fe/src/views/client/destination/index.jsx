@@ -4,9 +4,6 @@ import { Card, Grid, Typography, Box } from "@mui/material";
 import ProjectCardDesc from "examples/Cards/ProjectCards/ProjectCardDesc";
 
 // Images
-import homeDecor1 from "assets/images/home-decor-1.jpg";
-import homeDecor2 from "assets/images/home-decor-2.jpg";
-import homeDecor3 from "assets/images/home-decor-3.jpg";
 import bannerImage from "assets/images/home-decor-3.jpg";
 import SoftBox from "components/SoftBox";
 import { useNavigate, useParams } from "react-router-dom";

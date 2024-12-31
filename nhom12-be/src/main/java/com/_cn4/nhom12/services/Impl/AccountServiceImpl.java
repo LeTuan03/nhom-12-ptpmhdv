@@ -124,12 +124,12 @@ public class AccountServiceImpl implements AccountService {
 //        if(Objects.isNull(request.getUsername()) || request.getUsername() == "") {
 //            throw new RuntimeException("Vui lòng nhập đầy đủ thông tin");
 //        }
-//        if (accountRepo.existsByEmail(request.getEmail())) {
-//            throw new RuntimeException("Email đã tồn tại");
-//        }
-//        if (accountRepo.existsByUsername(request.getUsername())) {
-//            throw new RuntimeException("Username đã tồn tại");
-//        }
+        if (accountRepo.existsByEmail(request.getEmail())) {
+            throw new RuntimeException("Email đã tồn tại");
+        }
+        if (accountRepo.existsByUsername(request.getUsername())){
+            throw new RuntimeException("Username đã tồn tại");
+        }
         Account entity = new Account();
         this.setValueDtos(entity, request);
         entity.setPassword(passwordEncoder.encode(request.getPassword()));

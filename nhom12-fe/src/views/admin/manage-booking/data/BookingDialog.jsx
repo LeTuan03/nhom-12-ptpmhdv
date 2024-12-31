@@ -56,10 +56,10 @@ export default function BookingDialog(props) {
       const payload = convertData();
       if (item?.id) {
         const data = await updateBooking(payload, item?.id);
-        toast.success("Thành công");
+        toast.success("Cập nhật thành công");
       } else {
         const data = await createBooking(payload);
-        toast.success("Thành công");
+        toast.success("Thêm mới thành công");
       }
     } catch (error) {
       toast.error(error?.response?.data?.message);

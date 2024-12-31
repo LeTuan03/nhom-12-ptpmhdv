@@ -53,6 +53,10 @@ export default function OrderDialog(props) {
     };
   };
   const handleFormSubmit = async () => {
+    if(!getCurrentUser()) {
+      toast.warn("Vui lòng đăng nhập trước khi đặt chỗ")
+      return;
+    }
     try {
       const payload = convertData();
       const data = await createBooking(payload);

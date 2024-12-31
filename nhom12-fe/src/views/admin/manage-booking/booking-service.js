@@ -10,6 +10,9 @@ export const getAllBooking= async () => {
 export const getByBuyerIdBooking= async (id) => {
   return axios(URL + `/bookings/${id}`);
 };
+// export const getByBuyerIdBookingWithRateCheck= async (id) => {
+//   return axios(URL + `/getByBuyerId/${id}`);
+// };
 
 export const createBooking = async (payload) => {
   return axios.post(URL, payload);

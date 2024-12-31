@@ -1,5 +1,3 @@
-
-
 // @mui material components
 import Grid from "@mui/material/Grid";
 import Icon from "@mui/material/Icon";
@@ -28,10 +26,51 @@ import OrderOverview from "layouts/dashboard/components/OrderOverview";
 // Data
 import reportsBarChartData from "layouts/dashboard/data/reportsBarChartData";
 import gradientLineChartData from "layouts/dashboard/data/gradientLineChartData";
+import { formatNumber, getCurrentUser } from "../../const/app-function";
+import { appConst } from "../../const/app-const";
+import {
+  getMonthlyStatistics,
+  getNewCustomer,
+  getTotal,
+} from "./dashboard-service";
+import { useEffect, useState } from "react";
 
 function Dashboard() {
   const { size } = typography;
   const { chart, items } = reportsBarChartData;
+  const [state, setState] = useState({});
+
+  const handleSearch = async () => {
+    try {
+      const payload = {
+        ownerId:
+          getCurrentUser()?.role !== appConst.ROLE.SUPPER_ADMIN
+            ? getCurrentUser()?.id
+            : null,
+        placeId: null,
+      };
+      const payloadDiagram = {
+        ownerId:
+          getCurrentUser()?.role !== appConst.ROLE.SUPPER_ADMIN
+            ? getCurrentUser()?.id
+            : null,
+        year: new Date().getFullYear(),
+      };
+      const data = await getTotal(payload);
+      const newCustomer = await getNewCustomer();
+      const monthlyStatistics = await getMonthlyStatistics(payloadDiagram);
+      setState((pre) => ({
+        ...pre,
+        ...data?.data,
+        ...newCustomer?.data,
+        charData: monthlyStatistics?.data,
+      }));
+    } catch (error) {}
+  };
+
+  useEffect(() => {
+    handleSearch();
+  }, []);
 
   return (
     <DashboardLayout>
@@ -41,33 +80,33 @@ function Dashboard() {
           <Grid container spacing={3}>
             <Grid item xs={12} sm={6} xl={3}>
               <MiniStatisticsCard
-                title={{ text: "today's money" }}
-                count="$53,000"
+                title={{ text: "Doanh thu ngày" }}
+                count={`$${formatNumber(state?.dailyRevenue) || 0}`}
                 percentage={{ color: "success", text: "+55%" }}
                 icon={{ color: "info", component: "paid" }}
               />
             </Grid>
             <Grid item xs={12} sm={6} xl={3}>
               <MiniStatisticsCard
-                title={{ text: "today's users" }}
-                count="2,300"
+                title={{ text: "Doanh thu tháng" }}
+                count={`$${formatNumber(state?.monthlyRevenue) || 0}`}
                 percentage={{ color: "success", text: "+3%" }}
                 icon={{ color: "info", component: "public" }}
               />
             </Grid>
             <Grid item xs={12} sm={6} xl={3}>
               <MiniStatisticsCard
-                title={{ text: "new clients" }}
-                count="+3,462"
+                title={{ text: "Doanh thu năm" }}
+                count={`$${formatNumber(state?.yearlyRevenue) || 0}`}
                 percentage={{ color: "error", text: "-2%" }}
                 icon={{ color: "info", component: "emoji_events" }}
               />
             </Grid>
             <Grid item xs={12} sm={6} xl={3}>
               <MiniStatisticsCard
-                title={{ text: "sales" }}
-                count="$103,430"
-                percentage={{ color: "success", text: "+5%" }}
+                title={{ text: "Khách hàng mới" }}
+                count={`${state?.today || 0}`}
+                percentage={{ color: "success", text: "" }}
                 icon={{
                   color: "info",
                   component: "shopping_cart",
@@ -76,60 +115,74 @@ function Dashboard() {
             </Grid>
           </Grid>
         </SoftBox>
+        {/*<SoftBox mb={3}>*/}
+        {/*  <Grid container spacing={3}>*/}
+        {/*    <Grid item xs={12} lg={7}>*/}
+        {/*      <BuildByDevelopers />*/}
+        {/*    </Grid>*/}
+        {/*    <Grid item xs={12} lg={5}>*/}
+        {/*      <WorkWithTheRockets />*/}
+        {/*    </Grid>*/}
+        {/*  </Grid>*/}
+        {/*</SoftBox>*/}
         <SoftBox mb={3}>
           <Grid container spacing={3}>
-            <Grid item xs={12} lg={7}>
-              <BuildByDevelopers />
-            </Grid>
-            <Grid item xs={12} lg={5}>
-              <WorkWithTheRockets />
-            </Grid>
-          </Grid>
-        </SoftBox>
-        <SoftBox mb={3}>
-          <Grid container spacing={3}>
-            <Grid item xs={12} lg={5}>
-              <ReportsBarChart
-                title="active users"
-                description={
-                  <>
-                    (<strong>+23%</strong>) than last week
-                  </>
-                }
-                chart={chart}
-                items={items}
-              />
-            </Grid>
-            <Grid item xs={12} lg={7}>
+            {/*<Grid item xs={12} lg={5}>*/}
+            {/*  <ReportsBarChart*/}
+            {/*    title="active users"*/}
+            {/*    description={*/}
+            {/*      <>*/}
+            {/*        (<strong>+23%</strong>) than last week*/}
+            {/*      </>*/}
+            {/*    }*/}
+            {/*    chart={chart}*/}
+            {/*    items={items}*/}
+            {/*  />*/}
+            {/*</Grid>*/}
+            <Grid item xs={12} lg={12}>
               <GradientLineChart
-                title="Sales Overview"
+                title="Sơ đồ tổng quan"
                 description={
                   <SoftBox display="flex" alignItems="center">
-                    <SoftBox fontSize={size.lg} color="success" mb={0.3} mr={0.5} lineHeight={0}>
+                    <SoftBox
+                      fontSize={size.lg}
+                      color="success"
+                      mb={0.3}
+                      mr={0.5}
+                      lineHeight={0}
+                    >
                       <Icon className="font-bold">arrow_upward</Icon>
                     </SoftBox>
-                    <SoftTypography variant="button" color="text" fontWeight="medium">
+                    <SoftTypography
+                      variant="button"
+                      color="text"
+                      fontWeight="medium"
+                    >
                       4% more{" "}
-                      <SoftTypography variant="button" color="text" fontWeight="regular">
+                      <SoftTypography
+                        variant="button"
+                        color="text"
+                        fontWeight="regular"
+                      >
                         in 2021
                       </SoftTypography>
                     </SoftTypography>
                   </SoftBox>
                 }
                 height="20.25rem"
-                chart={gradientLineChartData}
+                chart={state?.charData || gradientLineChartData}
               />
             </Grid>
           </Grid>
         </SoftBox>
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={6} lg={8}>
-            <Projects />
-          </Grid>
-          <Grid item xs={12} md={6} lg={4}>
-            <OrderOverview />
-          </Grid>
-        </Grid>
+        {/*<Grid container spacing={3}>*/}
+        {/*  <Grid item xs={12} md={6} lg={8}>*/}
+        {/*    <Projects />*/}
+        {/*  </Grid>*/}
+        {/*  <Grid item xs={12} md={6} lg={4}>*/}
+        {/*    <OrderOverview />*/}
+        {/*  </Grid>*/}
+        {/*</Grid>*/}
       </SoftBox>
       <Footer />
     </DashboardLayout>

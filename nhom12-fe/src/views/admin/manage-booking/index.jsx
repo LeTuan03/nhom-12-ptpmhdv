@@ -26,7 +26,7 @@ import SoftInput from "components/SoftInput";
 import SearchIcon from '@mui/icons-material/Search';
 import { deleteBooking, getAllBooking } from "./booking-service";
 import { appConst } from "const/app-const";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
 function ManageBooking() {
@@ -76,6 +76,7 @@ function ManageBooking() {
   const handleYesDelete = async () => {
     try {
       const data = await deleteBooking(state.item?.id);
+      toast.success("Xóa thành công");
     } catch (error) {
 
     } finally {

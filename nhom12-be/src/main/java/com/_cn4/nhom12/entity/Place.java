@@ -33,6 +33,6 @@ public class Place {
     @JoinColumn(name = "ownerId")
     private Account owner;
 
-    @Column(name = "description")
+    @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 }

@@ -62,6 +62,7 @@ export default function UserDialog(props) {
 
       if (item?.id) {
         const data = await updateUser(payload, item?.id);
+        toast.error("Cập nhật tài khoản thành công")
         console.log(data);
       } else {
         const data = await register(payload);

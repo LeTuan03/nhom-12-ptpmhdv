@@ -28,6 +28,7 @@ import SoftBox from "../../../components/SoftBox";
 import { getAllContinents } from "../../admin/manage-continents/continents-service";
 import { getAllCountries } from "../../admin/manage-countries/countries-service";
 import { useNavigate } from "react-router-dom";
+import { getAllRating } from "../reservation/reservation-service";
 
 function Home() {
   const navigate = useNavigate();
@@ -51,10 +52,12 @@ function Home() {
   const getListOptions = async () => {
     try {
       const listContinents = await getAllContinents();
+      const listRatings = await getAllRating();
       setState((pre) => ({
         ...pre,
         listContinents: listContinents?.data,
         listCountries: listContinents?.data?.[0]?.countries || [],
+        listRatings: listRatings?.data,
       }));
     } catch (e) {}
   };
@@ -128,7 +131,7 @@ function Home() {
               <TextField
                 fullWidth
                 {...params}
-                placeholder="Hotel name or destination"
+                placeholder="Tìm kiếm địa điểm của bạn tại đây"
               />
             )}
           />
@@ -212,24 +215,14 @@ function Home() {
           </Typography>
         </Grid>
         <Grid container item xs={12} spacing={3} sx={{ mt: 3 }}>
-          <Grid item xs={12} md={6} lg={4}>
-            <ProjectCardDesc
-              image={homeDecor1}
-              description="Enjoy premium services and breathtaking views."
-            />
-          </Grid>
-          <Grid item xs={12} md={6} lg={4}>
-            <ProjectCardDesc
-              image={homeDecor2}
-              description="A perfect getaway for nature lovers."
-            />
-          </Grid>
-          <Grid item xs={12} md={6} lg={4}>
-            <ProjectCardDesc
-              image={homeDecor3}
-              description="Experience modern living in the heart of the city."
-            />
-          </Grid>
+          {state?.listRatings?.map((rate) => (
+            <Grid key={rate?.id} item xs={12} md={6} lg={4}>
+              <ProjectCardDesc
+                image={rate?.image || homeDecor1}
+                description={rate?.title}
+              />
+            </Grid>
+          ))}
         </Grid>
       </Grid>
       {/*Travel guide*/}

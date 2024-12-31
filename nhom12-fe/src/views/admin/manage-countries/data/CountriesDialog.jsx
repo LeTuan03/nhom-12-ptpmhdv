@@ -30,6 +30,7 @@ import Tab from "@mui/material/Tab";
 import { a11yProps, CustomTabPanel } from "../../../../utils/CustomTabPanel";
 import { uploadImageV2 } from "../../../../const/app-service";
 import { API_PATH_V2 } from "../../../../utils/axios-customize";
+import { toast } from "react-toastify";
 
 export default function CountriesDialog(props) {
   const [controller] = useSoftUIController();
@@ -85,8 +86,10 @@ export default function CountriesDialog(props) {
       const payload = convertData();
       if (item?.id) {
         await updateCountries(payload, item?.id);
+        toast.success("Cập nhật thành công");
       } else {
         await createCountries(payload);
+        toast.success("Thêm mới thành công");
       }
     } catch (error) {
       console.error("Error submitting form:", error);

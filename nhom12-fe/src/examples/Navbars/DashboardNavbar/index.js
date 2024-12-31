@@ -141,24 +141,24 @@ function DashboardNavbar({ absolute, light, isMini, subTitle, title }) {
               />
             </SoftBox> */}
             <SoftBox color={light ? "white" : "inherit"}>
-              <Link to="/authentication/sign-in">
-                <IconButton sx={navbarIconButton} size="small">
-                  <Icon
-                    sx={({ palette: { dark, white } }) => ({
-                      color: light ? white.main : dark.main,
-                    })}
-                  >
-                    account_circle
-                  </Icon>
-                  <SoftTypography
-                    variant="button"
-                    fontWeight="medium"
-                    color={light ? "white" : "dark"}
-                  >
-                    Sign in
-                  </SoftTypography>
-                </IconButton>
-              </Link>
+              {/*<Link to="/authentication/sign-in">*/}
+              {/*  <IconButton sx={navbarIconButton} size="small">*/}
+              {/*    <Icon*/}
+              {/*      sx={({ palette: { dark, white } }) => ({*/}
+              {/*        color: light ? white.main : dark.main,*/}
+              {/*      })}*/}
+              {/*    >*/}
+              {/*      account_circle*/}
+              {/*    </Icon>*/}
+              {/*    <SoftTypography*/}
+              {/*      variant="button"*/}
+              {/*      fontWeight="medium"*/}
+              {/*      color={light ? "white" : "dark"}*/}
+              {/*    >*/}
+              {/*      Sign in*/}
+              {/*    </SoftTypography>*/}
+              {/*  </IconButton>*/}
+              {/*</Link>*/}
               <IconButton
                 size="small"
                 color="inherit"

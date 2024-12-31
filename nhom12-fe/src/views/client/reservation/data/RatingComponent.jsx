@@ -14,11 +14,14 @@ import SoftTypography from "../../../../components/SoftTypography";
 import SoftInput from "../../../../components/SoftInput";
 import { uploadImageV2 } from "../../../../const/app-service";
 import { API_PATH_V2 } from "../../../../utils/axios-customize";
+import { createRating } from "../reservation-service";
+import { getCurrentUser } from "../../../../const/app-function";
+import { toast } from "react-toastify";
 
-export default function RatingComponent({ checked, item }) {
+export default function RatingComponent({ checked, item, handleOk = () => {} }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [rating, setRating] = useState(0);
+  const [rate, setRate] = useState(0);
   const [uploadedImage, setUploadedImage] = useState(null);
 
   const handleImageUpload = async (event) => {
@@ -35,19 +38,23 @@ export default function RatingComponent({ checked, item }) {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const reviewData = {
       title,
       description,
-      rating,
+      rate,
       image: uploadedImage,
+      buyerId: item?.buyer?.id,
+      placeId: item?.placeId,
+      bookingId: item?.id,
     };
-    console.log("Review Submitted:", reviewData);
-    alert("Review Submitted!");
     try {
-
+      const data = await createRating(reviewData);
+      toast.success("Đánh giá thành công")
     } catch (error) {
-
+      toast.error("Cố lỗi xảy ra, vui lòng thử lại.")
+    } finally {
+      handleOk();
     }
   };
 
@@ -111,8 +118,8 @@ export default function RatingComponent({ checked, item }) {
         <Stack direction="row" alignItems="center" spacing={1} marginY={2}>
           <Typography>Đánh giá:</Typography>
           <Rating
-            value={rating}
-            onChange={(event, newValue) => setRating(newValue)}
+            value={rate}
+            onChange={(event, newValue) => setRate(newValue)}
           />
         </Stack>
 

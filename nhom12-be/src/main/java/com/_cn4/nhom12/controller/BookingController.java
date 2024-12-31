@@ -40,6 +40,11 @@ public class BookingController {
     public ResponseEntity<Booking> createBooking(@RequestBody Booking booking) {
         return ResponseEntity.ok(bookingService.createBooking(booking));
     }
+    @PostMapping("/{id}")
+    @Secured({Constant.ROLE_SUPER_ADMIN, Constant.ROLE_ADMIN, Constant.ROLE_USER})
+    public ResponseEntity<Booking> updateStatusRateBooking(@PathVariable String bookingId) {
+        return ResponseEntity.ok(bookingService.updateStatusRateBooking(bookingId));
+    }
 
     @PutMapping("/{id}")
     @Secured({Constant.ROLE_SUPER_ADMIN, Constant.ROLE_ADMIN, Constant.ROLE_USER})
@@ -55,11 +60,11 @@ public class BookingController {
     }
 
     // API lấy các booking của người dùng và kiểm tra đánh giá cho mỗi place
-    @GetMapping("/getByBuyerId/{buyerId}")
-    public ResponseEntity<List<BookingWithRatingDTO>> getBookingsAndRatings(@PathVariable String buyerId) {
-        // Lấy danh sách các booking của người dùng và kiểm tra đã đánh giá chưa
-        List<BookingWithRatingDTO> bookingsWithRatings = bookingService.getBookingsAndRatings(buyerId);
-        return ResponseEntity.ok(bookingsWithRatings);
-    }
+//    @GetMapping("/getByBuyerId/{buyerId}")
+//    public ResponseEntity<List<BookingWithRatingDTO>> getBookingsAndRatings(@PathVariable String buyerId) {
+//        // Lấy danh sách các booking của người dùng và kiểm tra đã đánh giá chưa
+//        List<BookingWithRatingDTO> bookingsWithRatings = bookingService.getBookingsAndRatings(buyerId);
+//        return ResponseEntity.ok(bookingsWithRatings);
+//    }
 }
 
