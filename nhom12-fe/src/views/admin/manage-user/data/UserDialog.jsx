@@ -124,7 +124,7 @@ export default function UserDialog(props) {
                     type="text"
                     name="username"
                     value={state?.username || ""}
-                    disabled={state?.isView}
+                    disabled={state?.isView || state?.id}
                     onChange={(event) => handleChange(event)}
                   />
                 </SoftBox>
@@ -164,6 +164,7 @@ export default function UserDialog(props) {
                     type="password"
                     name="password"
                     value={state?.password || ""}
+                    disabled={state?.isView || state?.id}
                     onChange={(event) => handleChange(event)}
                   />
                 </SoftBox>

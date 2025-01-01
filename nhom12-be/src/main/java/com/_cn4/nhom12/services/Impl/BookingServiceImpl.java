@@ -1,5 +1,6 @@
 package com._cn4.nhom12.services.Impl;
 
+import com._cn4.nhom12.DTO.request.BookingStatusRequest;
 import com._cn4.nhom12.entity.Account;
 import com._cn4.nhom12.entity.Booking;
 import com._cn4.nhom12.entity.Place;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.ZoneId;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -42,16 +44,22 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
+    public List<Booking> getBookingsByBuyerIdAndStatus(String buyerId) {
+        List<String> statuses = Arrays.asList(Constant.BOOKING_SOLD, Constant.BOOKING_WAIT, Constant.BOOKING_CANCEL);
+        return bookingRepository.findByBuyerIdAndStatusOrderIn(buyerId, statuses);
+    }
+
+    @Override
     public Booking getBookingById(String id) {
         return bookingRepository.findById(id).orElseThrow(() -> new RuntimeException("Booking not found!"));
     }
 
     @Override
-    public Booking updateStatusBooking(String bookingId) {
-        Booking entity = bookingRepository.findById(bookingId)
-                .orElseThrow(() -> new RuntimeException("Booking not found for id: " + bookingId)); // Ném lỗi nếu không tìm thấy booking
+    public Booking updateStatusBooking(BookingStatusRequest request) {
+        Booking entity = bookingRepository.findById(request.getBookingId())
+                .orElseThrow(() -> new RuntimeException("Booking not found for id: " + request.getBookingId())); // Ném lỗi nếu không tìm thấy booking
 
-        entity.setStatusOrder(Constant.BOOKING_SOLD);
+        entity.setStatusOrder(request.getStatusOrder());
         entity.setPurchaseDate(new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
         return bookingRepository.save(entity); // Lưu lại booking với trạng thái đã thay đổi
     }
