@@ -4,6 +4,7 @@ package com._cn4.nhom12.controller;
 import com._cn4.nhom12.DTO.request.BookingStatusRequest;
 import com._cn4.nhom12.DTO.response.BookingWithRatingDTO;
 import com._cn4.nhom12.entity.Booking;
+import com._cn4.nhom12.entity.Place;
 import com._cn4.nhom12.enums.Constant;
 import com._cn4.nhom12.services.BookingService;
 import jakarta.validation.Valid;
@@ -32,11 +33,11 @@ public class BookingController {
         return ResponseEntity.ok(bookingService.getBookingById(id));
     }
 
-//    @GetMapping("bookings/{id}")
-//    public ResponseEntity<List<Booking>> getBookingByBuyerId(@PathVariable String id) {
-//        return ResponseEntity.ok(bookingService.getBookingsByBuyerId(id));
-//    }
-
+    @GetMapping("/search")
+    public ResponseEntity<List<Booking>> searchPlaces(@RequestParam(value = "customerName", required = false) String customerName) {
+        List<Booking> places = bookingService.searchByCustomerName(customerName);
+        return ResponseEntity.ok(places);
+    }
     @GetMapping("bookings/{id}")
     public ResponseEntity<List<Booking>> getBookingByBuyerId(@PathVariable String id) {
         return ResponseEntity.ok(bookingService.getBookingsByBuyerIdAndStatus(id));

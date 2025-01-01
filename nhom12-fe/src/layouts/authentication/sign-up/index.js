@@ -88,13 +88,15 @@ function SignUp() {
         <SoftBox pt={2} pb={3} px={3}>
           <form  onSubmit={handleRegister}>
             <SoftBox mb={2}>
-              <SoftInput name={"username"} placeholder="Name" onChange={handleChange} />
+              <SoftInput name={"name"} placeholder="Nhập họ và tên" onChange={handleChange} />
+            </SoftBox> <SoftBox mb={2}>
+              <SoftInput name={"username"} placeholder="Nhập tên đăng nhập" onChange={handleChange} />
             </SoftBox>
             <SoftBox mb={2}>
-              <SoftInput name={"email"} type="email" placeholder="Email" onChange={handleChange} />
+              <SoftInput name={"email"} type="email" placeholder="Nhập địa chỉ email" onChange={handleChange} />
             </SoftBox>
             <SoftBox mb={2}>
-              <SoftInput name={"password"} type="password" placeholder="Password" onChange={handleChange}/>
+              <SoftInput name={"password"} type="password" placeholder="Nhập mật khẩu" onChange={handleChange}/>
             </SoftBox>
             <SoftBox display="flex" alignItems="center">
               <Checkbox checked={agreement} onChange={handleSetAgremment} />
@@ -104,7 +106,7 @@ function SignUp() {
                 onClick={handleSetAgremment}
                 sx={{ cursor: "poiner", userSelect: "none" }}
               >
-                &nbsp;&nbsp;I agree the&nbsp;
+                &nbsp;&nbsp;Tôi đồng ý&nbsp;
               </SoftTypography>
               <SoftTypography
                 component="a"
@@ -113,7 +115,7 @@ function SignUp() {
                 fontWeight="bold"
                 textGradient
               >
-                Terms and Conditions
+                Điều khoản và Điều kiện
               </SoftTypography>
             </SoftBox>
             <SoftBox mt={4} mb={1}>

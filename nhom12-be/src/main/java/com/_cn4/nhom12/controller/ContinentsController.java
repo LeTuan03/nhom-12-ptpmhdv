@@ -24,7 +24,7 @@ public class ContinentsController {
     ContinentsService continentsService;
 
     @GetMapping("/search")
-    ResponseEntity<List<Continents>> searchContinents(@RequestParam String name) {
+    ResponseEntity<List<Continents>> searchContinents(@RequestParam(value = "name", required = false) String name) {
         List<Continents> result = continentsService.searchContinents(name);
         return ResponseEntity.ok(result);
     }

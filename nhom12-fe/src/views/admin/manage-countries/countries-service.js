@@ -7,6 +7,13 @@ const URL = BASE_URL + "/countries";
 export const getAllCountries = async () => {
   return axios(URL);
 };
+export const searchCountries = async (payload) => {
+  let config = {
+    params: { ...payload },
+  };
+  return axios(URL + "/search", config);
+};
+
 export const getCountriesById = async (id) => {
   return axios(URL + "/" + id);
 };

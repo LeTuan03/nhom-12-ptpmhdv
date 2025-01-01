@@ -110,6 +110,11 @@ public class BookingServiceImpl implements BookingService {
         bookingRepository.deleteById(id);
     }
 
+    @Override
+    public List<Booking> searchByCustomerName(String customerName) {
+        return bookingRepository.searchByCustomerName(customerName);
+    }
+
 
     // Lấy các booking của người dùng và kiểm tra xem đã đánh giá địa điểm chưa
 //    public List<BookingWithRatingDTO> getBookingsAndRatings(String buyerId) {

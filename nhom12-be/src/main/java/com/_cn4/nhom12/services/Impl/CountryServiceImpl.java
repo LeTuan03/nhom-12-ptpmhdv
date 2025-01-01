@@ -125,4 +125,9 @@ public class CountryServiceImpl implements CountryService {
         return savedCountry;
     }
 
+    @Override
+    public List<Country> searchByName(String name) {
+        return countryRepository.searchByName(name);
+    }
+
 }

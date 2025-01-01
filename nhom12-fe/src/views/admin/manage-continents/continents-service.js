@@ -7,6 +7,12 @@ const URL = BASE_URL + "/continents";
 export const getAllContinents = async () => {
   return axios(URL);
 };
+export const searchContinents = async (payload) => {
+  let config = {
+    params: { ...payload },
+  };
+  return axios(URL + "/search", config);
+};
 
 export const createContinents  = async (payload) => {
   return axios.post(URL + "", payload);

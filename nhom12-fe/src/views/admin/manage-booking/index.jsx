@@ -24,7 +24,7 @@ import SoftInput from "components/SoftInput";
 import SearchIcon from "@mui/icons-material/Search";
 import {
   deleteBooking,
-  getAllBooking,
+  getAllBooking, searchBooking,
   updateStatusBooking,
 } from "./booking-service";
 import { appConst } from "const/app-const";
@@ -57,7 +57,10 @@ function ManageBooking() {
 
   const handleSearch = async () => {
     try {
-      const data = await getAllBooking();
+      let payload = {
+        customerName: state?.keyword,
+      };
+      const data = await searchBooking(payload);
       if (data?.status === appConst.CODE.SUCCEED) {
         handleSetState("listItems", data?.data);
       }
@@ -199,6 +202,17 @@ function ManageBooking() {
                   <SoftInput
                     placeholder={"Tìm kiếm ..."}
                     size="small"
+                    onChange={(event) =>
+                      setState((pre) => ({
+                        ...pre,
+                        keyword: event.target.value?.trim(),
+                      }))
+                    }
+                    onKeyUp={(event) => {
+                      if (!state?.keyword) {
+                        handleSearch();
+                      }
+                    }}
                     icon={{
                       component: (
                         <IconButton
@@ -209,6 +223,7 @@ function ManageBooking() {
                           }}
                           size="small"
                           color="info"
+                          onClick={() => handleSearch()}
                         >
                           <SearchIcon />
                         </IconButton>

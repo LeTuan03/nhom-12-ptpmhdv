@@ -4,6 +4,7 @@ import com._cn4.nhom12.DTO.ApiResponse;
 import com._cn4.nhom12.DTO.request.AccountCreationRequest;
 import com._cn4.nhom12.DTO.request.LoginRequest;
 import com._cn4.nhom12.entity.Account;
+import com._cn4.nhom12.entity.Booking;
 import com._cn4.nhom12.enums.Constant;
 import com._cn4.nhom12.services.Impl.AccountServiceImpl;
 import jakarta.validation.Valid;
@@ -37,6 +38,12 @@ public class AccountController {
     @Secured({Constant.ROLE_SUPER_ADMIN, Constant.ROLE_ADMIN})
     ResponseEntity<List<Account>> getAllAccount() {
         return accountService.getAllAccount();
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Account>> searchPlaces(@RequestParam(value = "username", required = false) String username) {
+        List<Account> accounts = accountService.searchByUsername(username);
+        return ResponseEntity.ok(accounts);
     }
 
     @PutMapping("/{id}")
