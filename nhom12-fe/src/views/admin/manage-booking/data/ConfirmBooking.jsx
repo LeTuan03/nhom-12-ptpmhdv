@@ -8,9 +8,16 @@ import SoftBox from "components/SoftBox";
 import SoftTypography from "components/SoftTypography";
 import { Grid } from "@mui/material";
 import PropTypes from "prop-types";
+const message = `
+  Đặt chỗ đã được thực hiện thành công. 
+  Vui lòng xác nhận trạng thái đặt chỗ:
+  - Xác nhận: Đơn hàng sẽ được đánh dấu là đã thanh toán.
+  - Hủy: Đơn hàng sẽ bị hủy.
 
-export default function SoftConfirmDialog(props) {
-  let { open, handleClose, title, handleOk = () => {} } = props;
+  Hãy chọn một trong hai phương án để tiếp tục xử lý đơn hàng này.
+`;
+export default function ConfirmBooking(props) {
+  let { open, handleClose, title, handleOk = () => {}, handleCancel = () => {} } = props;
   return (
     <React.Fragment>
       <Grid container>
@@ -36,8 +43,10 @@ export default function SoftConfirmDialog(props) {
                       component="label"
                       variant="caption"
                       fontWeight="bold"
+
+                      style={{ whiteSpace: "pre-line" }}
                     >
-                      {title || "Bạn có chắc chắc muốn xóa bản ghi này?"}
+                      {message}
                     </SoftTypography>
                   </SoftBox>
                 </SoftBox>
@@ -55,6 +64,15 @@ export default function SoftConfirmDialog(props) {
               Hủy
             </Button>
             <Button
+              onClick={handleCancel}
+              size="small"
+              variant="contained"
+              color="secondary"
+              sx={{ color: "#fff" }}
+            >
+              Hủy thanh toán
+            </Button>
+            <Button
               onClick={handleOk}
               size="small"
               variant="contained"
@@ -69,7 +87,7 @@ export default function SoftConfirmDialog(props) {
     </React.Fragment>
   );
 }
-SoftConfirmDialog.prototype = {
+ConfirmBooking.prototype = {
   open: PropTypes.string.isRequired,
   handleClose: PropTypes.func.isRequired,
   item: PropTypes.object,

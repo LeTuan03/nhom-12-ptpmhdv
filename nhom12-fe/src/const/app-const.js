@@ -23,9 +23,15 @@ export const appConst = {
   LIST_STATUS_ORDER_BOOKING: [
     { name: "Tạo mới", code: 0 },
     { name: "Đã thanh toán", code: 1 },
+    { name: "Hủy đặt chỗ", code: 2 },
+    { name: "Chờ xác nhận", code: 3 },
+    { name: "Đã xác nhận", code: 4 },
   ],
   STATUS_ORDER_BOOKING: {
     NEW: { name: "Tạo mới", code: 0 },
     SOLD: { name: "Đã thanh toán", code: 1 },
+    CANCEL: { name: "Hủy đặt chỗ", code: 2 },
+    WAIT: { name: "Chờ xác nhận", code: 3 },
+    CONFIRM: { name: "Đã xác nhận", code: 4 },
   },
 };

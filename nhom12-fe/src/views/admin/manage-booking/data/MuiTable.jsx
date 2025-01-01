@@ -9,14 +9,20 @@ import Paper from "@mui/material/Paper";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { IconButton } from "@mui/material";
-import { formatPrice, formatTimestampToDate } from "../../../../const/app-function";
+import {
+  formatPrice,
+  formatTimestampToDate,
+} from "../../../../const/app-function";
 import Visibility from "@mui/icons-material/Visibility";
+import { appConst } from "../../../../const/app-const";
+import { CheckCircle } from "@mui/icons-material";
 
 export default function MuiTable({
   data = [],
   handleEdit = () => {},
   handleDelete = () => {},
   handleView = () => {},
+  handleConfirmBuy = () => {},
 }) {
   const [selectedRowIndex, setSelectedRowIndex] = React.useState(null);
 
@@ -28,7 +34,7 @@ export default function MuiTable({
       <Table aria-label="simple table" size="small">
         <TableHead>
           <TableRow sx={{ background: "#17c1e8" }}>
-            <TableCell sx={{ color: "#fff", width: "120px" }}>
+            <TableCell sx={{ color: "#fff", width: "160px" }} align="center">
               Thao tác
             </TableCell>
             <TableCell sx={{ color: "#fff", width: "30px" }}>STT</TableCell>
@@ -72,23 +78,31 @@ export default function MuiTable({
                     selectedRowIndex === index ? "#e4f6fb" : "inherit",
                 }}
               >
-                <TableCell>
-                  <IconButton
-                    aria-label="delete"
-                    size="small"
-                    color="info"
-                    onClick={() => handleEdit(row)}
-                  >
-                    <EditIcon fontSize="inherit" />
-                  </IconButton>
-                  <IconButton
-                    aria-label="delete"
-                    size="small"
-                    color="error"
-                    onClick={() => handleDelete(row)}
-                  >
-                    <DeleteIcon fontSize="inherit" />
-                  </IconButton>
+                <TableCell align="center">
+                  {![
+                    appConst.STATUS_ORDER_BOOKING.SOLD.name,
+                    appConst.STATUS_ORDER_BOOKING.CANCEL.name,
+                    appConst.STATUS_ORDER_BOOKING.WAIT.name,
+                  ].includes(row?.statusOrder) && (
+                    <>
+                      <IconButton
+                        aria-label="delete"
+                        size="small"
+                        color="info"
+                        onClick={() => handleEdit(row)}
+                      >
+                        <EditIcon fontSize="inherit" />
+                      </IconButton>
+                      <IconButton
+                        aria-label="delete"
+                        size="small"
+                        color="error"
+                        onClick={() => handleDelete(row)}
+                      >
+                        <DeleteIcon fontSize="inherit" />
+                      </IconButton>
+                    </>
+                  )}
                   <IconButton
                     aria-label="view"
                     size="small"
@@ -97,14 +111,30 @@ export default function MuiTable({
                   >
                     <Visibility fontSize="inherit" />
                   </IconButton>
+                  {[appConst.STATUS_ORDER_BOOKING.WAIT.name].includes(
+                    row?.statusOrder
+                  ) && (
+                    <IconButton
+                      aria-label="view"
+                      size="small"
+                      color="success"
+                      onClick={() => handleConfirmBuy(row)}
+                    >
+                      <CheckCircle fontSize="inherit" />
+                    </IconButton>
+                  )}
                 </TableCell>
                 <TableCell align="center">
                   <b>{index + 1}</b>
                 </TableCell>
                 <TableCell align="">{row.customerName}</TableCell>
                 <TableCell align="">{row.numberOfPeople}</TableCell>
-                <TableCell align="right">{formatPrice(row.totalPrice)}</TableCell>
-                <TableCell align="">{formatTimestampToDate(row.startDate)}</TableCell>
+                <TableCell align="right">
+                  {formatPrice(row.totalPrice)}
+                </TableCell>
+                <TableCell align="">
+                  {formatTimestampToDate(row.startDate)}
+                </TableCell>
                 <TableCell align="">{row.statusOrder}</TableCell>
               </TableRow>
             ))

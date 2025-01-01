@@ -50,7 +50,7 @@ export default function OrderDialog(props) {
       specialRequests: state?.specialRequests,
       buyer: getCurrentUser(),
       statusRoom: appConst.STATUS_ROOM_BOOKING.EMPTY.name,
-      statusOrder: appConst.STATUS_ORDER_BOOKING.NEW.name,
+      statusOrder: appConst.STATUS_ORDER_BOOKING.WAIT.name,
     };
   };
   const handleFormSubmit = async () => {
@@ -71,7 +71,7 @@ export default function OrderDialog(props) {
       }
       // toast.success("Thành công");
     } catch (error) {
-      toast.error(error?.response?.data?.message);
+      toast.error(error?.response?.data?.message || "Có lỗi xảy ra vui lòng thử lại");
     } finally {
       // handleClose();
       // handleOk();

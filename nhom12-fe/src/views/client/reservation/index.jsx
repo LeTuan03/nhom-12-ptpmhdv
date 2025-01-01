@@ -6,9 +6,13 @@ import {
   formatTimestampToDate,
   getCurrentUser,
 } from "../../../const/app-function";
-import { getByBuyerIdBooking } from "../../admin/manage-booking/booking-service";
+import { getByBuyerIdBooking, updateStatusBooking } from "../../admin/manage-booking/booking-service";
 import { useNavigate } from "react-router-dom";
 import RatingComponent from "./data/RatingComponent";
+import { appConst } from "../../../const/app-const";
+import SoftConfirmDialog from "../../../components/SoftConfirmDialog";
+import { deletePlace } from "../../admin/manage-place/place-service";
+import { toast } from "react-toastify";
 
 function Reservation() {
   const user = getCurrentUser();
@@ -46,6 +50,37 @@ function Reservation() {
 
     setState((pre) => ({ ...pre, listBooking: updatedList }));
   };
+
+  const handleSetState = (source, data) => {
+    setState((pre) => ({ ...pre, [source]: data }))
+  }
+
+  const handleClose = () => {
+    handleSetState("item", {})
+    handleSetState("openConfirm", false)
+  };
+
+  const handleCancle = (item) => {
+    handleSetState("item", item)
+    handleSetState("openConfirm", true)
+  }
+
+  const handleYes = async () => {
+    try {
+      const payload = {
+        bookingId: state?.item?.id,
+        statusOrder: appConst.STATUS_ORDER_BOOKING.CANCEL.name
+      }
+      const data = await updateStatusBooking(payload);
+      console.log(data);
+      toast.success("Hủy thành công. Vui lòng kiểm tra tin nhắn của bạn.");
+    } catch (error) {
+      toast.warn("Có lỗi xảy ra vui lòng thử lại");
+    } finally {
+      handleClose();
+      handleSearch();
+    }
+  }
   return (
     <ClientLayout top={10}>
       {/* Hero Section */}
@@ -177,10 +212,17 @@ function Reservation() {
                       variant="body2"
                       sx={{
                         fontWeight: "bold",
-                        color: "green",
+                        color:
+                          reservation?.statusOrder ===
+                          appConst.STATUS_ORDER_BOOKING.SOLD.name
+                            ? "green"
+                            : reservation?.statusOrder ===
+                              appConst.STATUS_ORDER_BOOKING.WAIT.name
+                            ? "orange"
+                            : "red",
                       }}
                     >
-                      Trạng thái: Đã Thanh Toán
+                      Trạng thái: {reservation?.statusOrder}
                     </Typography>
                     <Typography
                       variant="h6"
@@ -188,7 +230,8 @@ function Reservation() {
                     >
                       Tổng chi phí: {formatPrice(reservation.totalPrice)}
                     </Typography>
-                    {!reservation?.isRated && (
+                    {reservation?.statusOrder ===
+                      appConst.STATUS_ORDER_BOOKING.WAIT.name && (
                       <Button
                         variant="contained"
                         color="primary"
@@ -202,11 +245,32 @@ function Reservation() {
                             boxShadow: "0 6px 20px rgba(0,0,0,0.2)",
                           },
                         }}
-                        onClick={() => handleChange(reservation)}
+                        onClick={() => handleCancle(reservation)}
                       >
-                        <span style={{ color: "#fff" }}> Đánh giá </span>
+                        <span style={{ color: "#fff" }}> Hủy đặt chỗ </span>
                       </Button>
                     )}
+                    {!reservation?.isRated &&
+                      reservation?.statusOrder ===
+                        appConst.STATUS_ORDER_BOOKING.SOLD.name && (
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          sx={{
+                            borderRadius: 5,
+                            padding: "10px 20px",
+                            textTransform: "none",
+                            fontWeight: "bold",
+                            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+                            "&:hover": {
+                              boxShadow: "0 6px 20px rgba(0,0,0,0.2)",
+                            },
+                          }}
+                          onClick={() => handleChange(reservation)}
+                        >
+                          <span style={{ color: "#fff" }}> Đánh giá </span>
+                        </Button>
+                      )}
                     {/*<Typography*/}
                     {/*  variant="body2"*/}
                     {/*  sx={{*/}
@@ -256,6 +320,7 @@ function Reservation() {
           </Box>
         </Card>
       </Box>
+      {state?.openConfirm && <SoftConfirmDialog title={"Bạn có chắc chắc muốn hủy đặt nơi này? \nLiên hệ với chủ địa điểm để được hoàn tiền."} open={state?.openConfirm} handleClose={handleClose} handleOk={handleYes} />}
     </ClientLayout>
   );
 }

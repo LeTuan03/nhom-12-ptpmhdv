@@ -1,6 +1,7 @@
 package com._cn4.nhom12.controller;
 
 
+import com._cn4.nhom12.DTO.request.BookingStatusRequest;
 import com._cn4.nhom12.DTO.response.BookingWithRatingDTO;
 import com._cn4.nhom12.entity.Booking;
 import com._cn4.nhom12.enums.Constant;
@@ -31,9 +32,14 @@ public class BookingController {
         return ResponseEntity.ok(bookingService.getBookingById(id));
     }
 
+//    @GetMapping("bookings/{id}")
+//    public ResponseEntity<List<Booking>> getBookingByBuyerId(@PathVariable String id) {
+//        return ResponseEntity.ok(bookingService.getBookingsByBuyerId(id));
+//    }
+
     @GetMapping("bookings/{id}")
     public ResponseEntity<List<Booking>> getBookingByBuyerId(@PathVariable String id) {
-        return ResponseEntity.ok(bookingService.getBookingsByBuyerId(id));
+        return ResponseEntity.ok(bookingService.getBookingsByBuyerIdAndStatus(id));
     }
 
     @PostMapping
@@ -47,9 +53,15 @@ public class BookingController {
         return ResponseEntity.ok(bookingService.updateStatusRateBooking(bookingId));
     }
 
+    @PostMapping("/update-status")
+    @Secured({Constant.ROLE_SUPER_ADMIN, Constant.ROLE_ADMIN, Constant.ROLE_USER})
+    public ResponseEntity<Booking> updateStatusRateBooking(@RequestBody @Valid BookingStatusRequest request) {
+        return ResponseEntity.ok(bookingService.updateStatusBooking(request));
+    }
+
     @PutMapping("/{id}")
     @Secured({Constant.ROLE_SUPER_ADMIN, Constant.ROLE_ADMIN, Constant.ROLE_USER})
-    public ResponseEntity<Booking> updateBooking(@PathVariable String id, @RequestBody Booking booking) {
+    public ResponseEntity<Booking> updateBooking(@PathVariable String id, @RequestBody @Valid Booking booking) {
         return ResponseEntity.ok(bookingService.updateBooking(id, booking));
     }
 
@@ -59,13 +71,5 @@ public class BookingController {
         bookingService.deleteBooking(id);
         return ResponseEntity.noContent().build();
     }
-
-    // API lấy các booking của người dùng và kiểm tra đánh giá cho mỗi place
-//    @GetMapping("/getByBuyerId/{buyerId}")
-//    public ResponseEntity<List<BookingWithRatingDTO>> getBookingsAndRatings(@PathVariable String buyerId) {
-//        // Lấy danh sách các booking của người dùng và kiểm tra đã đánh giá chưa
-//        List<BookingWithRatingDTO> bookingsWithRatings = bookingService.getBookingsAndRatings(buyerId);
-//        return ResponseEntity.ok(bookingsWithRatings);
-//    }
 }
 

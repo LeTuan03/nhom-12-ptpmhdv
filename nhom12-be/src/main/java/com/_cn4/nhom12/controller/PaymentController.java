@@ -2,6 +2,7 @@ package com._cn4.nhom12.controller;
 
 import com._cn4.nhom12.DTO.ApiResponse;
 import com._cn4.nhom12.DTO.PaymentDTO;
+import com._cn4.nhom12.DTO.request.BookingStatusRequest;
 import com._cn4.nhom12.enums.Constant;
 import com._cn4.nhom12.services.BookingService;
 import com._cn4.nhom12.services.Impl.PaymentService;
@@ -80,8 +81,11 @@ public class PaymentController {
                     orderId = orderInfo.substring("orderId=".length());
                     System.out.println("orderId: " + orderId);
 
+                    BookingStatusRequest bookingStatusRequest = new BookingStatusRequest();
+                    bookingStatusRequest.setBookingId(orderId);
+                    bookingStatusRequest.setStatusOrder(Constant.BOOKING_WAIT);
                     // Cập nhật trạng thái booking
-                    bookingService.updateStatusBooking(orderId);
+                    bookingService.updateStatusBooking(bookingStatusRequest);
                 } else {
                     throw new IllegalArgumentException("Invalid orderInfo format: " + orderInfo);
                 }

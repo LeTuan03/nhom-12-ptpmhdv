@@ -23,3 +23,6 @@ export const updateBooking = async (payload, id) => {
 export const deleteBooking = async (id) => {
   return axios.delete(URL + "/" + id);
 };
+export const updateStatusBooking = async (payload) => {
+  return axios.post(URL + "/update-status", payload);
+};
