@@ -2,6 +2,7 @@ package com._cn4.nhom12.controller;
 
 import com._cn4.nhom12.DTO.ApiResponse;
 import com._cn4.nhom12.DTO.request.AccountCreationRequest;
+import com._cn4.nhom12.DTO.request.AccountUpdateRequest;
 import com._cn4.nhom12.DTO.request.LoginRequest;
 import com._cn4.nhom12.entity.Account;
 import com._cn4.nhom12.entity.Booking;
@@ -75,5 +76,11 @@ public class AccountController {
     @GetMapping("/get-info")
     ResponseEntity<Account> getInfo(@RequestHeader("Authorization") String authorizationHeader) {
         return accountService.getAccountByToken(authorizationHeader);
+    }
+    @GetMapping("/change-password")
+    public String changePassword(@RequestParam String username,
+                                 @RequestParam String oldPassword,
+                                 @RequestParam String newPassword) {
+        return accountService.changePassword(username, oldPassword, newPassword);
     }
 }

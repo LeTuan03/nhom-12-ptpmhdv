@@ -34,6 +34,7 @@ import { appConst } from "./const/app-const";
 import Success from "./views/client/success";
 import ErrorPurchase from "./views/client/error-purchase";
 import Moment from "./views/client/moment";
+import ProfileUser from "./views/client/profile";
 
 const routes = [
   {
@@ -303,6 +304,50 @@ const routes = [
     route: "/reservation",
     icon: <SpaceShip size="12px" />,
     component: <Reservation />,
+    noCollapse: true,    
+    isMenu: false,
+    roles: [appConst.ROLE.SUPPER_ADMIN, appConst.ROLE.ADMIN, appConst.ROLE.USER],
+  },
+  {
+    type: "collapse",
+    name: "Profile",
+    key: "profile-user",
+    route: "/profile-user",
+    icon: <SpaceShip size="12px" />,
+    component: <ProfileUser />,
+    noCollapse: true,
+    isMenu: false,
+    roles: [appConst.ROLE.SUPPER_ADMIN, appConst.ROLE.ADMIN, appConst.ROLE.USER],
+  },
+  {
+    type: "collapse",
+    name: "Moment",
+    key: "moment",
+    route: "/moment/:id",
+    icon: <SpaceShip size="12px" />,
+    component: <Moment />,
+    noCollapse: true,
+    isMenu: false,
+    roles: [appConst.ROLE.SUPPER_ADMIN, appConst.ROLE.ADMIN, appConst.ROLE.USER],
+  },
+  {
+    type: "collapse",
+    name: "Success",
+    key: "success",
+    route: "/success",
+    icon: <SpaceShip size="12px" />,
+    component: <Success />,
+    noCollapse: true,
+    isMenu: false,
+    roles: [appConst.ROLE.SUPPER_ADMIN, appConst.ROLE.ADMIN, appConst.ROLE.USER],
+  },
+  {
+    type: "collapse",
+    name: "Error Purchase",
+    key: "error-purchase",
+    route: "/error-purchase",
+    icon: <SpaceShip size="12px" />,
+    component: <ErrorPurchase />,
     noCollapse: true,
     isMenu: false,
     roles: [appConst.ROLE.SUPPER_ADMIN, appConst.ROLE.ADMIN, appConst.ROLE.USER],
