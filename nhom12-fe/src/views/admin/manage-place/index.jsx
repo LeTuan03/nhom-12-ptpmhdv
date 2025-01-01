@@ -24,7 +24,7 @@ import SoftInput from "components/SoftInput";
 import SearchIcon from "@mui/icons-material/Search";
 import { deletePlace, getAllPlace, searchPlace } from "./place-service";
 import { appConst } from "const/app-const";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function ManagePlace() {
@@ -202,7 +202,6 @@ function ManagePlace() {
       </SoftBox>
 
       <Footer />
-      <ToastContainer autoClose={3000} />
     </DashboardLayout>
   );
 }
