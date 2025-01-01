@@ -101,7 +101,7 @@ function Reservation() {
         }}
       >
         <Typography variant="h2" fontWeight="bold" sx={{ fontSize: "3rem" }}>
-          Lịch Sử Đặt Phòng
+          Lịch Sử Đặt Chỗ
         </Typography>
         <Typography variant="h6" mt={2} sx={{ fontSize: "1.2rem" }}>
           Cập nhật thông tin và trạng thái của các lần đặt phòng của bạn.
@@ -125,7 +125,7 @@ function Reservation() {
               mb={3}
               sx={{ color: "#333" }}
             >
-              Lịch Sử Đặt Phòng
+              Lịch Sử Đặt Chỗ
             </Typography>
 
             {/* Lặp qua lịch sử đặt phòng */}

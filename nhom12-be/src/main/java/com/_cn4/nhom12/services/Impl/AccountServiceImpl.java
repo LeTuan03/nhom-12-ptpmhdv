@@ -148,4 +148,9 @@ public class AccountServiceImpl implements AccountService {
         }
         return new ResponseEntity<>("Tên tài khoản hoặc mật khẩu không đúng.", HttpStatus.BAD_REQUEST);
     }
+
+    @Override
+    public List<Account> searchByUsername(String username) {
+        return accountRepo.searchByUsername(username);
+    }
 }

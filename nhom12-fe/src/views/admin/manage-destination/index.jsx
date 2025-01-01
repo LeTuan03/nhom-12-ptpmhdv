@@ -1,5 +1,3 @@
-
-
 // @mui material components
 import Card from "@mui/material/Card";
 
@@ -23,8 +21,8 @@ import { useEffect, useState } from "react";
 import DestinationDialog from "./data/DestinationDialog";
 import SoftConfirmDialog from "components/SoftConfirmDialog";
 import SoftInput from "components/SoftInput";
-import SearchIcon from '@mui/icons-material/Search';
-import { deleteDestination,  searchDestination } from "./destination-service";
+import SearchIcon from "@mui/icons-material/Search";
+import { deleteDestination, searchDestination } from "./destination-service";
 import { appConst } from "const/app-const";
 import { toast } from "react-toastify";
 
@@ -35,8 +33,8 @@ function ManageDestination() {
   const [state, setState] = useState({ item: {} });
 
   const handleSetState = (source, data) => {
-    setState((pre) => ({ ...pre, [source]: data }))
-  }
+    setState((pre) => ({ ...pre, [source]: data }));
+  };
 
   const handleOpenDialog = () => {
     setOpenEdit(true);
@@ -44,92 +42,156 @@ function ManageDestination() {
 
   const handleClose = () => {
     setOpenEdit(false);
-    handleSetState("item", {})
-    handleSetState("openConfirm", false)
+    handleSetState("item", {});
+    handleSetState("openConfirm", false);
   };
 
   const handleSearch = async () => {
     try {
-      const data = await searchDestination({});
-      if(data?.status === appConst.CODE.SUCCEED) {
-        handleSetState("listItems", data?.data)
+      const data = await searchDestination({ destinationName: state?.keyword });
+      if (data?.status === appConst.CODE.SUCCEED) {
+        handleSetState("listItems", data?.data);
       }
-    } catch (error) {
-
-    }
-  }
+    } catch (error) {}
+  };
 
   const handleEdit = (item) => {
-    handleSetState("item", item)
+    handleSetState("item", item);
     console.log(item);
-    handleOpenDialog()
-  }
-  
+    handleOpenDialog();
+  };
+
   const handleView = (item) => {
     handleSetState("item", { ...item, isView: true });
     console.log(item);
-    handleOpenDialog()
-  }
+    handleOpenDialog();
+  };
 
   const handleDelete = (item) => {
-    handleSetState("item", item)
-    handleSetState("openConfirm", true)
+    handleSetState("item", item);
+    handleSetState("openConfirm", true);
     console.log(item);
-  }
+  };
 
   const handleYesDelete = async () => {
     try {
       const data = await deleteDestination(state.item?.id);
       toast.success("Xóa thành công");
     } catch (error) {
-
     } finally {
       handleClose();
       handleSearch();
     }
-  }
-  
+  };
+
   useEffect(() => {
     handleSearch();
-  }, [])
+  }, []);
   return (
     <DashboardLayout>
-      <DashboardNavbar title='Quản lý điểm đến' subTitle="Danh sách điểm đến" />
+      <DashboardNavbar title="Quản lý điểm đến" subTitle="Danh sách điểm đến" />
       <SoftBox py={3}>
         <SoftBox mb={3}>
           <Card>
-            <SoftBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
-              <SoftBox sx={(theme) => collapseItem(theme, { active: true, transparentSidenav })}>
+            <SoftBox
+              display="flex"
+              justifyContent="space-between"
+              alignItems="center"
+              p={3}
+            >
+              <SoftBox
+                sx={(theme) =>
+                  collapseItem(theme, { active: true, transparentSidenav })
+                }
+              >
                 <ListItemIcon
                   onClick={handleOpenDialog}
-                  sx={(theme) => collapseIconBox(theme, { active: true, transparentSidenav, color: sidenavColor })}
+                  sx={(theme) =>
+                    collapseIconBox(theme, {
+                      active: true,
+                      transparentSidenav,
+                      color: sidenavColor,
+                    })
+                  }
                 >
-                  <Icon sx={(theme) => collapseIcon(theme, { active: true })}>add</Icon>
+                  <Icon sx={(theme) => collapseIcon(theme, { active: true })}>
+                    add
+                  </Icon>
                 </ListItemIcon>
 
                 <ListItemText
                   primary={"Thêm mới"}
-                  sx={(theme) => collapseText(theme, { miniSidenav, transparentSidenav, active: true })}
+                  sx={(theme) =>
+                    collapseText(theme, {
+                      miniSidenav,
+                      transparentSidenav,
+                      active: true,
+                    })
+                  }
                 />
-                <SoftBox sx={{
-                  display: "flex",
-                  position: "relative",
-                }}>
-                  <SoftInput placeholder={"Tìm kiếm ..."} size="small" icon={{
-                    component: (
-                      <IconButton sx={{ position: "absolute", top: "2px", right: "2px" }} size="small" color='info' >
-                        <SearchIcon />
-                      </IconButton>
-                    ),
-                    direction: "right"
-                  }} />
+                <SoftBox
+                  sx={{
+                    display: "flex",
+                    position: "relative",
+                  }}
+                >
+                  <SoftInput
+                    placeholder={"Tìm kiếm ..."}
+                    size="small"
+                    onChange={(event) =>
+                      setState((pre) => ({
+                        ...pre,
+                        keyword: event.target.value?.trim(),
+                      }))
+                    }
+                    onKeyUp={(event) => {
+                      if (!state?.keyword) {
+                        handleSearch();
+                      }
+                    }}
+                    icon={{
+                      component: (
+                        <IconButton
+                          sx={{
+                            position: "absolute",
+                            top: "2px",
+                            right: "2px",
+                          }}
+                          size="small"
+                          color="info"
+                          onClick={() => handleSearch()}
+                        >
+                          <SearchIcon />
+                        </IconButton>
+                      ),
+                      direction: "right",
+                    }}
+                  />
                 </SoftBox>
               </SoftBox>
             </SoftBox>
             <SoftBox>
-              <MuiTable data={state?.listItems} handleEdit={handleEdit} handleDelete={handleDelete} handleView={handleView}/>
-              {openEdit && <DestinationDialog open={openEdit} handleClose={handleClose} handleOk={handleSearch} item={state?.item} />}
-              {state?.openConfirm && <SoftConfirmDialog open={state?.openConfirm} handleClose={handleClose} handleOk={handleYesDelete} />}
+              <MuiTable
+                data={state?.listItems}
+                handleEdit={handleEdit}
+                handleDelete={handleDelete}
+                handleView={handleView}
+              />
+              {openEdit && (
+                <DestinationDialog
+                  open={openEdit}
+                  handleClose={handleClose}
+                  handleOk={handleSearch}
+                  item={state?.item}
+                />
+              )}
+              {state?.openConfirm && (
+                <SoftConfirmDialog
+                  open={state?.openConfirm}
+                  handleClose={handleClose}
+                  handleOk={handleYesDelete}
+                />
+              )}
             </SoftBox>
           </Card>
         </SoftBox>

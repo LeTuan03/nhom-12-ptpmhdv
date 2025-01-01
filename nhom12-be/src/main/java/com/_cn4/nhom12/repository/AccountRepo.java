@@ -1,6 +1,7 @@
 package com._cn4.nhom12.repository;
 
 import com._cn4.nhom12.entity.Account;
+import com._cn4.nhom12.entity.Booking;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -23,4 +24,8 @@ public interface AccountRepo extends JpaRepository<Account, String> {
             "GROUP BY MONTH(a.createdDate) " +
             "ORDER BY MONTH(a.createdDate)")
     List<Object[]> getMonthlyRegistrations(@Param("year") int year);
+
+    @Query("SELECT p FROM Account p WHERE " +
+            "(:username IS NULL OR LOWER(p.username) LIKE LOWER(CONCAT('%', :username, '%'))) ")
+    List<Account> searchByUsername(@Param("username") String username);
 }

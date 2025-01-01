@@ -3,6 +3,7 @@ package com._cn4.nhom12.services;
 
 import com._cn4.nhom12.DTO.request.PlaceRequest;
 import com._cn4.nhom12.entity.Place;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -14,4 +15,5 @@ public interface PlaceService {
     Place updatePlace(String id, PlaceRequest updatedPlace);
     void deletePlace(String id);
     List<Place> getPlacesByIds(List<String> ids);
+    List<Place> searchByName(String name);
 }

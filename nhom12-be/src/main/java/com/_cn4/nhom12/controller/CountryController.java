@@ -11,7 +11,6 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,7 +28,11 @@ public class CountryController {
     public ResponseEntity<List<Country>> getAllCountries() {
         return ResponseEntity.ok(countryService.getAllCountries());
     }
-
+    @GetMapping("/search")
+    ResponseEntity<List<Country>> searchContinents(@RequestParam(value = "name", required = false) String name) {
+        List<Country> result = countryService.searchByName(name);
+        return ResponseEntity.ok(result);
+    }
     @GetMapping("/{id}")
     public ResponseEntity<Country> getCountryById(@PathVariable String id) {
         return ResponseEntity.ok(countryService.getCountryById(id));

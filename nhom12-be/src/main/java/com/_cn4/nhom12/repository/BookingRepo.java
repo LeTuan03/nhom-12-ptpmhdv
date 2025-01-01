@@ -11,7 +11,10 @@ import java.util.List;
 
 @Repository
 public interface BookingRepo extends JpaRepository<Booking, String> {
-    List<Booking> findByBuyerId(String buyerId);
+
+    @Query("SELECT p FROM Booking p WHERE " +
+            "(:customerName IS NULL OR LOWER(p.customerName) LIKE LOWER(CONCAT('%', :customerName, '%'))) ")
+    List<Booking> searchByCustomerName(@Param("customerName") String name);
 
     List<Booking> findByBuyerIdAndStatusOrder(String buyerId, String orderStatus);
     List<Booking> findByBuyerIdAndStatusOrderIn(String buyerId, List<String> statusOrders);

@@ -11,6 +11,7 @@ import com._cn4.nhom12.repository.DestinationRepo;
 import com._cn4.nhom12.repository.PlaceRepo;
 import com._cn4.nhom12.services.PlaceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -152,6 +153,11 @@ public class PlaceServiceImpl implements PlaceService {
     @Override
     public List<Place> getPlacesByIds(List<String> ids) {
         return placeRepository.findByIdIn(ids);
+    }
+
+    @Override
+    public List<Place> searchByName(String name) {
+        return placeRepository.search(name);
     }
 
     @Override

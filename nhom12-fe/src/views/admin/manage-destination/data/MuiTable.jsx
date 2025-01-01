@@ -26,7 +26,7 @@ export default function MuiTable({
     <TableContainer component={Paper} sx={{ scale: "0.92" }}>
       <Table aria-label="simple table" size="small">
         <TableHead>
-          <TableRow sx={{ background: "#17c1e8" }}>
+          <TableRow sx={{ background: "#17c1e8" }} align="center">
             <TableCell sx={{ color: "#fff", width: "120px" }}>
               Thao tác
             </TableCell>

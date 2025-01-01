@@ -29,6 +29,7 @@ import { getAllRating } from "../reservation/reservation-service";
 import { getRecommendForUser } from "../../../const/app-service";
 import { getCurrentUser } from "../../../const/app-function";
 import { getPlacesByIds } from "../../admin/manage-place/place-service";
+import { getAllCountries } from "../../admin/manage-countries/countries-service";
 
 function Home() {
   const navigate = useNavigate();
@@ -55,12 +56,14 @@ function Home() {
   const getListOptions = async () => {
     try {
       const listContinents = await getAllContinents();
+      const listCountriesSearch = await getAllCountries();
       const listRatings = await getAllRating();
 
       setState((pre) => ({
         ...pre,
         listContinents: listContinents?.data,
         listCountries: listContinents?.data?.[0]?.countries || [],
+        listCountriesSearch: listCountriesSearch?.data || [],
         listRatings: listRatings?.data,
       }));
     } catch (e) {}
@@ -143,7 +146,7 @@ function Home() {
           <Autocomplete
             disablePortal
             fullWidth
-            options={state?.listCountries?.length ? state?.listCountries : []}
+            options={state?.listCountriesSearch?.length ? state?.listCountriesSearch : []}
             getOptionLabel={(option) => option.name}
             onChange={(event, data) => handleChangeOption(data, "country")}
             renderInput={(params) => (

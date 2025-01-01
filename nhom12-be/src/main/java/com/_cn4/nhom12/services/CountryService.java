@@ -17,4 +17,5 @@ public interface CountryService {
     void deleteCountry(String id);
 
     Country updateCountryWithCities(String id, CountryRequest updatedCountry);
+    List<Country> searchByName(String name);
 }

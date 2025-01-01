@@ -26,7 +26,7 @@ public class ContinentsServiceImpl implements ContinentsService {
 
     @Override
     public List<Continents> searchContinents(String name) {
-        return continentsRepo.findByNameContainingIgnoreCase(name);
+        return continentsRepo.searchByName(name);
     }
 
     private void setValueDtos(Continents entity, Continents request) {

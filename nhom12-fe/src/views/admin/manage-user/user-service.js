@@ -7,6 +7,12 @@ const URL = BASE_URL + "/account";
 export const getAllUser = async () => {
   return axios(URL);
 };
+export const searchUser = async (payload) => {
+  let config = {
+    params: { ...payload },
+  };
+  return axios(URL + "/search", config);
+};
 
 export const createUser = async (payload) => {
   return axios.post(URL + "/create", payload);

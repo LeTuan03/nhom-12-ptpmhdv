@@ -117,13 +117,27 @@ function RTL() {
                 title="نظرة عامة على المبيعات"
                 description={
                   <SoftBox display="flex" alignItems="center">
-                    <SoftBox fontSize={size.lg} color="success" mb={0.3} mr={0.5} lineHeight={0}>
+                    <SoftBox
+                      fontSize={size.lg}
+                      color="success"
+                      mb={0.3}
+                      mr={0.5}
+                      lineHeight={0}
+                    >
                       <Icon className="font-bold">arrow_upward</Icon>
                     </SoftBox>
-                    <SoftTypography variant="button" color="text" fontWeight="medium">
+                    <SoftTypography
+                      variant="button"
+                      color="text"
+                      fontWeight="medium"
+                    >
                       4% أكثر في عام{" "}
-                      <SoftTypography variant="button" color="text" fontWeight="regular">
-                        2021
+                      <SoftTypography
+                        variant="button"
+                        color="text"
+                        fontWeight="regular"
+                      >
+                        {new Date().getFullYear()}
                       </SoftTypography>
                     </SoftTypography>
                   </SoftBox>

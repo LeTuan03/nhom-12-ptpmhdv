@@ -158,13 +158,13 @@ function Dashboard() {
                       color="text"
                       fontWeight="medium"
                     >
-                      4% more{" "}
+                      4%
                       <SoftTypography
                         variant="button"
                         color="text"
                         fontWeight="regular"
                       >
-                        in 2021
+                        &nbsp; trong năm {new Date().getFullYear()}
                       </SoftTypography>
                     </SoftTypography>
                   </SoftBox>

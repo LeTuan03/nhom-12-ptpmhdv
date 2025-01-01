@@ -7,6 +7,12 @@ const URL = BASE_URL + "/places";
 export const getAllPlace = async () => {
   return axios(URL);
 };
+export const searchPlace = async (payload) => {
+  let config = {
+    params: { ...payload },
+  };
+  return axios(URL + "/search", config);
+};
 
 export const getPlaceById = async (id) => {
   return axios(URL + "/" + id);
