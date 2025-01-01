@@ -38,10 +38,12 @@ export default function UserDialog(props) {
         formData.append("file", newImage);
         const data = await uploadImageV2(formData);
         let urlImageNew = API_PATH_V2 + "/public/image/" + data?.data?.name;
-        setState((pre) => ({ ...pre, "avatar":  urlImageNew || data?.data || "" }));
+        setState((pre) => ({
+          ...pre,
+          avatar: urlImageNew || data?.data || "",
+        }));
       }
-    } catch (e) {
-    }
+    } catch (e) {}
   };
   const convertData = () => {
     return {
@@ -62,15 +64,15 @@ export default function UserDialog(props) {
 
       if (item?.id) {
         const data = await updateUser(payload, item?.id);
-        toast.error("Cập nhật tài khoản thành công")
+        toast.error("Cập nhật tài khoản thành công");
         console.log(data);
       } else {
         const data = await register(payload);
         console.log(data);
-        toast.error("Đăng ký tài khoản thành công")
+        toast.error("Đăng ký tài khoản thành công");
       }
     } catch (error) {
-      toast.error(error?.response?.data?.message)
+      toast.error(error?.response?.data?.message);
     } finally {
       handleClose();
       handleOk();
@@ -82,7 +84,9 @@ export default function UserDialog(props) {
       ...pre,
       ...item,
       birthday: formatDateNoTime(item?.birthday),
-      role: appConst.LIST_ROLE.find(x => x.name === item?.role) || appConst.ROLE.USER,
+      role:
+        appConst.LIST_ROLE.find((x) => x.name === item?.role) ||
+        appConst.ROLE.USER,
     }));
   }, [item]);
 
@@ -120,6 +124,7 @@ export default function UserDialog(props) {
                     type="text"
                     name="username"
                     value={state?.username || ""}
+                    disabled={state?.isView}
                     onChange={(event) => handleChange(event)}
                   />
                 </SoftBox>
@@ -139,6 +144,7 @@ export default function UserDialog(props) {
                     type="text"
                     name="name"
                     value={state?.name || ""}
+                    disabled={state?.isView}
                     onChange={(event) => handleChange(event)}
                   />
                 </SoftBox>
@@ -177,6 +183,7 @@ export default function UserDialog(props) {
                     type="text"
                     name="phone"
                     value={state?.phone || ""}
+                    disabled={state?.isView}
                     onChange={(event) => handleChange(event)}
                   />
                 </SoftBox>
@@ -215,6 +222,7 @@ export default function UserDialog(props) {
                     type="date"
                     name="birthday"
                     value={state?.birthday || ""}
+                    disabled={state?.isView}
                     onChange={(event) => handleChange(event)}
                   />
                 </SoftBox>
@@ -234,6 +242,7 @@ export default function UserDialog(props) {
                     type="text"
                     name="gender"
                     value={state?.gender || ""}
+                    disabled={state?.isView}
                     onChange={(event) => handleChange(event)}
                   />
                 </SoftBox>
@@ -254,6 +263,7 @@ export default function UserDialog(props) {
                     fullWidth
                     value={state?.role || null}
                     getOptionLabel={(option) => option.name}
+                    disabled={state?.isView}
                     onChange={(event, data) => handleChangeOption(data, "role")}
                     renderInput={(params) => <TextField {...params} />}
                   />
@@ -271,6 +281,7 @@ export default function UserDialog(props) {
                   variant="contained"
                   sx={{ color: "#fff", marginTop: 1 }}
                   size="small"
+                  disabled={state?.isView}
                 >
                   <label htmlFor={`avataImage`}>Tải ảnh lên</label>
                 </Button>
@@ -279,6 +290,7 @@ export default function UserDialog(props) {
                   id={`avataImage`}
                   accept="image/*"
                   style={{ display: "none" }}
+                  disabled={state?.isView}
                   onChange={(e) => handleImageChange(e)}
                 />
               </Grid>
@@ -309,15 +321,17 @@ export default function UserDialog(props) {
             >
               Hủy
             </Button>
-            <Button
-              type="submit"
-              size="small"
-              variant="contained"
-              color="primary"
-              sx={{ color: "#fff" }}
-            >
-              Lưu
-            </Button>
+            {!state?.isView && (
+              <Button
+                type="submit"
+                size="small"
+                variant="contained"
+                color="primary"
+                sx={{ color: "#fff" }}
+              >
+                Lưu
+              </Button>
+            )}
           </DialogActions>
         </Dialog>
       </Grid>

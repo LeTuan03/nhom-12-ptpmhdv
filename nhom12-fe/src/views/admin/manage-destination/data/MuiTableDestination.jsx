@@ -12,6 +12,7 @@ import { IconButton } from "@mui/material";
 export default function MuiTableDestination({
   data = [],
   handleDelete = () => {},
+  isView = false
 }) {
   const [selectedRowIndex, setSelectedRowIndex] = React.useState(null);
 
@@ -60,6 +61,7 @@ export default function MuiTableDestination({
                     aria-label="delete"
                     size="small"
                     color="error"
+                    disabled={isView}
                     onClick={() => handleDelete(row)}
                   >
                     <DeleteIcon fontSize="inherit" />

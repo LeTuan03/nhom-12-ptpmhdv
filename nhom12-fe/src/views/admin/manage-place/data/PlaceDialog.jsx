@@ -39,15 +39,17 @@ export default function PlaceDialog(props) {
         formData.append("file", newImage);
         const data = await uploadImageV2(formData);
         let urlImageNew = API_PATH_V2 + "/public/image/" + data?.data?.name;
-        setState((pre) => ({ ...pre, "imageUrl":  urlImageNew || data?.data || "" }));
+        setState((pre) => ({
+          ...pre,
+          imageUrl: urlImageNew || data?.data || "",
+        }));
         // const reader = new FileReader();
         // reader.onload = () => {
         //   setState((pre) => ({ ...pre, ["imageUrl"]: reader.result }));
         // };
         // reader.readAsDataURL(newImage);
       }
-    } catch (e) {
-    }
+    } catch (e) {}
   };
   const convertData = () => {
     return {
@@ -101,7 +103,7 @@ export default function PlaceDialog(props) {
             name: item?.destinationName,
           }
         : null,
-      owner: item?.owner || getCurrentUser()
+      owner: item?.owner || getCurrentUser(),
     }));
     getListOptions();
   }, [item]);
@@ -140,6 +142,7 @@ export default function PlaceDialog(props) {
                     type="text"
                     name="name"
                     value={state?.name || ""}
+                    disabled={state?.isView}
                     onChange={(event) => handleChange(event)}
                   />
                 </SoftBox>
@@ -156,11 +159,14 @@ export default function PlaceDialog(props) {
                     </SoftTypography>
                   </SoftBox>
                   <Autocomplete
-                    disabled={getCurrentUser()?.role !== appConst.ROLE.SUPPER_ADMIN.name}
+                    disabled={
+                      getCurrentUser()?.role !== appConst.ROLE.SUPPER_ADMIN.name
+                    }
                     options={state?.listUser?.length ? state?.listUser : []}
                     fullWidth
                     value={state?.owner || null}
                     getOptionLabel={(option) => option.name}
+                    disabled={state?.isView}
                     onChange={(event, data) =>
                       handleChangeOption(data, "owner")
                     }
@@ -188,6 +194,7 @@ export default function PlaceDialog(props) {
                     fullWidth
                     value={state?.destination || null}
                     getOptionLabel={(option) => option.name}
+                    disabled={state?.isView}
                     onChange={(event, data) =>
                       handleChangeOption(data, "destination")
                     }
@@ -210,6 +217,7 @@ export default function PlaceDialog(props) {
                     type="number"
                     name="pricePerPerson"
                     value={state?.pricePerPerson || ""}
+                    disabled={state?.isView}
                     onChange={(event) => handleChange(event)}
                   />
                 </SoftBox>
@@ -229,6 +237,7 @@ export default function PlaceDialog(props) {
                     type="text"
                     name="description"
                     value={state?.description || ""}
+                    disabled={state?.isView}
                     onChange={(event) => handleChange(event)}
                   />
                 </SoftBox>
@@ -245,6 +254,7 @@ export default function PlaceDialog(props) {
                   variant="contained"
                   sx={{ color: "#fff", marginTop: 1 }}
                   size="small"
+                  disabled={state?.isView}
                 >
                   <label htmlFor={`avataImage`}>Tải ảnh lên</label>
                 </Button>
@@ -253,6 +263,7 @@ export default function PlaceDialog(props) {
                   id={`avataImage`}
                   accept="image/*"
                   style={{ display: "none" }}
+                  disabled={state?.isView}
                   onChange={(e) => handleImageChange(e)}
                 />
               </Grid>
@@ -283,15 +294,17 @@ export default function PlaceDialog(props) {
             >
               Hủy
             </Button>
-            <Button
-              type="submit"
-              size="small"
-              variant="contained"
-              color="primary"
-              sx={{ color: "#fff" }}
-            >
-              Lưu
-            </Button>
+            {!state?.isView && (
+              <Button
+                type="submit"
+                size="small"
+                variant="contained"
+                color="primary"
+                sx={{ color: "#fff" }}
+              >
+                Lưu
+              </Button>
+            )}
           </DialogActions>
         </Dialog>
       </Grid>

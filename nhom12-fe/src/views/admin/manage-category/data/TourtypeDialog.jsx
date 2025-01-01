@@ -70,7 +70,9 @@ export default function TourtypeDialog(props) {
             },
           }}
         >
-          <DialogTitle>Thêm mới/Cập nhật thông tin loại hình du lịch</DialogTitle>
+          <DialogTitle>
+            Thêm mới/Cập nhật thông tin loại hình du lịch
+          </DialogTitle>
           <DialogContent>
             <Grid container spacing={2}>
               <Grid item lg={12} md={12} sm={12}>
@@ -88,6 +90,7 @@ export default function TourtypeDialog(props) {
                     type="text"
                     name="name"
                     value={state?.name || ""}
+                    disabled={state?.isView}
                     onChange={(event) => handleChange(event)}
                   />
                 </SoftBox>
@@ -104,15 +107,17 @@ export default function TourtypeDialog(props) {
             >
               Hủy
             </Button>
-            <Button
-              type="submit"
-              size="small"
-              variant="contained"
-              color="primary"
-              sx={{ color: "#fff" }}
-            >
-              Lưu
-            </Button>
+            {!state?.isView && (
+              <Button
+                type="submit"
+                size="small"
+                variant="contained"
+                color="primary"
+                sx={{ color: "#fff" }}
+              >
+                Lưu
+              </Button>
+            )}
           </DialogActions>
         </Dialog>
       </Grid>
