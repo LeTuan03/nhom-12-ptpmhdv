@@ -67,6 +67,12 @@ function ManagePlace() {
 
   }
 
+  const handleView = (item) => {
+    handleSetState("item", { ...item, isView: true });
+    console.log(item);
+    handleOpenDialog()
+  }
+
   const handleDelete = (item) => {
     handleSetState("item", item)
     handleSetState("openConfirm", true)
@@ -123,7 +129,7 @@ function ManagePlace() {
               </SoftBox>
             </SoftBox>
             <SoftBox>
-              <MuiTable data={state?.listItems} handleEdit={handleEdit} handleDelete={handleDelete} />
+              <MuiTable data={state?.listItems} handleEdit={handleEdit} handleDelete={handleDelete} handleView={handleView} />
               {openEdit && <PlaceDialog open={openEdit} handleClose={handleClose} handleOk={handleSearch} item={state?.item} />}
               {state?.openConfirm && <SoftConfirmDialog open={state?.openConfirm} handleClose={handleClose} handleOk={handleYesDelete} />}
             </SoftBox>

@@ -14,6 +14,7 @@ export default function MuiTableDialog({
   data = [],
   handleDelete = () => {},
   handleChange = () => {},
+  isView = false,
 }) {
   const [selectedRowIndex, setSelectedRowIndex] = React.useState(null);
 
@@ -62,6 +63,7 @@ export default function MuiTableDialog({
                     aria-label="delete"
                     size="small"
                     color="error"
+                    disabled={isView}
                     onClick={() => handleDelete(index)}
                   >
                     <DeleteIcon fontSize="inherit" />
@@ -75,6 +77,7 @@ export default function MuiTableDialog({
                     type="text"
                     name="name"
                     value={row?.name || ""}
+                    disabled={isView}
                     onChange={(event) => handleChange(event, index)}
                   />
                 </TableCell>

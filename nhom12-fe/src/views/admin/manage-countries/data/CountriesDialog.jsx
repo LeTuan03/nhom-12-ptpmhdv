@@ -155,10 +155,9 @@ export default function CountriesDialog(props) {
         formData.append("file", newImage);
         const data = await uploadImageV2(formData);
         let urlImageNew = API_PATH_V2 + "/public/image/" + data?.data?.name;
-        setState((pre) => ({ ...pre, "image":  urlImageNew || data?.data || "" }));
+        setState((pre) => ({ ...pre, image: urlImageNew || data?.data || "" }));
       }
-    } catch (e) {
-    }
+    } catch (e) {}
   };
   const [value, setValue] = React.useState(0);
 
@@ -218,6 +217,7 @@ export default function CountriesDialog(props) {
                       fullWidth
                       value={state?.continents || null}
                       getOptionLabel={(option) => option?.name || ""}
+                      disabled={state?.isView}
                       onChange={(event, data) =>
                         handleChangeOption(data, "continents")
                       }
@@ -240,6 +240,7 @@ export default function CountriesDialog(props) {
                       type="text"
                       name="name"
                       value={state?.name || ""}
+                      disabled={state?.isView}
                       onChange={(event) => handleChange(event)}
                     />
                   </SoftBox>
@@ -259,6 +260,7 @@ export default function CountriesDialog(props) {
                       type="text"
                       name="description"
                       value={state?.description || ""}
+                      disabled={state?.isView}
                       onChange={(event) => handleChange(event)}
                     />
                   </SoftBox>
@@ -266,6 +268,7 @@ export default function CountriesDialog(props) {
                 <Grid item lg={12} md={12} sm={12}>
                   <SoftBox>
                     <ListItemIcon
+                      disabled={state?.isView}
                       onClick={() => handleAdd()}
                       sx={(theme) =>
                         collapseIconBox(theme, {
@@ -286,6 +289,7 @@ export default function CountriesDialog(props) {
                 </Grid>
                 <Grid item lg={12} md={12} sm={12}>
                   <MuiTableDialog
+                    isView={state?.isView}
                     data={state?.cities}
                     handleDelete={handleDelete}
                     handleChange={handleChangeCellTable}
@@ -308,6 +312,7 @@ export default function CountriesDialog(props) {
                     variant="contained"
                     sx={{ color: "#fff" }}
                     size="small"
+                    disabled={state?.isView}
                   >
                     <label htmlFor={`image`}>Tải ảnh lên</label>
                   </Button>
@@ -316,6 +321,7 @@ export default function CountriesDialog(props) {
                     id={`image`}
                     accept="image/*"
                     style={{ display: "none" }}
+                    disabled={state?.isView}
                     onChange={(e) => handleImageChange(e)}
                   />
                 </Grid>
@@ -349,15 +355,17 @@ export default function CountriesDialog(props) {
             >
               Hủy
             </Button>
-            <Button
-              type="submit"
-              size="small"
-              variant="contained"
-              color="primary"
-              sx={{ color: "#fff" }}
-            >
-              Lưu
-            </Button>
+            {!state?.isView && (
+              <Button
+                type="submit"
+                size="small"
+                variant="contained"
+                color="primary"
+                sx={{ color: "#fff" }}
+              >
+                Lưu
+              </Button>
+            )}
           </DialogActions>
         </Dialog>
       </Grid>

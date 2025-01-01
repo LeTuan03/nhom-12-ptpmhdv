@@ -51,10 +51,9 @@ export default function DestinationDialog(props) {
         formData.append("file", newImage);
         const data = await uploadImageV2(formData);
         let urlImageNew = API_PATH_V2 + "/public/image/" + data?.data?.name;
-        setState((pre) => ({ ...pre, "image":  urlImageNew || data?.data || "" }));
+        setState((pre) => ({ ...pre, image: urlImageNew || data?.data || "" }));
       }
-    } catch (e) {
-    }
+    } catch (e) {}
   };
 
   const convertData = () => {
@@ -122,6 +121,7 @@ export default function DestinationDialog(props) {
   };
 
   const handleDelete = (row) => {
+    if (state?.isView) return;
     let updateTourTypes = state?.tourTypes?.filter(
       (item) => item.id !== row.id
     );
@@ -192,6 +192,7 @@ export default function DestinationDialog(props) {
                       type="text"
                       name="name"
                       value={state?.name || ""}
+                      disabled={state?.isView}
                       onChange={(event) => handleChange(event)}
                     />
                   </SoftBox>
@@ -211,6 +212,7 @@ export default function DestinationDialog(props) {
                       type="text"
                       name="location"
                       value={state?.location || ""}
+                      disabled={state?.isView}
                       onChange={(event) => handleChange(event)}
                     />
                   </SoftBox>
@@ -230,6 +232,7 @@ export default function DestinationDialog(props) {
                       type="text"
                       name="contactInfo"
                       value={state?.contactInfo || ""}
+                      disabled={state?.isView}
                       onChange={(event) => handleChange(event)}
                     />
                   </SoftBox>
@@ -250,6 +253,7 @@ export default function DestinationDialog(props) {
                       fullWidth
                       value={state?.continent || null}
                       getOptionLabel={(option) => option.name}
+                      disabled={state?.isView}
                       onChange={(event, data) =>
                         handleChangeOption(data, "continent")
                       }
@@ -277,6 +281,7 @@ export default function DestinationDialog(props) {
                       fullWidth
                       value={state?.country || null}
                       getOptionLabel={(option) => option.name}
+                      disabled={state?.isView}
                       onChange={(event, data) =>
                         handleChangeOption(data, "country")
                       }
@@ -304,6 +309,7 @@ export default function DestinationDialog(props) {
                       fullWidth
                       value={state?.city || null}
                       getOptionLabel={(option) => option.name}
+                      disabled={state?.isView}
                       onChange={(event, data) =>
                         handleChangeOption(data, "city")
                       }
@@ -326,6 +332,7 @@ export default function DestinationDialog(props) {
                       type="text"
                       name="rating"
                       value={state?.rating || ""}
+                      disabled={state?.isView}
                       onChange={(event) => handleChange(event)}
                     />
                   </SoftBox>
@@ -345,6 +352,7 @@ export default function DestinationDialog(props) {
                       type="text"
                       name="openingHours"
                       value={state?.openingHours || ""}
+                      disabled={state?.isView}
                       onChange={(event) => handleChange(event)}
                     />
                   </SoftBox>
@@ -364,6 +372,7 @@ export default function DestinationDialog(props) {
                       type="text"
                       name="entryFee"
                       value={state?.entryFee || ""}
+                      disabled={state?.isView}
                       onChange={(event) => handleChange(event)}
                     />
                   </SoftBox>
@@ -383,6 +392,7 @@ export default function DestinationDialog(props) {
                       type="text"
                       name="description"
                       value={state?.description || ""}
+                      disabled={state?.isView}
                       onChange={(event) => handleChange(event)}
                     />
                   </SoftBox>
@@ -409,6 +419,7 @@ export default function DestinationDialog(props) {
                       fullWidth
                       value={state?.selectedTourType || null}
                       getOptionLabel={(option) => option.name}
+                      disabled={state?.isView}
                       onChange={(event, data) =>
                         handleChangeOption(data, "selectedTourType")
                       }
@@ -429,7 +440,7 @@ export default function DestinationDialog(props) {
                 >
                   <SoftBox>
                     <Button
-                      disabled={!state?.selectedTourType}
+                      disabled={!state?.selectedTourType || state?.isView}
                       type="button"
                       size="small"
                       variant="contained"
@@ -445,6 +456,7 @@ export default function DestinationDialog(props) {
                   <MuiTableDestination
                     data={state?.tourTypes || []}
                     handleDelete={handleDelete}
+                    isView={state?.isView}
                   />
                 </Grid>
               </Grid>
@@ -464,6 +476,7 @@ export default function DestinationDialog(props) {
                     variant="contained"
                     sx={{ color: "#fff" }}
                     size="small"
+                    disabled={state?.isView}
                   >
                     <label htmlFor={`image`}>Tải ảnh lên</label>
                   </Button>
@@ -472,6 +485,7 @@ export default function DestinationDialog(props) {
                     id={`image`}
                     accept="image/*"
                     style={{ display: "none" }}
+                    disabled={state?.isView}
                     onChange={(e) => handleImageChange(e)}
                   />
                 </Grid>
@@ -504,15 +518,17 @@ export default function DestinationDialog(props) {
           >
             Hủy
           </Button>
-          <Button
-            type="submit"
-            size="small"
-            variant="contained"
-            color="primary"
-            sx={{ color: "#fff" }}
-          >
-            Lưu
-          </Button>
+          {!state?.isView && (
+            <Button
+              type="submit"
+              size="small"
+              variant="contained"
+              color="primary"
+              sx={{ color: "#fff" }}
+            >
+              Lưu
+            </Button>
+          )}
         </DialogActions>
       </Dialog>
     </Grid>

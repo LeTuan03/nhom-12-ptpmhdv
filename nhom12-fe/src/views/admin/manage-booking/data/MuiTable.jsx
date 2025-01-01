@@ -9,14 +9,14 @@ import Paper from "@mui/material/Paper";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { IconButton } from "@mui/material";
-import SoftBadge from "components/SoftBadge";
-import { appConst } from "../../../../const/app-const";
 import { formatPrice, formatTimestampToDate } from "../../../../const/app-function";
+import Visibility from "@mui/icons-material/Visibility";
 
 export default function MuiTable({
   data = [],
   handleEdit = () => {},
   handleDelete = () => {},
+  handleView = () => {},
 }) {
   const [selectedRowIndex, setSelectedRowIndex] = React.useState(null);
 
@@ -28,7 +28,7 @@ export default function MuiTable({
       <Table aria-label="simple table" size="small">
         <TableHead>
           <TableRow sx={{ background: "#17c1e8" }}>
-            <TableCell sx={{ color: "#fff", width: "100px" }}>
+            <TableCell sx={{ color: "#fff", width: "120px" }}>
               Thao tác
             </TableCell>
             <TableCell sx={{ color: "#fff", width: "30px" }}>STT</TableCell>
@@ -88,6 +88,14 @@ export default function MuiTable({
                     onClick={() => handleDelete(row)}
                   >
                     <DeleteIcon fontSize="inherit" />
+                  </IconButton>
+                  <IconButton
+                    aria-label="view"
+                    size="small"
+                    color="secondary"
+                    onClick={() => handleView(row)}
+                  >
+                    <Visibility fontSize="inherit" />
                   </IconButton>
                 </TableCell>
                 <TableCell align="center">

@@ -89,6 +89,7 @@ export default function ContinentsDialog(props) {
                     type="text"
                     name="name"
                     value={state?.name || ""}
+                    disabled={state?.isView}
                     onChange={(event) => handleChange(event)}
                   />
                 </SoftBox>
@@ -105,15 +106,17 @@ export default function ContinentsDialog(props) {
             >
               Hủy
             </Button>
-            <Button
-              type="submit"
-              size="small"
-              variant="contained"
-              color="primary"
-              sx={{ color: "#fff" }}
-            >
-              Lưu
-            </Button>
+            {!state?.isView && (
+              <Button
+                type="submit"
+                size="small"
+                variant="contained"
+                color="primary"
+                sx={{ color: "#fff" }}
+              >
+                Lưu
+              </Button>
+            )}
           </DialogActions>
         </Dialog>
       </Grid>

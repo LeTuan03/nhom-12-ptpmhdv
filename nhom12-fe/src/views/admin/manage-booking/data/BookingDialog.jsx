@@ -137,6 +137,7 @@ export default function BookingDialog(props) {
                     type="text"
                     name="customerName"
                     value={state?.customerName || ""}
+                    disabled={state?.isView}
                     onChange={(event) => handleChange(event)}
                   />
                 </SoftBox>
@@ -156,6 +157,7 @@ export default function BookingDialog(props) {
                     type="text"
                     name="email"
                     value={state?.email || ""}
+                    disabled={state?.isView}
                     onChange={(event) => handleChange(event)}
                   />
                 </SoftBox>
@@ -175,6 +177,7 @@ export default function BookingDialog(props) {
                     type="text"
                     name="phone"
                     value={state?.phone || ""}
+                    disabled={state?.isView}
                     onChange={(event) => handleChange(event)}
                   />
                 </SoftBox>
@@ -194,6 +197,7 @@ export default function BookingDialog(props) {
                     type="number"
                     name="numberOfPeople"
                     value={state?.numberOfPeople || ""}
+                    disabled={state?.isView}
                     onChange={(event) => handleChange(event)}
                   />
                 </SoftBox>
@@ -213,6 +217,7 @@ export default function BookingDialog(props) {
                     type="date"
                     name="startDate"
                     value={state?.startDate || ""}
+                    disabled={state?.isView}
                     onChange={(event) => handleChange(event)}
                   />
                 </SoftBox>
@@ -233,6 +238,7 @@ export default function BookingDialog(props) {
                     fullWidth
                     value={state?.statusRoom || null}
                     getOptionLabel={(option) => option.name}
+                    disabled={state?.isView}
                     onChange={(event, data) =>
                       handleChangeOption(data, "statusRoom")
                     }
@@ -256,6 +262,7 @@ export default function BookingDialog(props) {
                     type="number"
                     name="totalPrice"
                     value={state?.totalPrice || ""}
+                    disabled={state?.isView}
                     onChange={(event) => handleChange(event)}
                   />
                 </SoftBox>
@@ -276,6 +283,7 @@ export default function BookingDialog(props) {
                     fullWidth
                     value={state?.buyer || null}
                     getOptionLabel={(option) => option.name}
+                    disabled={state?.isView}
                     onChange={(event, data) =>
                       handleChangeOption(data, "buyer")
                     }
@@ -308,6 +316,7 @@ export default function BookingDialog(props) {
                     fullWidth
                     value={state?.place || null}
                     getOptionLabel={(option) => option.name}
+                    disabled={state?.isView}
                     onChange={(event, data) =>
                       handleChangeOption(data, "place")
                     }
@@ -331,6 +340,7 @@ export default function BookingDialog(props) {
                     fullWidth
                     value={state?.statusOrder || null}
                     getOptionLabel={(option) => option.name}
+                    disabled={state?.isView}
                     onChange={(event, data) =>
                       handleChangeOption(data, "statusOrder")
                     }
@@ -353,6 +363,7 @@ export default function BookingDialog(props) {
                     type="text"
                     name="specialRequests"
                     value={state?.specialRequests || ""}
+                    disabled={state?.isView}
                     onChange={(event) => handleChange(event)}
                   />
                 </SoftBox>
@@ -369,15 +380,17 @@ export default function BookingDialog(props) {
             >
               Hủy
             </Button>
-            <Button
-              type="submit"
-              size="small"
-              variant="contained"
-              color="primary"
-              sx={{ color: "#fff" }}
-            >
-              Lưu
-            </Button>
+            {!state?.isView && (
+              <Button
+                type="submit"
+                size="small"
+                variant="contained"
+                color="primary"
+                sx={{ color: "#fff" }}
+              >
+                Lưu
+              </Button>
+            )}
           </DialogActions>
         </Dialog>
       </Grid>
