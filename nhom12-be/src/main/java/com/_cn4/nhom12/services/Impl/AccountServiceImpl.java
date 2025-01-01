@@ -153,4 +153,19 @@ public class AccountServiceImpl implements AccountService {
     public List<Account> searchByUsername(String username) {
         return accountRepo.searchByUsername(username);
     }
+
+
+    @Override
+    public String changePassword(String username, String oldPassword, String newPassword) {
+        Account account = accountRepo.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (!passwordEncoder.matches(oldPassword, account.getPassword())) {
+            throw new RuntimeException("Old password is incorrect");
+        }
+
+        account.setPassword(passwordEncoder.encode(newPassword));
+        accountRepo.save(account);
+        return "Password updated successfully";
+    }
 }

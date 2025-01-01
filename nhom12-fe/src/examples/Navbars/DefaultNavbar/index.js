@@ -135,7 +135,7 @@ function DefaultNavbar({ transparent, light, action }) {
               <DefaultNavbarLink
                 icon="person"
                 name="Thông tin cá nhân"
-                route="/profile"
+                route="/profile-user"
                 light={light}
               />
             </>

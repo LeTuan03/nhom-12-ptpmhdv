@@ -24,4 +24,5 @@ public interface AccountService {
 
     ResponseEntity<?> login(LoginRequest request);
     List<Account> searchByUsername(String username);
+    String changePassword(String username, String oldPassword, String newPassword);
 }
