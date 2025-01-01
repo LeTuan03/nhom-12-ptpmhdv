@@ -31,8 +31,10 @@ import { appConst } from "const/app-const";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ConfirmBooking from "./data/ConfirmBooking";
+import { getCurrentUser } from "../../../const/app-function";
 
 function ManageBooking() {
+  const role = getCurrentUser()?.role;
   const [controller] = useSoftUIController();
   const { miniSidenav, transparentSidenav, sidenavColor } = controller;
   const [openEdit, setOpenEdit] = useState(false);
@@ -158,6 +160,13 @@ function ManageBooking() {
                       color: sidenavColor,
                     })
                   }
+                  style={{
+                    ...(role === appConst.ROLE.SUPPER_ADMIN.name
+                      ? {
+                          display: "none",
+                        }
+                      : {}),
+                  }}
                 >
                   <Icon sx={(theme) => collapseIcon(theme, { active: true })}>
                     add
@@ -173,6 +182,13 @@ function ManageBooking() {
                       active: true,
                     })
                   }
+                  style={{
+                    ...(role === appConst.ROLE.SUPPER_ADMIN.name
+                      ? {
+                          display: "none",
+                        }
+                      : {}),
+                  }}
                 />
                 <SoftBox
                   sx={{

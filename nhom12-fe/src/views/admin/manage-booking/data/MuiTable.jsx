@@ -11,7 +11,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { IconButton } from "@mui/material";
 import {
   formatPrice,
-  formatTimestampToDate,
+  formatTimestampToDate, getCurrentUser,
 } from "../../../../const/app-function";
 import Visibility from "@mui/icons-material/Visibility";
 import { appConst } from "../../../../const/app-const";
@@ -24,6 +24,7 @@ export default function MuiTable({
   handleView = () => {},
   handleConfirmBuy = () => {},
 }) {
+  const role = getCurrentUser()?.role;
   const [selectedRowIndex, setSelectedRowIndex] = React.useState(null);
 
   const handleRowClick = (index) => {
@@ -78,52 +79,65 @@ export default function MuiTable({
                     selectedRowIndex === index ? "#e4f6fb" : "inherit",
                 }}
               >
-                <TableCell align="center">
-                  {![
-                    appConst.STATUS_ORDER_BOOKING.SOLD.name,
-                    appConst.STATUS_ORDER_BOOKING.CANCEL.name,
-                    appConst.STATUS_ORDER_BOOKING.WAIT.name,
-                  ].includes(row?.statusOrder) && (
-                    <>
-                      <IconButton
-                        aria-label="delete"
-                        size="small"
-                        color="info"
-                        onClick={() => handleEdit(row)}
-                      >
-                        <EditIcon fontSize="inherit" />
-                      </IconButton>
-                      <IconButton
-                        aria-label="delete"
-                        size="small"
-                        color="error"
-                        onClick={() => handleDelete(row)}
-                      >
-                        <DeleteIcon fontSize="inherit" />
-                      </IconButton>
-                    </>
-                  )}
-                  <IconButton
-                    aria-label="view"
-                    size="small"
-                    color="secondary"
-                    onClick={() => handleView(row)}
-                  >
-                    <Visibility fontSize="inherit" />
-                  </IconButton>
-                  {[appConst.STATUS_ORDER_BOOKING.WAIT.name].includes(
-                    row?.statusOrder
-                  ) && (
+                {role === appConst.ROLE.SUPPER_ADMIN.name ?
+                  <TableCell align="center">
                     <IconButton
                       aria-label="view"
                       size="small"
-                      color="success"
-                      onClick={() => handleConfirmBuy(row)}
+                      color="secondary"
+                      onClick={() => handleView(row)}
                     >
-                      <CheckCircle fontSize="inherit" />
+                      <Visibility fontSize="inherit" />
                     </IconButton>
-                  )}
-                </TableCell>
+                  </TableCell>
+                  :
+                  <TableCell align="center">
+                    {![
+                      appConst.STATUS_ORDER_BOOKING.SOLD.name,
+                      appConst.STATUS_ORDER_BOOKING.CANCEL.name,
+                      appConst.STATUS_ORDER_BOOKING.WAIT.name,
+                    ].includes(row?.statusOrder) && (
+                      <>
+                        <IconButton
+                          aria-label="delete"
+                          size="small"
+                          color="info"
+                          onClick={() => handleEdit(row)}
+                        >
+                          <EditIcon fontSize="inherit" />
+                        </IconButton>
+                        <IconButton
+                          aria-label="delete"
+                          size="small"
+                          color="error"
+                          onClick={() => handleDelete(row)}
+                        >
+                          <DeleteIcon fontSize="inherit" />
+                        </IconButton>
+                      </>
+                    )}
+                    <IconButton
+                      aria-label="view"
+                      size="small"
+                      color="secondary"
+                      onClick={() => handleView(row)}
+                    >
+                      <Visibility fontSize="inherit" />
+                    </IconButton>
+                    {[appConst.STATUS_ORDER_BOOKING.WAIT.name].includes(
+                      row?.statusOrder
+                    ) && (
+                      <IconButton
+                        aria-label="view"
+                        size="small"
+                        color="success"
+                        onClick={() => handleConfirmBuy(row)}
+                      >
+                        <CheckCircle fontSize="inherit" />
+                      </IconButton>
+                    )}
+                  </TableCell>
+                }
                 <TableCell align="center">
                   <b>{index + 1}</b>
                 </TableCell>
