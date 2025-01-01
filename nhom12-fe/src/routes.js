@@ -98,7 +98,7 @@ const routes = [
     component: <ManageUser />,
     noCollapse: true,
     isMenu: true,
-    roles: [appConst.ROLE.SUPPER_ADMIN, appConst.ROLE.ADMIN],
+    roles: [appConst.ROLE.SUPPER_ADMIN],
   },
   {
     type: "collapse",
