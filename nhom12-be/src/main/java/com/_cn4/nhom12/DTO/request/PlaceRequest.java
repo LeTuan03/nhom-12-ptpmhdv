@@ -17,6 +17,8 @@ public class PlaceRequest {
     @Size(min = 5, message = "Tên không được ít hơn 5 ký tự")
     private String name;
     private double pricePerPerson;
+    @NotNull(message = "Không được để trống")
+    private int maxPerson;
     private List<Booking> bookings;
     @NotNull(message = "Chủ sở hữu không được để trống")
     private String ownerId;

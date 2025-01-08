@@ -85,6 +85,8 @@ export default function DestinationDialog(props) {
         console.log(data);
       }
     } catch (error) {
+      console.log(error);
+      toast.error("Có lỗi xảy ra vui lòng thử lại");
     } finally {
       handleClose();
       handleOk();

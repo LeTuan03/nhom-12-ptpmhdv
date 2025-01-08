@@ -22,6 +22,9 @@ public class Place {
     @Column(nullable = false)
     private double pricePerPerson;
 
+    @Column(nullable = false)
+    private int maxPerson;
+
     private String destinationId;
 
     private String destinationName;

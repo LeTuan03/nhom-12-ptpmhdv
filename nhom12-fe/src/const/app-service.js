@@ -21,12 +21,12 @@ export const getToken = async () => {
       clinet_id: 'core_client',
       grant_type: 'password',
       client_secret: 'secret',
-      username: 'admin',
-      password: 'admin',
+      username: '',
+      password: '',
     },
     {
       headers: {
-        Authorization: 'Basic Y29yZV9jbGllbnQ6c2VjcmV0',
+        Authorization: 'Basic ',
       },
     },
   );

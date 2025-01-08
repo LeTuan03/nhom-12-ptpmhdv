@@ -62,6 +62,7 @@ export default function PlaceDialog(props) {
       bookings: state?.bookings,
       ownerId: state?.owner?.id,
       description: state?.description,
+      maxPerson: state?.maxPerson,
     };
   };
   const handleFormSubmit = async () => {
@@ -75,6 +76,7 @@ export default function PlaceDialog(props) {
         toast.success("Thành công");
       }
     } catch (error) {
+      console.log(error);
       toast.error(error?.response?.data?.message);
     } finally {
       handleClose();
@@ -222,7 +224,27 @@ export default function PlaceDialog(props) {
                   />
                 </SoftBox>
               </Grid>
-              <Grid item lg={8} md={6} sm={12}>
+              <Grid item lg={4} md={6} sm={12}>
+                <SoftBox>
+                  <SoftBox ml={0.5}>
+                    <SoftTypography
+                      component="label"
+                      variant="caption"
+                      fontWeight="bold"
+                    >
+                      Giới hạn số lượng người
+                    </SoftTypography>
+                  </SoftBox>
+                  <SoftInput
+                    type="number"
+                    name="maxPerson"
+                    value={state?.maxPerson || ""}
+                    disabled={state?.isView}
+                    onChange={(event) => handleChange(event)}
+                  />
+                </SoftBox>
+              </Grid>
+              <Grid item lg={4} md={6} sm={12}>
                 <SoftBox>
                   <SoftBox ml={0.5}>
                     <SoftTypography

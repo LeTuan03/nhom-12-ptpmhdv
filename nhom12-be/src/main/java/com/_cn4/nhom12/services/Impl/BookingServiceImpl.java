@@ -78,10 +78,17 @@ public class BookingServiceImpl implements BookingService {
     public Booking createBooking(Booking booking) {
         Place place = placeRepository.findById(booking.getPlaceId()).orElseThrow(() -> new RuntimeException("Place not found!"));
         Account account = accountRepo.findById(booking.getBuyer().getId()).orElseThrow(() -> new RuntimeException("Account not found!"));
+        System.out.println(booking.getNumberOfPeople() > place.getMaxPerson());
+        System.out.println(place.getMaxPerson());
+        System.out.println(booking.getNumberOfPeople());
+        if(booking.getNumberOfPeople() > place.getMaxPerson()) {
+           throw new RuntimeException("Số lượng đặt không  hợp lệ");
+        }
         booking.setPlaceId(place.getId());
         booking.setPlaceImage(place.getImageUrl());
         booking.setBuyer(account);
         booking.setTotalPrice(place.getPricePerPerson() * booking.getNumberOfPeople());
+        booking.setOrderCode(String.format("TVL-%07d", bookingRepository.getSum()));
         return bookingRepository.save(booking);
     }
 
@@ -114,7 +121,6 @@ public class BookingServiceImpl implements BookingService {
     public List<Booking> searchByCustomerName(String customerName) {
         return bookingRepository.searchByCustomerName(customerName);
     }
-
 
     // Lấy các booking của người dùng và kiểm tra xem đã đánh giá địa điểm chưa
 //    public List<BookingWithRatingDTO> getBookingsAndRatings(String buyerId) {

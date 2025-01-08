@@ -16,6 +16,8 @@ public interface BookingRepo extends JpaRepository<Booking, String> {
             "(:customerName IS NULL OR LOWER(p.customerName) LIKE LOWER(CONCAT('%', :customerName, '%'))) ")
     List<Booking> searchByCustomerName(@Param("customerName") String name);
 
+    @Query("SELECT COUNT(*) FROM Booking")
+    Integer getSum();
     List<Booking> findByBuyerIdAndStatusOrder(String buyerId, String orderStatus);
     List<Booking> findByBuyerIdAndStatusOrderIn(String buyerId, List<String> statusOrders);
 

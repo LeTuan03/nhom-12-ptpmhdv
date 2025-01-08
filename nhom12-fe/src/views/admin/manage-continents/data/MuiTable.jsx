@@ -27,9 +27,9 @@ export default function MuiTable({
       <Table aria-label="simple table" size="small">
         <TableHead>
           <TableRow sx={{ background: "#17c1e8" }}>
-            <TableCell sx={{ color: "#fff", width: "120px" }}>
-              Thao tác
-            </TableCell>
+            {/*<TableCell sx={{ color: "#fff", width: "120px" }}>*/}
+            {/*  Thao tác*/}
+            {/*</TableCell>*/}
             <TableCell sx={{ color: "#fff", width: "30px" }}>STT</TableCell>
             <TableCell sx={{ color: "#fff" }} align="center">
               Tên lục địa
@@ -59,32 +59,32 @@ export default function MuiTable({
                     selectedRowIndex === index ? "#e4f6fb" : "inherit",
                 }}
               >
-                <TableCell>
-                  <IconButton
-                    aria-label="delete"
-                    size="small"
-                    color="info"
-                    onClick={() => handleEdit(row)}
-                  >
-                    <EditIcon fontSize="inherit" />
-                  </IconButton>
-                  <IconButton
-                    aria-label="delete"
-                    size="small"
-                    color="error"
-                    onClick={() => handleDelete(row)}
-                  >
-                    <DeleteIcon fontSize="inherit" />
-                  </IconButton>
-                  <IconButton
-                    aria-label="view"
-                    size="small"
-                    color="secondary"
-                    onClick={() => handleView(row)}
-                  >
-                    <Visibility fontSize="inherit" />
-                  </IconButton>
-                </TableCell>
+                {/*<TableCell>*/}
+                {/*  <IconButton*/}
+                {/*    aria-label="delete"*/}
+                {/*    size="small"*/}
+                {/*    color="info"*/}
+                {/*    onClick={() => handleEdit(row)}*/}
+                {/*  >*/}
+                {/*    <EditIcon fontSize="inherit" />*/}
+                {/*  </IconButton>*/}
+                {/*  <IconButton*/}
+                {/*    aria-label="delete"*/}
+                {/*    size="small"*/}
+                {/*    color="error"*/}
+                {/*    onClick={() => handleDelete(row)}*/}
+                {/*  >*/}
+                {/*    <DeleteIcon fontSize="inherit" />*/}
+                {/*  </IconButton>*/}
+                {/*  <IconButton*/}
+                {/*    aria-label="view"*/}
+                {/*    size="small"*/}
+                {/*    color="secondary"*/}
+                {/*    onClick={() => handleView(row)}*/}
+                {/*  >*/}
+                {/*    <Visibility fontSize="inherit" />*/}
+                {/*  </IconButton>*/}
+                {/*</TableCell>*/}
                 <TableCell align="center">
                   <b>{index + 1}</b>
                 </TableCell>
