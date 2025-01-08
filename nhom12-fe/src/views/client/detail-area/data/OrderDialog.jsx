@@ -45,7 +45,7 @@ export default function OrderDialog(props) {
       placeName: state?.place?.name,
       placeImage: state?.place?.imageUrl,
       startDate: state?.startDate,
-      numberOfPeople: state?.numberOfPeople,
+      numberOfPeople: +state?.numberOfPeople,
       totalPrice: state?.totalPrice,
       specialRequests: state?.specialRequests,
       buyer: getCurrentUser(),

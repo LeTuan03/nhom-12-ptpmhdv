@@ -69,4 +69,7 @@ public class Booking {
 
     @Column(name = "purchaseDate")
     LocalDate purchaseDate;
+
+    @Column(name = "orderCode")
+    String orderCode;
 }

@@ -6,7 +6,10 @@ import {
   formatTimestampToDate,
   getCurrentUser,
 } from "../../../const/app-function";
-import { getByBuyerIdBooking, updateStatusBooking } from "../../admin/manage-booking/booking-service";
+import {
+  getByBuyerIdBooking,
+  updateStatusBooking,
+} from "../../admin/manage-booking/booking-service";
 import { useNavigate } from "react-router-dom";
 import RatingComponent from "./data/RatingComponent";
 import { appConst } from "../../../const/app-const";
@@ -52,25 +55,25 @@ function Reservation() {
   };
 
   const handleSetState = (source, data) => {
-    setState((pre) => ({ ...pre, [source]: data }))
-  }
+    setState((pre) => ({ ...pre, [source]: data }));
+  };
 
   const handleClose = () => {
-    handleSetState("item", {})
-    handleSetState("openConfirm", false)
+    handleSetState("item", {});
+    handleSetState("openConfirm", false);
   };
 
   const handleCancle = (item) => {
-    handleSetState("item", item)
-    handleSetState("openConfirm", true)
-  }
+    handleSetState("item", item);
+    handleSetState("openConfirm", true);
+  };
 
   const handleYes = async () => {
     try {
       const payload = {
         bookingId: state?.item?.id,
-        statusOrder: appConst.STATUS_ORDER_BOOKING.CANCEL.name
-      }
+        statusOrder: appConst.STATUS_ORDER_BOOKING.CANCEL.name,
+      };
       const data = await updateStatusBooking(payload);
       console.log(data);
       toast.success("Hủy thành công. Vui lòng kiểm tra tin nhắn của bạn.");
@@ -80,7 +83,7 @@ function Reservation() {
       handleClose();
       handleSearch();
     }
-  }
+  };
   return (
     <ClientLayout top={10}>
       {/* Hero Section */}
@@ -181,7 +184,10 @@ function Reservation() {
                       fontWeight="bold"
                       sx={{ color: "#1a73e8" }}
                     >
-                      {reservation.placeName}
+                      Mã đặt: {reservation.orderCode}
+                    </Typography>
+                    <Typography variant="body1" sx={{ color: "#999" }}>
+                      Tên địa điểm: {reservation.placeName}
                     </Typography>
                     <Typography variant="body1" sx={{ color: "#999" }}>
                       Người đặt: {reservation.customerName}
@@ -320,7 +326,16 @@ function Reservation() {
           </Box>
         </Card>
       </Box>
-      {state?.openConfirm && <SoftConfirmDialog title={"Bạn có chắc chắc muốn hủy đặt nơi này? \nLiên hệ với chủ địa điểm để được hoàn tiền."} open={state?.openConfirm} handleClose={handleClose} handleOk={handleYes} />}
+      {state?.openConfirm && (
+        <SoftConfirmDialog
+          title={
+            "Bạn có chắc chắc muốn hủy đặt nơi này? \nLiên hệ với chủ địa điểm để được hoàn tiền."
+          }
+          open={state?.openConfirm}
+          handleClose={handleClose}
+          handleOk={handleYes}
+        />
+      )}
     </ClientLayout>
   );
 }

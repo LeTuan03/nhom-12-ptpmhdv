@@ -20,12 +20,14 @@ public class DestinationRequest {
     @NotBlank(message = "Tên không được để trống")
     @Size(min = 5, message = "Tên không được ít hơn 5 ký tự")
     String name;
+    @NotBlank(message = "Miêu tả không được để trống")
     String description;
     String location;
     String rating;
     String entryFee;
     String openingHours;
     String contactInfo;
+    @NotBlank(message = "Ảnh bìa không được để trống")
     String image;
     Continents continent;
     Country country;

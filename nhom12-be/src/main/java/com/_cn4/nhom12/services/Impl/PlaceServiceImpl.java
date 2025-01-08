@@ -51,6 +51,7 @@ public class PlaceServiceImpl implements PlaceService {
         entity.setImageUrl(request.getImageUrl());
         entity.setPricePerPerson(request.getPricePerPerson());
         entity.setDescription(request.getDescription());
+        entity.setMaxPerson(request.getMaxPerson());
     }
 
     private List<Booking> handleBookingDtos(Place place, List<Booking> bookingDtos) {
