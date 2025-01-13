@@ -72,4 +72,7 @@ public class Booking {
 
     @Column(name = "orderCode")
     String orderCode;
+
+    @Column(name = "qrCode", columnDefinition = "TEXT")
+    private String qrCode;
 }

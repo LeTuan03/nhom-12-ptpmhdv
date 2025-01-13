@@ -205,13 +205,25 @@ function Reservation() {
                       Ngày đặt: {formatTimestampToDate(reservation.startDate)}
                     </Typography>
                   </Box>
-
+                  <Box>
+                  <Avatar
+                    alt={reservation?.placeName}
+                    src={`data:image/png;base64, ${reservation?.qrCode}`}
+                    sx={{
+                      width: 120,
+                      height: 120,
+                      borderRadius: "10px",
+                      boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+                    }}
+                  />
+                  </Box>
                   <Box
                     sx={{
                       display: "flex",
                       flexDirection: "column",
                       alignItems: "flex-end",
                       textAlign: "right",
+                      minWidth: "200px",
                     }}
                   >
                     <Typography
