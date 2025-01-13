@@ -201,7 +201,7 @@ const Detail = ({ top = 10 }) => {
                   <Grid item xs={12} sm={12}>
                     <Box display="flex" alignItems="center">
                       <Typography variant="body1" fontWeight="bold">
-                        👨‍👩‍👧‍👦 Số người tối đa: 4
+                        👨‍👩‍👧‍👦 Số người tối đa: {state?.place?.maxPerson}
                       </Typography>
                     </Box>
                   </Grid>

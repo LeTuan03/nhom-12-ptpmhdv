@@ -33,6 +33,9 @@ public class BookingServiceImpl implements BookingService {
     @Autowired
     private AccountRepo accountRepo;
 
+    @Autowired
+    private QRCodeService qrCodeService;
+
     @Override
     public List<Booking> getAllBookings() {
         return bookingRepository.findAll();
@@ -89,6 +92,14 @@ public class BookingServiceImpl implements BookingService {
         booking.setBuyer(account);
         booking.setTotalPrice(place.getPricePerPerson() * booking.getNumberOfPeople());
         booking.setOrderCode(String.format("TVL-%07d", bookingRepository.getSum()));
+        String bookingInfo = String.format("OrderCode: %s, Name: %s, Phone: %s, Place: %s, Date: %s, Price: %s",
+                booking.getOrderCode(),
+                booking.getCustomerName(),
+                booking.getPhone(),
+                booking.getPlaceName(),
+                booking.getStartDate(),
+                booking.getTotalPrice());
+        booking.setQrCode(qrCodeService.generateQRCode(bookingInfo));
         return bookingRepository.save(booking);
     }
 
@@ -109,6 +120,14 @@ public class BookingServiceImpl implements BookingService {
         existingBooking.setBuyer(account);
         existingBooking.setStatusOrder(updatedBooking.getStatusOrder());
         existingBooking.setPlaceImage(place.getImageUrl());
+        String bookingInfo = String.format("OrderCode: %s, Name: %s, Phone: %s, Place: %s, Date: %s, Price: %s",
+                existingBooking.getOrderCode(),
+                existingBooking.getCustomerName(),
+                existingBooking.getPhone(),
+                existingBooking.getPlaceName(),
+                existingBooking.getStartDate(),
+                existingBooking.getTotalPrice());
+        existingBooking.setQrCode(qrCodeService.generateQRCode(bookingInfo));
         return bookingRepository.save(existingBooking);
     }
 
